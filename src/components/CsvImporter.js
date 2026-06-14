@@ -67,7 +67,7 @@ function standardizeName(name) {
   return trimmed.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 }
 
-export default function CsvImporter({ onImportSuccess, currentUserId }) {
+export default function CsvImporter({ onImportSuccess, currentUserId, targetGroupId = null }) {
   const [csvFile, setCsvFile] = useState(null);
   const [parsingData, setParsingData] = useState(null); // { rows, anomalies, members }
   const [groupName, setGroupName] = useState('CSV Expense Group');
@@ -667,28 +667,49 @@ export default function CsvImporter({ onImportSuccess, currentUserId }) {
         }
       }
 
-      // 2. Create the Group
-      setImportStatus('Creating group...');
-      const { data: group, error: groupError } = await supabase
-        .from('groups')
-        .insert([{ name: groupName, created_by: currentUserId }])
-        .select()
-        .single();
+      let groupIdToUse = targetGroupId;
 
-      if (groupError) throw groupError;
+      if (!groupIdToUse) {
+        // 2. Create the Group
+        setImportStatus('Creating group...');
+        const { data: group, error: groupError } = await supabase
+          .from('groups')
+          .insert([{ name: groupName, created_by: currentUserId }])
+          .select()
+          .single();
 
-      // 3. Add all members to the group
+        if (groupError) throw groupError;
+        groupIdToUse = group.id;
+      }
+
+      // 3. Add all members to the group (avoiding duplicates)
       setImportStatus('Adding group members...');
-      const memberInserts = Object.values(userMappings).map(uid => ({
-        group_id: group.id,
-        user_id: uid
-      }));
+      
+      let existingMemberIds = new Set();
+      if (targetGroupId) {
+        const { data: currentMembers } = await supabase
+          .from('group_members')
+          .select('user_id')
+          .eq('group_id', targetGroupId);
+        if (currentMembers) {
+          existingMemberIds = new Set(currentMembers.map(m => m.user_id));
+        }
+      }
 
-      const { error: memberError } = await supabase
-        .from('group_members')
-        .insert(memberInserts);
+      const memberInserts = Object.values(userMappings)
+        .filter(uid => !existingMemberIds.has(uid))
+        .map(uid => ({
+          group_id: groupIdToUse,
+          user_id: uid
+        }));
 
-      if (memberError) throw memberError;
+      if (memberInserts.length > 0) {
+        const { error: memberError } = await supabase
+          .from('group_members')
+          .insert(memberInserts);
+
+        if (memberError) throw memberError;
+      }
 
       // 4. Ingest selected rows (expenses & settlements)
       const rowsToImport = parsingData.rows.filter(r => selectedRows[r.rowIdx]);
@@ -701,17 +722,15 @@ export default function CsvImporter({ onImportSuccess, currentUserId }) {
         if (row.isSettlement) {
           // Handle Settlement
           const payerId = userMappings[row.paid_by] || userMappings['Unknown Payer'];
-          // Find payee: split_with typically contains payee name for reclassified settlements
           const payeeName = row.splitWithNames[0] || 'Unknown Payer';
           const payeeId = userMappings[payeeName] || userMappings['Unknown Payer'];
 
           // Insert directly into settlements table
-          await recordSettlement(group.id, payerId, payeeId, Math.abs(row.amount), row.currency);
+          await recordSettlement(groupIdToUse, payerId, payeeId, Math.abs(row.amount), row.currency);
         } else {
           // Handle Expense
           const paidByUuid = userMappings[row.paid_by] || userMappings['Unknown Payer'];
           
-          // Map splits names to uuids
           const mappedSplits = row.splits.map(s => ({
             userId: userMappings[s.userId] || userMappings['Unknown Payer'],
             amount: s.amount,
@@ -720,16 +739,16 @@ export default function CsvImporter({ onImportSuccess, currentUserId }) {
           }));
 
           // Insert into expenses + splits
-          await addExpense(group.id, paidByUuid, row.description, row.amount, row.split_type, mappedSplits, row.currency);
+          await addExpense(groupIdToUse, paidByUuid, row.description, row.amount, row.split_type, mappedSplits, row.currency);
         }
         successCount++;
       }
 
       setImportStatus('Import completed successfully!');
-      alert(`Import complete! Created group "${groupName}" and imported ${successCount} transactions successfully.`);
+      alert(`Import complete! Ingested ${successCount} transactions successfully.`);
       
       if (onImportSuccess) {
-        onImportSuccess(group.id);
+        onImportSuccess(groupIdToUse);
       }
     } catch (err) {
       console.error(err);

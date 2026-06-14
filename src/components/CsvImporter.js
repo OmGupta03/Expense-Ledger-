@@ -67,6 +67,17 @@ function standardizeName(name) {
   return trimmed.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 }
 
+// Simple UUID generator for environments without database DEFAULT values
+function generateUUID() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 export default function CsvImporter({ onImportSuccess, currentUserId, targetGroupId = null }) {
   const [csvFile, setCsvFile] = useState(null);
   const [parsingData, setParsingData] = useState(null); // { rows, anomalies, members }
@@ -638,7 +649,7 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
           // Create unregistered user
           const { data: newUser, error: insertError } = await supabase
             .from('users')
-            .insert([{ name, email: null }])
+            .insert([{ id: generateUUID(), name, email: null }])
             .select()
             .single();
 
@@ -660,7 +671,7 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
         } else {
           const { data: newUnknown } = await supabase
             .from('users')
-            .insert([{ name: 'Unknown Payer', email: null }])
+            .insert([{ id: generateUUID(), name: 'Unknown Payer', email: null }])
             .select()
             .single();
           userMappings['Unknown Payer'] = newUnknown.id;

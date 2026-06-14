@@ -147,7 +147,7 @@ erDiagram
    * `group_id`: `uuid` (References `groups.id` ON DELETE CASCADE)
    * `paid_by`: `uuid` (References `users.id` ON DELETE SET NULL, Nullable)
    * `description`: `text`
-   * `amount`: `numeric(12, 2)` (Check constraint: `amount <> 0` to support refunds)
+   * `amount`: `numeric(12, 2)` (No amount check constraint, allowing zero-amount adjustments and negative refunds)
    * `currency`: `text` (Defaults to `'INR'`)
    * `split_type`: `text` (Values: `'equal'`, `'unequal'`, `'percentage'`, `'share'`)
    * `created_at`: `timestamp with time zone`

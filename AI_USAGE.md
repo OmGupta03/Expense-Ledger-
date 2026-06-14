@@ -56,3 +56,15 @@ This document details the AI tools used, key prompts, and three concrete correct
       user_id: uid
     }));
   ```
+
+---
+
+### Case 4: Zero-Amount Expenses Violating Database Check Constraint
+* **What the AI did wrong**: The database schema in `schema.sql` originally enforced a check constraint `expenses_amount_check CHECK (amount <> 0)`. While this allowed negative numbers (for refunds), it rejected zero-value rows.
+* **How it was caught**: During database ingestion of Row 31 (`Dinner order Swiggy` with an amount of `0`), Supabase returned the error:
+  ```
+  Error during database ingestion: new row for relation "expenses" violates check constraint "expenses_amount_check"
+  ```
+* **How it was fixed**: 
+  1. Updated `schema.sql` to remove the check constraint `amount <> 0` on the `expenses` table entirely to support both zero-amount adjustments and negative refunds.
+  2. Documented the migration query `ALTER TABLE public.expenses DROP CONSTRAINT IF EXISTS expenses_amount_check;` and advised the user to execute it in their Supabase SQL editor to update their existing remote database schema.

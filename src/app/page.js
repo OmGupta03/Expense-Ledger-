@@ -1,0 +1,360 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { fetchUserGroups, createGroup, calculateBalancesAndDebts } from '@/lib/api';
+import { Plus, LogOut, Users, User, ArrowUpRight, ArrowDownLeft, Scale, RefreshCw } from 'lucide-react';
+import Link from 'next/link';
+
+export default function Dashboard() {
+  const { user, profile, loading, signOut } = useAuth();
+  const router = useRouter();
+
+  const [groups, setGroups] = useState([]);
+  const [groupBalances, setGroupBalances] = useState({}); // groupId -> netBalance
+  const [dataLoading, setDataLoading] = useState(true);
+  
+  // Create group modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newGroupName, setNewGroupName] = useState('');
+  const [modalError, setModalError] = useState('');
+  const [modalLoading, setModalLoading] = useState(false);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+  const loadData = async () => {
+    if (!user) return;
+    setDataLoading(true);
+    try {
+      const userGroups = await fetchUserGroups(user.id);
+      setGroups(userGroups);
+
+      // Fetch balances for each group
+      const balances = {};
+      await Promise.all(
+        userGroups.map(async (g) => {
+          try {
+            const groupData = await calculateBalancesAndDebts(g.id);
+            balances[g.id] = groupData.netBalances[user.id] || 0;
+          } catch (err) {
+            console.error(`Error calculating balance for group ${g.id}:`, err);
+            balances[g.id] = 0;
+          }
+        })
+      );
+      setGroupBalances(balances);
+    } catch (err) {
+      console.error('Error loading dashboard data:', err);
+    } finally {
+      setDataLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      loadData();
+    }
+  }, [user]);
+
+  const handleCreateGroup = async (e) => {
+    e.preventDefault();
+    setModalError('');
+    if (!newGroupName.trim()) {
+      setModalError('Group name is required');
+      return;
+    }
+
+    setModalLoading(true);
+    try {
+      const group = await createGroup(newGroupName.trim(), user.id);
+      setIsModalOpen(false);
+      setNewGroupName('');
+      // Reload groups list
+      await loadData();
+      router.push(`/groups/${group.id}`);
+    } catch (err) {
+      setModalError(err.message || 'Failed to create group');
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
+  // Calculate overall balances
+  let totalOwed = 0; // positive balances
+  let totalOwe = 0;  // absolute sum of negative balances
+  
+  Object.values(groupBalances).forEach((bal) => {
+    if (bal > 0) {
+      totalOwed += bal;
+    } else if (bal < 0) {
+      totalOwe += Math.abs(bal);
+    }
+  });
+
+  const overallBalance = totalOwed - totalOwe;
+
+  if (loading || !user) {
+    return (
+      <div className="flex-1 flex justify-center items-center min-h-screen bg-slate-950">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+          <p className="text-slate-400 text-sm">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex-1 flex flex-col bg-slate-950 min-h-screen">
+      {/* Navbar */}
+      <header className="sticky top-0 z-10 bg-slate-900/80 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 shadow-md">
+              <span className="font-extrabold text-lg">S</span>
+            </div>
+            <h1 className="text-xl font-bold text-white tracking-tight">Splitwise</h1>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-2 px-3 py-1.5 bg-slate-800/50 rounded-xl border border-slate-700/50">
+              <User className="h-4 w-4 text-emerald-400" />
+              <span className="text-sm font-medium text-slate-200">{profile?.name || user.email}</span>
+            </div>
+            
+            <button
+              onClick={() => signOut()}
+              className="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/50 border border-transparent hover:border-slate-800 transition-all text-sm font-semibold"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Log out</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Dashboard Area */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        {/* Profile details header card on mobile */}
+        <div className="md:hidden flex items-center space-x-3 p-4 bg-slate-900/50 border border-slate-850 rounded-2xl">
+          <div className="h-10 w-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 font-bold">
+            {(profile?.name || user.email)[0].toUpperCase()}
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-white">{profile?.name || 'User'}</h3>
+            <p className="text-xs text-slate-400">{user.email}</p>
+          </div>
+        </div>
+
+        {/* 1. Balances Summary Panel */}
+        <section className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-900/40 border border-slate-850 rounded-2xl p-6 md:p-8 shadow-xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Overall Balance</h2>
+              <div className={`text-4xl font-extrabold mt-2 tracking-tight ${
+                overallBalance > 0.01 
+                  ? 'text-emerald-400' 
+                  : overallBalance < -0.01 
+                  ? 'text-rose-400' 
+                  : 'text-white'
+              }`}>
+                {overallBalance > 0.01 ? '+' : ''}
+                ${overallBalance.toFixed(2)}
+              </div>
+              <p className="text-xs text-slate-400 mt-1.5">Net balance aggregated across all your groups.</p>
+            </div>
+
+            <div className="grid grid-cols-2 md:flex items-center gap-4 md:gap-8 border-t md:border-t-0 md:border-l border-slate-800 pt-6 md:pt-0 md:pl-8">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-1 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                  <ArrowUpRight className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>You are owed</span>
+                </div>
+                <p className="text-lg md:text-xl font-bold text-emerald-400">${totalOwed.toFixed(2)}</p>
+              </div>
+
+              <div className="space-y-1">
+                <div className="flex items-center space-x-1 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                  <ArrowDownLeft className="h-3.5 w-3.5 text-rose-400" />
+                  <span>You owe</span>
+                </div>
+                <p className="text-lg md:text-xl font-bold text-rose-400">${totalOwe.toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. Group List Header */}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Users className="h-5 w-5 text-emerald-400" />
+              <h2 className="text-xl font-bold text-white">Your Groups</h2>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={loadData}
+                disabled={dataLoading}
+                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 border border-slate-850 disabled:opacity-50 transition-all"
+                title="Refresh balances"
+              >
+                <RefreshCw className={`h-4 w-4 ${dataLoading ? 'animate-spin' : ''}`} />
+              </button>
+
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-450 hover:to-teal-450 text-slate-950 shadow-md font-semibold text-sm transition-all"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Create Group</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Group Grid / List */}
+          {dataLoading && groups.length === 0 ? (
+            <div className="flex flex-col items-center justify-center p-12 bg-slate-900/30 border border-slate-850 rounded-2xl">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-emerald-500 mb-3"></div>
+              <p className="text-slate-400 text-xs">Loading groups...</p>
+            </div>
+          ) : groups.length === 0 ? (
+            <div className="flex flex-col items-center justify-center p-12 bg-slate-900/30 border border-slate-850 rounded-2xl text-center space-y-4">
+              <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-400">
+                <Users className="h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-base">No groups yet</h3>
+                <p className="text-slate-400 text-sm mt-1 max-w-sm mx-auto">Create a group to start splitting rent, dinner, or travel bills with friends.</p>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 font-semibold text-xs transition-all"
+              >
+                Create your first group
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {groups.map((group) => {
+                const balance = groupBalances[group.id] || 0;
+                return (
+                  <Link
+                    key={group.id}
+                    href={`/groups/${group.id}`}
+                    className="group flex items-center justify-between p-5 bg-slate-900/40 hover:bg-slate-900 border border-slate-850 hover:border-slate-800 rounded-2xl transition-all shadow-md hover:shadow-lg"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="h-11 w-11 rounded-xl bg-slate-800 flex items-center justify-center text-slate-300 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all duration-350">
+                        <Users className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-white text-base group-hover:text-emerald-450 transition-colors">
+                          {group.name}
+                        </h3>
+                        <p className="text-slate-500 text-xs mt-0.5">
+                          Created {new Date(group.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="text-right">
+                      {balance > 0.01 ? (
+                        <div>
+                          <p className="text-xs text-slate-400">you are owed</p>
+                          <p className="font-bold text-emerald-400 text-sm">${balance.toFixed(2)}</p>
+                        </div>
+                      ) : balance < -0.01 ? (
+                        <div>
+                          <p className="text-xs text-slate-400">you owe</p>
+                          <p className="font-bold text-rose-400 text-sm">${Math.abs(balance).toFixed(2)}</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-xs text-slate-500">settled up</p>
+                          <p className="font-bold text-slate-450 text-sm">$0.00</p>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </main>
+
+      {/* 3. Create Group Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-opacity">
+          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-bold text-white">Create New Group</h3>
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setNewGroupName('');
+                  setModalError('');
+                }}
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {modalError && (
+              <div className="p-3 rounded-lg bg-red-950/40 border border-red-900 text-red-200 text-xs">
+                {modalError}
+              </div>
+            )}
+
+            <form onSubmit={handleCreateGroup} className="space-y-4">
+              <div>
+                <label htmlFor="groupName" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  Group Name
+                </label>
+                <input
+                  id="groupName"
+                  type="text"
+                  required
+                  placeholder="e.g. Apartment roommates, Europe trip"
+                  value={newGroupName}
+                  onChange={(e) => setNewGroupName(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setNewGroupName('');
+                    setModalError('');
+                  }}
+                  className="px-4 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-all text-sm font-semibold border border-transparent"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={modalLoading}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-450 hover:to-teal-450 text-slate-950 disabled:opacity-50 transition-all text-sm font-bold shadow-md shadow-emerald-500/10"
+                >
+                  {modalLoading ? 'Creating...' : 'Create Group'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

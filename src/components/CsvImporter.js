@@ -640,7 +640,7 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
           .eq('name', name)
           .maybeSingle();
 
-        if (checkError) console.error(checkError);
+        if (checkError) console.warn(checkError);
 
         if (existingUser) {
           userMappings[name] = existingUser.id;
@@ -762,7 +762,7 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
         onImportSuccess(groupIdToUse);
       }
     } catch (err) {
-      console.error(err);
+      console.warn(err);
       alert('Error during database ingestion: ' + err.message);
     } finally {
       setIsImporting(false);

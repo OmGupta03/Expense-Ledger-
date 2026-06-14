@@ -11,7 +11,6 @@
 -- 2. Add currency column and remove positive amount constraint in expenses
 -- ALTER TABLE public.expenses ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'INR';
 -- ALTER TABLE public.expenses DROP CONSTRAINT IF EXISTS expenses_amount_check;
--- ALTER TABLE public.expenses ADD CONSTRAINT expenses_amount_check CHECK (amount <> 0);
 -- 3. Add currency column in settlements
 -- ALTER TABLE public.settlements ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'INR';
 -- =========================================================================
@@ -40,13 +39,13 @@ create table if not exists public.group_members (
     primary key (group_id, user_id)
 );
 
--- 4. Create Expenses Table (with currency support and checking non-zero to allow refunds)
+-- 4. Create Expenses Table (with currency support, allowing zero/refunds)
 create table if not exists public.expenses (
     id uuid default gen_random_uuid() primary key,
     group_id uuid references public.groups(id) on delete cascade not null,
     paid_by uuid references public.users(id) on delete set null,
     description text not null,
-    amount numeric(12, 2) not null check (amount <> 0),
+    amount numeric(12, 2) not null,
     currency text not null default 'INR',
     split_type text not null check (split_type in ('equal', 'unequal', 'percentage', 'share')),
     created_at timestamp with time zone default timezone('utc'::text, now()) not null

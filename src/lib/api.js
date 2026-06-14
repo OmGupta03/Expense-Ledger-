@@ -165,7 +165,7 @@ export async function deleteGroup(groupId) {
 // Add an expense and its splits
 export async function addExpense(groupId, paidBy, description, amount, splitType, splits, currency = 'INR') {
   // splits: Array of { userId, amount, percentage, share }
-  if (!groupId || !description || !amount || !splitType || !splits || splits.length === 0) {
+  if (!groupId || !description || amount === undefined || amount === null || amount === '' || isNaN(parseFloat(amount)) || !splitType || !splits || splits.length === 0) {
     throw new Error('All expense fields and splits are required');
   }
 

@@ -163,16 +163,16 @@ export async function deleteGroup(groupId) {
 // ==========================================
 
 // Add an expense and its splits
-export async function addExpense(groupId, paidBy, description, amount, splitType, splits) {
+export async function addExpense(groupId, paidBy, description, amount, splitType, splits, currency = 'INR') {
   // splits: Array of { userId, amount, percentage, share }
-  if (!groupId || !paidBy || !description || !amount || !splitType || !splits || splits.length === 0) {
+  if (!groupId || !description || !amount || !splitType || !splits || splits.length === 0) {
     throw new Error('All expense fields and splits are required');
   }
 
-  // Double-check total split amounts sum to total amount
-  const splitsSum = splits.reduce((sum, s) => sum + parseFloat(s.amount || 0), 0);
-  if (Math.abs(splitsSum - parseFloat(amount)) > 0.02) {
-    throw new Error(`The sum of splits (${splitsSum.toFixed(2)}) must equal the total amount (${parseFloat(amount).toFixed(2)})`);
+  // Double-check total split amounts sum to total amount (absolute values)
+  const splitsSum = splits.reduce((sum, s) => sum + Math.abs(parseFloat(s.amount || 0)), 0);
+  if (Math.abs(splitsSum - Math.abs(parseFloat(amount))) > 0.02) {
+    throw new Error(`The sum of splits (${splitsSum.toFixed(2)}) must equal the total amount (${Math.abs(parseFloat(amount)).toFixed(2)})`);
   }
 
   // 1. Insert expense
@@ -181,10 +181,11 @@ export async function addExpense(groupId, paidBy, description, amount, splitType
     .insert([
       {
         group_id: groupId,
-        paid_by: paidBy,
+        paid_by: paidBy || null, // Allow null/unknown payer
         description,
         amount: parseFloat(amount),
         split_type: splitType,
+        currency,
       },
     ])
     .select()
@@ -278,7 +279,7 @@ export async function deleteExpense(expenseId) {
 // 3. SETTLEMENT OPERATIONS
 // ==========================================
 
-export async function recordSettlement(groupId, payerId, payeeId, amount) {
+export async function recordSettlement(groupId, payerId, payeeId, amount, currency = 'INR') {
   if (!groupId || !payerId || !payeeId || !amount) {
     throw new Error('All settlement parameters are required');
   }
@@ -291,6 +292,7 @@ export async function recordSettlement(groupId, payerId, payeeId, amount) {
         payer_id: payerId,
         payee_id: payeeId,
         amount: parseFloat(amount),
+        currency,
       },
     ])
     .select()
@@ -366,41 +368,58 @@ export async function calculateBalancesAndDebts(groupId) {
     memberMap[m.id] = m;
   });
 
-  // Initialize balances
-  const netBalances = {};
+  const currencies = ['INR', 'USD'];
+  
+  // Initialize balances per currency
+  const netBalancesByCurrency = {
+    INR: {},
+    USD: {}
+  };
+  
   members.forEach((m) => {
-    netBalances[m.id] = 0;
+    netBalancesByCurrency.INR[m.id] = 0;
+    netBalancesByCurrency.USD[m.id] = 0;
   });
 
   // 2. Fetch all expenses for this group
   const { data: expenses, error: expError } = await supabase
     .from('expenses')
-    .select('id, paid_by, amount')
+    .select('id, paid_by, amount, currency')
     .eq('group_id', groupId);
 
   if (expError) throw expError;
 
   // Add payments to net balances
   expenses.forEach((e) => {
-    if (netBalances[e.paid_by] !== undefined) {
-      netBalances[e.paid_by] += parseFloat(e.amount);
+    const curr = e.currency === 'USD' ? 'USD' : 'INR';
+    if (e.paid_by && netBalancesByCurrency[curr][e.paid_by] !== undefined) {
+      netBalancesByCurrency[curr][e.paid_by] += parseFloat(e.amount);
     }
   });
 
   // 3. Fetch all splits for those expenses
   const expenseIds = expenses.map((e) => e.id);
+  const expenseMap = {};
+  expenses.forEach((e) => {
+    expenseMap[e.id] = e;
+  });
+
   if (expenseIds.length > 0) {
     const { data: splits, error: splitError } = await supabase
       .from('expense_splits')
-      .select('user_id, amount')
+      .select('user_id, amount, expense_id')
       .in('expense_id', expenseIds);
 
     if (splitError) throw splitError;
 
     // Deduct owed amounts from net balances
     splits.forEach((s) => {
-      if (netBalances[s.user_id] !== undefined) {
-        netBalances[s.user_id] -= parseFloat(s.amount);
+      const exp = expenseMap[s.expense_id];
+      if (exp) {
+        const curr = exp.currency === 'USD' ? 'USD' : 'INR';
+        if (netBalancesByCurrency[curr][s.user_id] !== undefined) {
+          netBalancesByCurrency[curr][s.user_id] -= parseFloat(s.amount);
+        }
       }
     });
   }
@@ -408,87 +427,110 @@ export async function calculateBalancesAndDebts(groupId) {
   // 4. Fetch all settlements
   const { data: settlements, error: setError } = await supabase
     .from('settlements')
-    .select('payer_id, payee_id, amount')
+    .select('payer_id, payee_id, amount, currency')
     .eq('group_id', groupId);
 
   if (setError) throw setError;
 
   // Adjust net balances according to settlements
   settlements.forEach((s) => {
+    const curr = s.currency === 'USD' ? 'USD' : 'INR';
     // Payer sent money, so their balance goes up (they owe less / are owed more)
-    if (netBalances[s.payer_id] !== undefined) {
-      netBalances[s.payer_id] += parseFloat(s.amount);
+    if (netBalancesByCurrency[curr][s.payer_id] !== undefined) {
+      netBalancesByCurrency[curr][s.payer_id] += parseFloat(s.amount);
     }
     // Payee received money, so their balance goes down (they owe more / are owed less)
-    if (netBalances[s.payee_id] !== undefined) {
-      netBalances[s.payee_id] -= parseFloat(s.amount);
+    if (netBalancesByCurrency[curr][s.payee_id] !== undefined) {
+      netBalancesByCurrency[curr][s.payee_id] -= parseFloat(s.amount);
     }
   });
 
   // Clean up floating point arithmetic issues (round to 2 decimals)
-  Object.keys(netBalances).forEach((uid) => {
-    netBalances[uid] = Math.round(netBalances[uid] * 100) / 100;
+  currencies.forEach((curr) => {
+    Object.keys(netBalancesByCurrency[curr]).forEach((uid) => {
+      netBalancesByCurrency[curr][uid] = Math.round(netBalancesByCurrency[curr][uid] * 100) / 100;
+    });
   });
 
-  // 5. Greedy Debt Simplification Algorithm
-  // Separate debtors and creditors
-  const debtors = [];
-  const creditors = [];
+  // 5. Greedy Debt Simplification Algorithm per currency
+  const simplifiedDebtsByCurrency = {
+    INR: [],
+    USD: []
+  };
 
-  Object.entries(netBalances).forEach(([uid, balance]) => {
-    if (balance < -0.01) {
-      debtors.push({ userId: uid, balance });
-    } else if (balance > 0.01) {
-      creditors.push({ userId: uid, balance });
-    }
-  });
+  currencies.forEach((curr) => {
+    const debtors = [];
+    const creditors = [];
 
-  // Sort debtors ascending (most negative first)
-  debtors.sort((a, b) => a.balance - b.balance);
-  // Sort creditors descending (most positive first)
-  creditors.sort((a, b) => b.balance - a.balance);
-
-  const simplifiedDebts = [];
-  let dIdx = 0;
-  let cIdx = 0;
-
-  // Copy values to work on them
-  const dList = debtors.map((d) => ({ ...d }));
-  const cList = creditors.map((c) => ({ ...c }));
-
-  while (dIdx < dList.length && cIdx < cList.length) {
-    const debtor = dList[dIdx];
-    const creditor = cList[cIdx];
-
-    const dAmount = Math.abs(debtor.balance);
-    const cAmount = creditor.balance;
-
-    const settledAmount = Math.min(dAmount, cAmount);
-    
-    // Record simplified transaction
-    simplifiedDebts.push({
-      from: debtor.userId,
-      fromUser: memberMap[debtor.userId],
-      to: creditor.userId,
-      toUser: memberMap[creditor.userId],
-      amount: Math.round(settledAmount * 100) / 100,
+    Object.entries(netBalancesByCurrency[curr]).forEach(([uid, balance]) => {
+      if (balance < -0.01) {
+        debtors.push({ userId: uid, balance });
+      } else if (balance > 0.01) {
+        creditors.push({ userId: uid, balance });
+      }
     });
 
-    // Update balances
-    debtor.balance += settledAmount;
-    creditor.balance -= settledAmount;
+    // Sort debtors ascending (most negative first)
+    debtors.sort((a, b) => a.balance - b.balance);
+    // Sort creditors descending (most positive first)
+    creditors.sort((a, b) => b.balance - a.balance);
 
-    if (Math.abs(debtor.balance) < 0.01) {
-      dIdx++;
+    const dList = debtors.map((d) => ({ ...d }));
+    const cList = creditors.map((c) => ({ ...c }));
+
+    let dIdx = 0;
+    let cIdx = 0;
+
+    while (dIdx < dList.length && cIdx < cList.length) {
+      const debtor = dList[dIdx];
+      const creditor = cList[cIdx];
+
+      const dAmount = Math.abs(debtor.balance);
+      const cAmount = creditor.balance;
+
+      const settledAmount = Math.min(dAmount, cAmount);
+      
+      simplifiedDebtsByCurrency[curr].push({
+        from: debtor.userId,
+        fromUser: memberMap[debtor.userId],
+        to: creditor.userId,
+        toUser: memberMap[creditor.userId],
+        amount: Math.round(settledAmount * 100) / 100,
+        currency: curr
+      });
+
+      debtor.balance += settledAmount;
+      creditor.balance -= settledAmount;
+
+      if (Math.abs(debtor.balance) < 0.01) {
+        dIdx++;
+      }
+      if (Math.abs(creditor.balance) < 0.01) {
+        cIdx++;
+      }
     }
-    if (Math.abs(creditor.balance) < 0.01) {
-      cIdx++;
-    }
-  }
+  });
+
+  // Consolidated netBalances (converts USD to INR at rate 83.0) for backwards compatibility
+  const netBalances = {};
+  const exchangeRateUSDtoINR = 83.0;
+  members.forEach((m) => {
+    const inrBal = netBalancesByCurrency.INR[m.id] || 0;
+    const usdBal = netBalancesByCurrency.USD[m.id] || 0;
+    netBalances[m.id] = Math.round((inrBal + usdBal * exchangeRateUSDtoINR) * 100) / 100;
+  });
+
+  // Combine simplified debts for backwards compatibility
+  const simplifiedDebts = [
+    ...simplifiedDebtsByCurrency.INR,
+    ...simplifiedDebtsByCurrency.USD
+  ];
 
   return {
     members,
     netBalances,
     simplifiedDebts,
+    netBalancesByCurrency,
+    simplifiedDebtsByCurrency
   };
 }

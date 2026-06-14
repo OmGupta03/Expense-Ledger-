@@ -78,6 +78,15 @@ create index if not exists idx_expense_splits_user on public.expense_splits(user
 create index if not exists idx_settlements_group on public.settlements(group_id);
 create index if not exists idx_chat_messages_expense on public.chat_messages(expense_id);
 
+-- Disable Row Level Security on all tables for rapid MVP prototyping
+alter table public.users disable row level security;
+alter table public.groups disable row level security;
+alter table public.group_members disable row level security;
+alter table public.expenses disable row level security;
+alter table public.expense_splits disable row level security;
+alter table public.settlements disable row level security;
+alter table public.chat_messages disable row level security;
+
 -- Create a Trigger to Automatically Sync Auth Users to Public Users Table
 create or replace function public.handle_new_user()
 returns trigger as $$

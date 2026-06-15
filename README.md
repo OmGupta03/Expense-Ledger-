@@ -1,8 +1,10 @@
 # CSV Ingestion & Multi-Currency Expense Manager
 
-An aesthetically premium, responsive, and robust Expense Management platform built using **Next.js**, **Tailwind CSS**, and **Supabase (PostgreSQL + Auth + Realtime)**. This app supports multi-currency transaction ledgers, currency-specific greedy debt simplifications, and features an interactive CSV uploader that parses, sanitizes, and logs historical data anomalies.
+An aesthetically premium, responsive, and robust Expense Management platform built using **Next.js**, **Express.js**, and **Supabase (PostgreSQL + Auth + Realtime)**. This app supports multi-currency transaction ledgers, currency-specific greedy debt simplifications, and features an interactive CSV uploader that parses, sanitizes, and logs historical data anomalies.
 
-This project was built as an internship assignment with **Antigravity AI** acting as the primary engineering partner.
+This repository is structured as a workspace:
+* `/frontend`: Next.js Web App (UI rendering, routes, and views).
+* `/backend`: Node/Express Server (exposes REST API endpoints for database transactions, greedy debt minimization, and core balance logic).
 
 ---
 
@@ -19,12 +21,13 @@ This project was built as an internship assignment with **Antigravity AI** actin
 
 ## Tech Stack
 
-* **Frontend/Backend Framework**: Next.js 16 (App Router)
+* **Frontend Framework**: Next.js 16 (App Router) in `/frontend`
+* **Backend Framework**: Node.js + Express.js in `/backend`
 * **Styling**: Tailwind CSS v4 (configured via postCSS)
 * **Database**: PostgreSQL (Supabase)
 * **Authentication**: Supabase Auth (JWT)
 * **Real-time Sync**: Supabase Realtime subscriptions
-* **Hosting**: Vercel
+* **Hosting**: Vercel (Frontend) + Render/Heroku (Backend)
 
 ---
 
@@ -37,22 +40,30 @@ This project was built as an internship assignment with **Antigravity AI** actin
 4. Retrieve your `Project URL` and `anon public key` from **Project Settings** -> **API**.
 
 ### 2. Environment Setup
-1. Create a `.env.local` file in the root of the project:
-   ```bash
-   cp .env.example .env.local
-   ```
-2. Populate `.env.local` with your Supabase credentials:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url-here
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key-here
-   ```
 
-### 3. Local Development
-1. Install dependencies:
+#### Frontend Setup (`/frontend`)
+Create a `.env.local` file inside the `/frontend` directory:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url-here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
+```
+
+#### Backend Setup (`/backend`)
+Create a `.env` file inside the `/backend` directory:
+```env
+PORT=5000
+FRONTEND_URL=http://localhost:3000
+SUPABASE_URL=your-supabase-url-here
+SUPABASE_ANON_KEY=your-supabase-anon-key-here
+```
+
+### 3. Local Development (Root Directory)
+1. Install dependencies across the entire workspace:
    ```bash
-   npm install
+   npm run install:all
    ```
-2. Start the local server:
+2. Start both frontend and backend dev servers concurrently:
    ```bash
    npm run dev
    ```
@@ -62,7 +73,4 @@ This project was built as an internship assignment with **Antigravity AI** actin
 
 ## Project Documentation
 
-* **[`SCOPE.md`](file:///c:/Users/91904/Desktop/SpreeTail/SCOPE.md)**: Anomaly log of all CSV data problems (like percentage mismatch, date formats, blanks, duplicates) and how they are handled, along with the database schema.
-* **[`DECISIONS.md`](file:///c:/Users/91904/Desktop/SpreeTail/DECISIONS.md)**: A decision log detailing architecture choices, options considered, and rationales (decoupling users, multi-currency isolation, client parsing).
-* **[`AI_USAGE.md`](file:///c:/Users/91904/Desktop/SpreeTail/AI_USAGE.md)**: AI tools used, prompts, and 3 concrete cases where the AI made a mistake, how it was caught, and how it was corrected.
 * **[`schema.sql`](file:///c:/Users/91904/Desktop/SpreeTail/schema.sql)**: Database tables, constraints, indexes, and triggers.

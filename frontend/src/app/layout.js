@@ -9,7 +9,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "PayBack | Settle Debts & Track Expenses",
+  title: "Expense Ledger | Settle Debts & Track Expenses",
   description: "A simplified, modern app that tracks group expenses, balances, settlements, and lets members chat in real-time.",
 };
 
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${plusJakarta.variable} h-full antialiased font-sans`}
     >
-      <body className="min-h-full flex flex-col bg-slate-950 text-slate-100">
+      <body className="min-h-full flex flex-col bg-grey-bg text-text-primary">
         <AuthProvider>
           {children}
         </AuthProvider>

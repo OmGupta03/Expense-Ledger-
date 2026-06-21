@@ -800,16 +800,16 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
         <div 
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          className="flex flex-col items-center justify-center border-2 border-dashed border-slate-800 hover:border-emerald-500/50 bg-slate-900/20 hover:bg-slate-900/40 rounded-2xl p-10 text-center transition-all cursor-pointer group"
+          className="flex flex-col items-center justify-center border-2 border-dashed border-border-custom hover:border-green-pri/50 bg-grey-bg/50 hover:bg-grey-bg/85 rounded-2xl p-10 text-center transition-all cursor-pointer group"
           onClick={() => fileInputRef.current?.click()}
         >
-          <UploadCloud className="h-12 w-12 text-slate-500 group-hover:text-emerald-450 transition-colors mb-4" />
-          <p className="text-sm font-bold text-white mb-1">Drag and drop your expenses CSV here</p>
-          <p className="text-xs text-slate-500 max-w-sm mb-4">Upload the updated CSV file to parse the transactions ledger, detect data anomalies, and import it into a new group.</p>
+          <UploadCloud className="h-12 w-12 text-text-muted group-hover:text-green-pri transition-colors mb-4" />
+          <p className="text-sm font-bold text-text-primary mb-1">Drag and drop your expenses CSV here</p>
+          <p className="text-xs text-text-muted max-w-sm mb-4">Upload the updated CSV file to parse the transactions ledger, detect data anomalies, and import it into a new group.</p>
           
           <button
             type="button"
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition-all"
+            className="px-4 py-2 bg-white hover:bg-grey-bg text-text-primary border border-border-custom rounded-xl text-xs font-semibold transition-all"
           >
             Browse Files
           </button>
@@ -825,32 +825,32 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
         <div className="space-y-6">
           
           {/* File summary and Group configuration */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between p-5 bg-slate-900 border border-slate-850 rounded-2xl gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between p-5 bg-grey-bg/80 border border-border-custom rounded-2xl gap-4">
             <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 bg-emerald-500/10 border border-emerald-500/20 text-emerald-450 rounded-xl flex items-center justify-center">
+              <div className="h-10 w-10 bg-green-bg border border-green-pri/20 text-green-pri rounded-xl flex items-center justify-center">
                 <FileSpreadsheet className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white">{csvFile?.name}</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Parsed {parsingData.rows.length} rows · Found {parsingData.members.length} members</p>
+                <h3 className="text-sm font-bold text-text-primary">{csvFile?.name}</h3>
+                <p className="text-xs text-text-muted mt-0.5">Parsed {parsingData.rows.length} rows · Found {parsingData.members.length} members</p>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center space-x-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
-                <span className="text-xs text-slate-500">Group:</span>
+              <div className="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-xl border border-border-custom">
+                <span className="text-xs text-text-muted">Group:</span>
                 <input
                   type="text"
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
                   placeholder="Group Name"
-                  className="bg-transparent text-white text-xs focus:outline-none border-none max-w-[150px] font-bold"
+                  className="bg-transparent text-text-primary text-xs focus:outline-none border-none max-w-[150px] font-bold"
                 />
               </div>
 
               <button
                 onClick={clearFile}
-                className="p-2 text-slate-450 hover:text-white hover:bg-slate-800 border border-slate-800 rounded-xl transition-all"
+                className="p-2 text-red-owe hover:text-white hover:bg-red-500 border border-border-custom rounded-xl transition-all bg-white"
                 title="Upload different file"
               >
                 <Trash2 className="h-4 w-4" />
@@ -859,7 +859,7 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
               <button
                 onClick={handleImport}
                 disabled={isImporting || parsingData.rows.length === 0}
-                className="flex items-center space-x-2 px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-450 hover:to-teal-450 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/10 transition-all disabled:opacity-50"
+                className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white font-bold text-xs transition-all disabled:opacity-50 border-none shadow-sm cursor-pointer"
               >
                 {isImporting ? (
                   <>
@@ -878,20 +878,20 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
 
           {/* Import Status Alert */}
           {isImporting && (
-            <div className="p-4 bg-emerald-950/20 border border-emerald-900/50 rounded-xl text-emerald-450 text-xs flex items-center space-x-3">
-              <RefreshCw className="h-4 w-4 animate-spin text-emerald-400 flex-shrink-0" />
+            <div className="p-4 bg-green-bg border border-green-pri/20 rounded-xl text-green-pri text-xs flex items-center space-x-3">
+              <RefreshCw className="h-4 w-4 animate-spin text-green-pri flex-shrink-0" />
               <span>{importStatus}</span>
             </div>
           )}
 
           {/* ANOMALY REPORT PANEL */}
-          <div className="bg-slate-900 border border-slate-850 rounded-2xl p-5 shadow-lg space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-sm font-bold text-white flex items-center space-x-2">
+          <div className="bg-white border border-border-custom rounded-2xl p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between border-b border-border-custom pb-3">
+              <h3 className="text-sm font-bold text-text-primary flex items-center space-x-2">
                 <AlertTriangle className="h-4 w-4 text-amber-500" />
                 <span>Detected CSV Anomalies & Ingestion Actions ({parsingData.anomalies.length})</span>
               </h3>
-              <span className="px-2.5 py-0.5 text-[10px] bg-amber-500/10 border border-amber-500/20 text-amber-400 font-bold rounded-full">
+              <span className="px-2.5 py-0.5 text-[10px] bg-amber-50 border border-amber-200 text-amber-600 font-bold rounded-full">
                 Sanitised
               </span>
             </div>
@@ -908,10 +908,10 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
                     key={idx} 
                     className={`flex items-start space-x-3 text-xs p-3 rounded-xl border ${
                       anom.severity === 'error' 
-                        ? 'bg-red-950/20 border-red-900/50 text-red-200' 
+                        ? 'bg-red-50 border-red-200 text-red-owe' 
                         : anom.severity === 'warning' 
-                        ? 'bg-amber-950/20 border-amber-900/50 text-amber-200' 
-                        : 'bg-slate-950/40 border-slate-800/80 text-slate-300'
+                        ? 'bg-amber-50 border-amber-200 text-amber-700' 
+                        : 'bg-grey-bg/80 border-border-custom text-text-primary'
                     }`}
                   >
                     <div className="flex-shrink-0 mt-0.5">
@@ -920,22 +920,22 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
                       ) : anom.severity === 'warning' ? (
                         <AlertTriangle className="h-4 w-4 text-amber-500" />
                       ) : (
-                        <HelpCircle className="h-4 w-4 text-slate-400" />
+                        <HelpCircle className="h-4 w-4 text-text-muted" />
                       )}
                     </div>
                     
                     <div className="flex-1 space-y-1">
                       <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="font-extrabold uppercase text-[9px] bg-slate-850 px-1.5 py-0.5 rounded border border-slate-700 text-slate-300">
+                        <span className="font-extrabold uppercase text-[9px] bg-white px-1.5 py-0.5 rounded border border-border-custom text-text-muted">
                           Row {anom.rowIdx}
                         </span>
-                        <span className="font-bold text-white text-[11px]">{anom.type}</span>
+                        <span className="font-bold text-text-primary text-[11px]">{anom.type}</span>
                       </div>
-                      <p className="text-[11px] text-slate-400">
-                        Original <span className="font-mono text-slate-500 bg-slate-950/65 px-1 rounded">"{anom.originalValue}"</span> on column <span className="font-semibold text-slate-350">{anom.column}</span>.
+                      <p className="text-[11px] text-text-muted">
+                        Original <span className="font-mono text-text-muted bg-grey-bg px-1 rounded">&quot;{anom.originalValue}&quot;</span> on column <span className="font-semibold text-text-primary">{anom.column}</span>.
                       </p>
-                      <div className="flex items-center space-x-1.5 text-emerald-450 font-medium">
-                        <ArrowRight className="h-3 w-3 text-emerald-400 flex-shrink-0" />
+                      <div className="flex items-center space-x-1.5 text-green-pri font-medium">
+                        <ArrowRight className="h-3 w-3 text-green-pri flex-shrink-0" />
                         <span>Action: {anom.actionTaken}</span>
                       </div>
                     </div>
@@ -946,39 +946,39 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
           </div>
 
           {/* LEDGER & ROW SELECTION LIST */}
-          <div className="bg-slate-900 border border-slate-850 rounded-2xl p-5 shadow-lg space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                <FileSpreadsheet className="h-4 w-4 text-emerald-450" />
+          <div className="bg-white border border-border-custom rounded-2xl p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between border-b border-border-custom pb-3">
+              <h3 className="text-sm font-bold text-text-primary flex items-center space-x-2">
+                <FileSpreadsheet className="h-4 w-4 text-green-pri" />
                 <span>Expenses Ledger Preview ({parsingData.rows.length} records)</span>
               </h3>
-              <p className="text-[10px] text-slate-500">Uncheck rows to exclude them from the ingestion</p>
+              <p className="text-[10px] text-text-muted">Uncheck rows to exclude them from the ingestion</p>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-450 font-semibold uppercase text-[10px] tracking-wider">
-                    <th className="py-2.5 px-3 w-8">Import</th>
-                    <th className="py-2.5 px-3 w-10">Row</th>
-                    <th className="py-2.5 px-3">Date</th>
-                    <th className="py-2.5 px-3">Description</th>
-                    <th className="py-2.5 px-3">Payer</th>
-                    <th className="py-2.5 px-3 text-right">Amount</th>
-                    <th className="py-2.5 px-3 text-center">Currency</th>
-                    <th className="py-2.5 px-3">Type</th>
-                    <th className="py-2.5 px-3 max-w-[200px]">Split With</th>
+                  <tr className="border-b border-border-custom bg-slate-50 text-text-muted font-bold uppercase text-[10px] tracking-wider">
+                    <th className="py-3 px-3 w-8">Import</th>
+                    <th className="py-3 px-3 w-10">Row</th>
+                    <th className="py-3 px-3">Date</th>
+                    <th className="py-3 px-3">Description</th>
+                    <th className="py-3 px-3">Payer</th>
+                    <th className="py-3 px-3 text-right">Amount</th>
+                    <th className="py-3 px-3 text-center">Currency</th>
+                    <th className="py-3 px-3">Type</th>
+                    <th className="py-3 px-3 max-w-[200px]">Split With</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-850">
+                <tbody className="divide-y divide-border-custom">
                   {parsingData.rows.map((row) => {
                     const isSelected = selectedRows[row.rowIdx];
                     return (
                       <tr 
                         key={row.rowIdx} 
                         onClick={() => handleToggleRow(row.rowIdx)}
-                        className={`hover:bg-slate-850/30 transition-colors cursor-pointer select-none ${
-                          !isSelected ? 'opacity-40 line-through bg-slate-950/10' : ''
+                        className={`hover:bg-grey-bg/50 transition-colors cursor-pointer select-none ${
+                          !isSelected ? 'opacity-40 line-through bg-grey-bg/30' : ''
                         }`}
                       >
                         <td className="py-3 px-3">
@@ -988,46 +988,46 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
                               e.stopPropagation();
                               handleToggleRow(row.rowIdx);
                             }}
-                            className="text-slate-500 hover:text-white"
+                            className="text-text-muted hover:text-text-primary bg-transparent border-none cursor-pointer p-0"
                           >
                             {isSelected ? (
-                              <CheckSquare className="h-4 w-4 text-emerald-500" />
+                              <CheckSquare className="h-4 w-4 text-green-pri" />
                             ) : (
                               <Square className="h-4 w-4" />
                             )}
                           </button>
                         </td>
-                        <td className="py-3 px-3 text-slate-500">{row.rowIdx}</td>
-                        <td className="py-3 px-3 text-slate-200 whitespace-nowrap">{row.date}</td>
-                        <td className="py-3 px-3 font-semibold text-white">
+                        <td className="py-3 px-3 text-text-muted">{row.rowIdx}</td>
+                        <td className="py-3 px-3 text-text-primary whitespace-nowrap">{row.date}</td>
+                        <td className="py-3 px-3 font-semibold text-text-primary">
                           {row.description}
                           {row.notes && (
-                            <span className="block text-[10px] font-normal text-slate-500 truncate max-w-[200px]" title={row.notes}>
+                            <span className="block text-[10px] font-normal text-text-muted truncate max-w-[200px]" title={row.notes}>
                               {row.notes}
                             </span>
                           )}
                         </td>
-                        <td className="py-3 px-3 text-slate-300 font-semibold">{row.paid_by}</td>
-                        <td className={`py-3 px-3 text-right font-extrabold ${row.amount < 0 ? 'text-rose-400' : 'text-slate-200'}`}>
+                        <td className="py-3 px-3 text-text-primary font-semibold">{row.paid_by}</td>
+                        <td className={`py-3 px-3 text-right font-extrabold ${row.amount < 0 ? 'text-rose-500' : 'text-text-primary'}`}>
                           {row.amount < 0 ? '-' : ''}{row.currency === 'USD' ? '$' : '₹'}{Math.abs(row.amount).toFixed(2)}
                         </td>
                         <td className="py-3 px-3 text-center whitespace-nowrap">
-                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                            row.currency === 'USD' ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                          <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border ${
+                            row.currency === 'USD' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-green-bg text-green-pri border-green-pri/10'
                           }`}>
                             {row.currency}
                           </span>
                         </td>
-                        <td className="py-3 px-3 capitalize text-slate-400">
+                        <td className="py-3 px-3 capitalize text-text-muted">
                           {row.isSettlement ? (
-                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 whitespace-nowrap">
+                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 whitespace-nowrap">
                               Settlement
                             </span>
                           ) : (
                             row.split_type
                           )}
                         </td>
-                        <td className="py-3 px-3 text-slate-450 max-w-[200px] truncate" title={row.splitWithNames.join('; ')}>
+                        <td className="py-3 px-3 text-text-muted max-w-[200px] truncate" title={row.splitWithNames.join('; ')}>
                           {row.splitWithNames.join(', ')}
                         </td>
                       </tr>

@@ -695,22 +695,11 @@ export default function GroupDetailPage() {
 
                 <div className="space-y-3.5 mt-4">
                   {members.map(m => {
-                    const memberBalance = balances.netBalances[m.id] || 0;
-                    const memberBalanceINR = balances.netBalancesByCurrency?.INR?.[m.id] || 0;
-                    const memberBalanceUSD = balances.netBalancesByCurrency?.USD?.[m.id] || 0;
                     const isCurrentUser = m.id === user.id;
 
                     return (
                       <div key={m.id} className="flex justify-between items-center py-0.5">
-                        <div 
-                          onClick={() => {
-                            setDrilldownMember({
-                              member: m,
-                              balance: memberBalance
-                            });
-                          }}
-                          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
-                        >
+                        <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-full bg-grey-bg border border-border-custom flex items-center justify-center text-text-primary text-xs font-bold font-sans">
                             {m.name[0].toUpperCase()}
                           </div>
@@ -719,35 +708,6 @@ export default function GroupDetailPage() {
                               {m.name} {isCurrentUser && <span className="text-[9px] text-text-muted font-normal">(you)</span>}
                             </h4>
                           </div>
-                        </div>
-
-                        <div className="text-right flex flex-col gap-0.5">
-                          {/* INR balance (takes priority if non-zero) */}
-                          {Math.abs(memberBalanceINR) > 0.01 ? (
-                            <span className={`text-base font-extrabold ${memberBalanceINR > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
-                              {memberBalanceINR > 0 ? '+' : '-'}₹{Math.abs(memberBalanceINR).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                            </span>
-                          ) : Math.abs(memberBalanceUSD) > 0.01 ? (
-                            /* USD balance (only shown if INR balance is zero/settled) */
-                            <span className={`text-base font-extrabold ${memberBalanceUSD > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
-                              {memberBalanceUSD > 0 ? '+' : '-'}${Math.abs(memberBalanceUSD).toFixed(2)}
-                            </span>
-                          ) : (
-                            /* Settled */
-                            <span className="text-base font-bold text-text-muted">
-                              ₹0.00
-                            </span>
-                          )}
-
-                          {/* Remove member button for non-current-users who are settled up */}
-                          {!isCurrentUser && Math.abs(memberBalanceINR) <= 0.01 && Math.abs(memberBalanceUSD) <= 0.01 && (
-                            <button
-                              onClick={() => handleRemoveMember(m.id, m.name)}
-                              className="text-[11px] text-red-owe hover:underline cursor-pointer text-right block mt-0.5"
-                            >
-                              Remove
-                            </button>
-                          )}
                         </div>
                       </div>
                     );
@@ -826,154 +786,156 @@ export default function GroupDetailPage() {
           </aside>
 
           {/* Right Column (Timeline & Expense Details) */}
-          <section className="flex-1 flex flex-col gap-6">
-            
-            {/* Action Header block */}
-            <div className="flex items-center justify-between pb-3 border-b border-border-custom text-left">
-              <h2 className="text-xl font-bold text-text-primary">Transaction History</h2>
-              <button
-                onClick={openGenericExpenseModal}
-                className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
-              >
-                <Plus className="h-4 w-4" />
-                <span>Add Expense</span>
-              </button>
-            </div>
+          {activeView !== 'members' && (
+            <section className="flex-1 flex flex-col gap-6">
+              
+              {/* Action Header block */}
+              <div className="flex items-center justify-between pb-3 border-b border-border-custom text-left">
+                <h2 className="text-xl font-bold text-text-primary">Transaction History</h2>
+                <button
+                  onClick={openGenericExpenseModal}
+                  className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>Add Expense</span>
+                </button>
+              </div>
 
-            {/* Expandable row details card inside drawer overlay */}
-            {selectedExpense && (
-              <ExpenseDetail
-                expense={selectedExpense}
-                splits={selectedExpense.splits || []}
-                group={group}
-                currentUser={user}
-                onClose={() => setSelectedExpense(null)}
-                onDelete={() => handleDeleteExpense(selectedExpense.id)}
-                chatMessages={chatMessages}
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-                onSendMessage={handleSendChatMessage}
-                chatLoading={chatLoading}
-                chatBottomRef={chatBottomRef}
-              />
-            )}
+              {/* Expandable row details card inside drawer overlay */}
+              {selectedExpense && (
+                <ExpenseDetail
+                  expense={selectedExpense}
+                  splits={selectedExpense.splits || []}
+                  group={group}
+                  currentUser={user}
+                  onClose={() => setSelectedExpense(null)}
+                  onDelete={() => handleDeleteExpense(selectedExpense.id)}
+                  chatMessages={chatMessages}
+                  newMessage={newMessage}
+                  setNewMessage={setNewMessage}
+                  onSendMessage={handleSendChatMessage}
+                  chatLoading={chatLoading}
+                  chatBottomRef={chatBottomRef}
+                />
+              )}
 
-            {/* Month Timeline / Settlements List */}
-            {expenses.length === 0 && settlements.length === 0 ? (
-              <div className="bg-white rounded-3xl border border-border-custom p-16 text-center shadow-sm max-w-xl mx-auto my-12 text-left">
-                <span className="text-5xl block mb-4 select-none">💸</span>
-                <h3 className="text-lg font-extrabold text-text-primary mb-2">This group has no expenses yet</h3>
-                <p className="text-xs text-text-muted max-w-sm mx-auto mb-6">
-                  Start tracking shared expenses with your flatmates by importing a CSV file or adding an expense manually.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <button
-                    onClick={() => router.push(`/groups/${groupId}/import`)}
-                    className="w-full sm:w-auto px-5 py-3 border border-border-custom hover:bg-slate-50 text-text-primary rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer bg-white"
-                  >
-                    📁 Import CSV
-                  </button>
-                  <button
-                    onClick={openGenericExpenseModal}
-                    className="w-full sm:w-auto px-5 py-3 bg-green-pri hover:bg-green-light text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer border-none"
-                  >
-                    ➕ Add Manually
-                  </button>
+              {/* Month Timeline / Settlements List */}
+              {expenses.length === 0 && settlements.length === 0 ? (
+                <div className="bg-white rounded-3xl border border-border-custom p-16 text-center shadow-sm max-w-xl mx-auto my-12 text-left">
+                  <span className="text-5xl block mb-4 select-none">💸</span>
+                  <h3 className="text-lg font-extrabold text-text-primary mb-2">This group has no expenses yet</h3>
+                  <p className="text-xs text-text-muted max-w-sm mx-auto mb-6">
+                    Start tracking shared expenses with your flatmates by importing a CSV file or adding an expense manually.
+                  </p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button
+                      onClick={() => router.push(`/groups/${groupId}/import`)}
+                      className="w-full sm:w-auto px-5 py-3 border border-border-custom hover:bg-slate-50 text-text-primary rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer bg-white"
+                    >
+                      📁 Import CSV
+                    </button>
+                    <button
+                      onClick={openGenericExpenseModal}
+                      className="w-full sm:w-auto px-5 py-3 bg-green-pri hover:bg-green-light text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer border-none"
+                    >
+                      ➕ Add Manually
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {Object.keys(groupedExpenses).map((monthLabel) => (
-                  <div key={monthLabel} className="month-group">
-                    <h4 className="month-label uppercase font-bold tracking-wider text-text-muted text-sm pb-2 border-b border-border-custom mb-3 text-left">
-                      {monthLabel}
-                    </h4>
-                    <div className="space-y-3">
-                      {groupedExpenses[monthLabel].map((exp) => {
-                        const amount = parseFloat(exp.amount || 0);
-                        const currencySym = exp.currency === 'USD' ? '$' : '₹';
-                        const payerId = exp.paid_by?.id || exp.paid_by;
-                        const isMePayer = String(payerId) === String(user.id);
-                        const payerName = isMePayer ? 'You' : exp.payer?.name || 'Someone';
+              ) : (
+                <div className="space-y-6">
+                  {Object.keys(groupedExpenses).map((monthLabel) => (
+                    <div key={monthLabel} className="month-group">
+                      <h4 className="month-label uppercase font-bold tracking-wider text-text-muted text-sm pb-2 border-b border-border-custom mb-3 text-left">
+                        {monthLabel}
+                      </h4>
+                      <div className="space-y-3">
+                        {groupedExpenses[monthLabel].map((exp) => {
+                          const amount = parseFloat(exp.amount || 0);
+                          const currencySym = exp.currency === 'USD' ? '$' : '₹';
+                          const payerId = exp.paid_by?.id || exp.paid_by;
+                          const isMePayer = String(payerId) === String(user.id);
+                          const payerName = isMePayer ? 'You' : exp.payer?.name || 'Someone';
 
-                        return (
-                          <div
-                            key={exp.id}
-                            onClick={() => handleOpenExpenseDetails(exp)}
-                            className="group flex items-center justify-between p-5 bg-white hover:bg-grey-light/50 border border-border-custom hover:border-green-pri/30 rounded-2xl transition-all cursor-pointer shadow-sm"
-                          >
-                            <div className="flex items-center gap-3.5">
-                              {/* Circle icon with info */}
-                              <div className="h-10 w-10 rounded-full bg-grey-bg border border-border-custom flex items-center justify-center text-text-muted">
-                                <Info className="h-5 w-5" />
+                          return (
+                            <div
+                              key={exp.id}
+                              onClick={() => handleOpenExpenseDetails(exp)}
+                              className="group flex items-center justify-between p-5 bg-white hover:bg-grey-light/50 border border-border-custom hover:border-green-pri/30 rounded-2xl transition-all cursor-pointer shadow-sm"
+                            >
+                              <div className="flex items-center gap-3.5">
+                                {/* Circle icon with info */}
+                                <div className="h-10 w-10 rounded-full bg-grey-bg border border-border-custom flex items-center justify-center text-text-muted">
+                                  <Info className="h-5 w-5" />
+                                </div>
+                                <div className="text-left">
+                                  <h4 className="font-bold text-text-primary text-base group-hover:text-green-pri transition-colors">
+                                    {exp.description}
+                                  </h4>
+                                  <p className="text-sm text-text-muted mt-0.5">
+                                    Paid by {payerName} · {new Date(exp.created_at || exp.date).toLocaleDateString('en-US')}
+                                  </p>
+                                </div>
                               </div>
-                              <div className="text-left">
-                                <h4 className="font-bold text-text-primary text-base group-hover:text-green-pri transition-colors">
-                                  {exp.description}
-                                </h4>
-                                <p className="text-sm text-text-muted mt-0.5">
-                                  Paid by {payerName} · {new Date(exp.created_at || exp.date).toLocaleDateString('en-US')}
-                                </p>
+
+                              <div className="flex items-center gap-4">
+                                {/* Currency label badge */}
+                                <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded bg-green-bg text-green-pri border border-green-pri/5">
+                                  {exp.currency}
+                                </span>
+                                <div className="text-right">
+                                  <p className="text-[10px] uppercase font-semibold text-text-muted tracking-wider">total</p>
+                                  <p className="font-extrabold text-text-primary text-base mt-0.5">
+                                    {currencySym}{amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                  </p>
+                                </div>
+                                <ChevronRight className="h-4 w-4 text-text-muted" />
                               </div>
                             </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
 
-                            <div className="flex items-center gap-4">
-                              {/* Currency label badge */}
-                              <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded bg-green-bg text-green-pri border border-green-pri/5">
-                                {exp.currency}
+                  {/* Settlements trail timeline list */}
+                  {settlements.length > 0 && (
+                    <div className="month-group pt-4 border-t border-border-custom">
+                      <h4 className="month-label uppercase font-bold tracking-wider text-text-muted text-sm pb-2 border-b border-border-custom mb-3 text-left">
+                        Settlements Trail
+                      </h4>
+                      <div className="space-y-2">
+                        {settlements.map((set) => {
+                          const currencySym = set.currency === 'USD' ? '$' : '₹';
+                          return (
+                            <div
+                              key={set.id}
+                              className="bg-white border border-border-custom px-4 py-3.5 rounded-2xl flex justify-between items-center text-sm text-text-primary text-left shadow-sm hover:bg-grey-light/50 transition-colors"
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className="text-lg select-none">🤝</span>
+                                <div>
+                                  <p className="font-semibold text-text-primary text-sm leading-tight">
+                                    <strong>{set.payer?.name || 'Someone'}</strong> paid <strong>{set.payee?.name || 'Someone'}</strong>
+                                  </p>
+                                  <p className="text-xs text-text-muted mt-1 leading-none">
+                                    Recorded on {new Date(set.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                  </p>
+                                </div>
+                              </div>
+                              <span className="font-bold text-green-owed text-base bg-green-bg border border-green-pri/10 px-3 py-1 rounded-xl">
+                                {currencySym}{parseFloat(set.amount).toFixed(2)}
                               </span>
-                              <div className="text-right">
-                                <p className="text-[10px] uppercase font-semibold text-text-muted tracking-wider">total</p>
-                                <p className="font-extrabold text-text-primary text-base mt-0.5">
-                                  {currencySym}{amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </p>
-                              </div>
-                              <ChevronRight className="h-4 w-4 text-text-muted" />
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                ))}
-
-                {/* Settlements trail timeline list */}
-                {settlements.length > 0 && (
-                  <div className="month-group pt-4 border-t border-border-custom">
-                    <h4 className="month-label uppercase font-bold tracking-wider text-text-muted text-sm pb-2 border-b border-border-custom mb-3 text-left">
-                      Settlements Trail
-                    </h4>
-                    <div className="space-y-2">
-                      {settlements.map((set) => {
-                        const currencySym = set.currency === 'USD' ? '$' : '₹';
-                        return (
-                          <div
-                            key={set.id}
-                            className="bg-white border border-border-custom px-4 py-3.5 rounded-2xl flex justify-between items-center text-sm text-text-primary text-left shadow-sm hover:bg-grey-light/50 transition-colors"
-                          >
-                            <div className="flex items-center gap-3">
-                              <span className="text-lg select-none">🤝</span>
-                              <div>
-                                <p className="font-semibold text-text-primary text-sm leading-tight">
-                                  <strong>{set.payer?.name || 'Someone'}</strong> paid <strong>{set.payee?.name || 'Someone'}</strong>
-                                </p>
-                                <p className="text-xs text-text-muted mt-1 leading-none">
-                                  Recorded on {new Date(set.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                                </p>
-                              </div>
-                            </div>
-                            <span className="font-bold text-green-owed text-base bg-green-bg border border-green-pri/10 px-3 py-1 rounded-xl">
-                              {currencySym}{parseFloat(set.amount).toFixed(2)}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </section>
+                  )}
+                </div>
+              )}
+            </section>
+          )}
         </div>
         </div>
 

@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${plusJakarta.variable} h-full antialiased font-sans`}
     >
-      <body className="min-h-full flex flex-col bg-grey-bg text-text-primary">
+      <body className="min-h-full flex flex-col bg-grey-bg text-text-primary" suppressHydrationWarning>
         <AuthProvider>
           {children}
         </AuthProvider>

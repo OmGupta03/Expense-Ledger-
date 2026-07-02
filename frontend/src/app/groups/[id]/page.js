@@ -28,6 +28,7 @@ import ExpenseDetail from '@/components/ExpenseDetail';
 import BalanceDrilldownModal from '@/components/BalanceDrilldownModal';
 import { ArrowLeft, RefreshCw, Trash2, FileSpreadsheet, UserPlus, Info, ChevronRight, Plus } from 'lucide-react';
 import Link from 'next/link';
+import Layout from '@/components/Layout';
 
 
 export default function GroupDetailPage() {
@@ -527,17 +528,14 @@ export default function GroupDetailPage() {
   const myNetUSD = balances.netBalancesByCurrency?.USD?.[user.id] || 0;
 
   return (
-    <div className="flex-1 flex flex-col bg-grey-bg min-h-screen text-text-primary">
-      {/* Top Header Bar */}
-      <header className="sticky top-0 z-10 bg-green-pri shadow-sm px-4 sm:px-6 lg:px-8 py-4 text-white">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+    <Layout>
+      <div className="w-full flex-1 flex flex-col bg-grey-bg overflow-hidden h-full">
+        {/* Top Header Bar */}
+        <div className="bg-white border-b border-border-custom px-8 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 flex-shrink-0 text-left">
           <div className="flex items-center space-x-4">
-            <Link href="/dashboard" className="text-white hover:text-green-bg transition-colors">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
             <div className="text-left">
-              <h1 className="text-xl font-bold tracking-tight">{group.name}</h1>
-              <p className="text-xs text-green-bg/85 mt-0.5 font-normal">Ledger details and balances</p>
+              <h1 className="text-xl font-bold text-text-primary tracking-tight">{group.name}</h1>
+              <p className="text-xs text-text-muted mt-0.5">Ledger details and balances</p>
             </div>
           </div>
           
@@ -545,7 +543,7 @@ export default function GroupDetailPage() {
             <button
               onClick={loadData}
               disabled={pageLoading}
-              className="p-2 rounded-xl text-green-bg/90 hover:text-white hover:bg-green-dark/30 transition-all cursor-pointer bg-transparent border-none"
+              className="p-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg transition-all cursor-pointer bg-transparent border-none"
               title="Refresh ledger"
             >
               <RefreshCw className={`h-4 w-4 ${pageLoading ? 'animate-spin' : ''}`} />
@@ -553,33 +551,46 @@ export default function GroupDetailPage() {
 
             <button
               onClick={handleDeleteGroup}
-              className="flex items-center space-x-2 px-3 py-2 rounded-xl text-rose-200 hover:text-white hover:bg-red-900/30 border border-red-500/20 hover:border-red-500/40 transition-all text-xs font-semibold cursor-pointer"
+              className="flex items-center space-x-2 px-3 py-2 rounded-xl text-red-owe hover:text-white hover:bg-red-50/20 border border-red-500/20 hover:border-red-500/40 transition-all text-xs font-semibold cursor-pointer"
             >
               <Trash2 className="h-4 w-4" />
               <span className="hidden sm:inline">Delete Group</span>
             </button>
 
-            <button
-              onClick={() => router.push(`/groups/${groupId}/import`)}
-              className="flex items-center space-x-2 px-3 py-2 rounded-xl text-green-bg/90 hover:text-white hover:bg-green-dark/30 border border-transparent hover:border-green-light/20 transition-all text-xs font-semibold cursor-pointer"
-            >
-              <FileSpreadsheet className="h-4 w-4" />
-              <span className="hidden sm:inline">Import CSV</span>
-            </button>
+            {activeView === 'expenses' && (
+              <button
+                onClick={() => router.push(`/groups/${groupId}/import`)}
+                className="flex items-center space-x-2 px-3 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg border border-border-custom hover:border-text-primary/30 transition-all text-xs font-semibold cursor-pointer"
+              >
+                <FileSpreadsheet className="h-4 w-4" />
+                <span className="hidden sm:inline">Import CSV</span>
+              </button>
+            )}
 
-            <button
-              onClick={() => setShowMemberForm(!showMemberForm)}
-              className="flex items-center space-x-2 px-3 py-2 rounded-xl text-green-bg/90 hover:text-white hover:bg-green-dark/30 border border-transparent hover:border-green-light/20 transition-all text-xs font-semibold cursor-pointer"
-            >
-              <UserPlus className="h-4 w-4" />
-              <span className="hidden sm:inline">Invite Member</span>
-            </button>
+            {activeView === 'members' && (
+              <button
+                onClick={() => setShowMemberForm(!showMemberForm)}
+                className="flex items-center space-x-2 px-3 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg border border-border-custom hover:border-text-primary/30 transition-all text-xs font-semibold cursor-pointer"
+              >
+                <UserPlus className="h-4 w-4" />
+                <span className="hidden sm:inline">Invite Member</span>
+              </button>
+            )}
+
+            {activeView === 'settlements' && (
+              <button
+                onClick={openGenericSettlementModal}
+                className="flex items-center space-x-2 px-3 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg border border-border-custom hover:border-text-primary/30 transition-all text-xs font-semibold cursor-pointer"
+              >
+                <span>$</span>
+                <span className="hidden sm:inline">Settle Up</span>
+              </button>
+            )}
           </div>
         </div>
-      </header>
 
-      {/* Main Body Grid */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Main Body Grid */}
+        <div className="page-body overflow-y-auto flex-1">
         
         {/* Invite Member form block (inline dropdown when toggled) */}
         {showMemberForm && (
@@ -630,181 +641,187 @@ export default function GroupDetailPage() {
         {/* Two column layout */}
         <div className="flex flex-col md:flex-row gap-8">
           
-          {/* Left Column (w-full md:w-80) */}
-          <aside className="w-full md:w-80 flex-shrink-0 flex flex-col gap-6">
+          {/* Left Column (w-full md:w-80 or centered max-w-xl based on activeView) */}
+          <aside className={activeView === 'expenses' ? "w-full md:w-80 flex-shrink-0 flex flex-col gap-6" : "w-full max-w-xl mx-auto flex flex-col gap-6"}>
             
             {/* 1. MY GROUP BALANCE card */}
-            <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left relative overflow-hidden">
-              <div className="absolute top-[-30%] right-[-10%] h-[120px] w-[120px] rounded-full bg-green-pri/5 blur-[40px] pointer-events-none"></div>
-              <h3 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">My Group Balance</h3>
-              
-              <div className="flex flex-col gap-1.5 mt-3">
-                <div className={`text-xl font-extrabold tracking-tight ${
-                  myNetINR > 0.01 
-                    ? 'text-green-owed' 
-                    : myNetINR < -0.01 
-                    ? 'text-red-owe' 
-                    : 'text-text-muted'
-                }`}>
-                  {myNetINR > 0.01 ? '+' : ''}
-                  ₹{myNetINR.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs font-semibold text-text-muted">INR</span>
+            {activeView === 'expenses' && (
+              <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left relative overflow-hidden">
+                <div className="absolute top-[-30%] right-[-10%] h-[120px] w-[120px] rounded-full bg-green-pri/5 blur-[40px] pointer-events-none"></div>
+                <h3 className="text-[10px] font-bold text-text-muted uppercase tracking-wider">My Group Balance</h3>
+                
+                <div className="flex flex-col gap-1.5 mt-3">
+                  <div className={`text-xl font-extrabold tracking-tight ${
+                    myNetINR > 0.01 
+                      ? 'text-green-owed' 
+                      : myNetINR < -0.01 
+                      ? 'text-red-owe' 
+                      : 'text-text-muted'
+                  }`}>
+                    {myNetINR > 0.01 ? '+' : ''}
+                    ₹{myNetINR.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs font-semibold text-text-muted">INR</span>
+                  </div>
+                  <div className={`text-xl font-extrabold tracking-tight ${
+                    myNetUSD > 0.01 
+                      ? 'text-green-owed' 
+                      : myNetUSD < -0.01 
+                      ? 'text-red-owe' 
+                      : 'text-text-muted'
+                  }`}>
+                    {myNetUSD > 0.01 ? '+' : ''}
+                    ${myNetUSD.toFixed(2)} <span className="text-xs font-semibold text-text-muted">USD</span>
+                  </div>
                 </div>
-                <div className={`text-xl font-extrabold tracking-tight ${
-                  myNetUSD > 0.01 
-                    ? 'text-green-owed' 
-                    : myNetUSD < -0.01 
-                    ? 'text-red-owe' 
-                    : 'text-text-muted'
-                }`}>
-                  {myNetUSD > 0.01 ? '+' : ''}
-                  ${myNetUSD.toFixed(2)} <span className="text-xs font-semibold text-text-muted">USD</span>
-                </div>
+                
+                <button
+                  onClick={openGenericSettlementModal}
+                  className="w-full mt-5 py-2.5 bg-green-pri hover:bg-green-light text-white font-bold rounded-xl text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5 border-none"
+                >
+                  <span>$</span>
+                  <span>Record Settle Up</span>
+                </button>
               </div>
-              
-              <button
-                onClick={openGenericSettlementModal}
-                className="w-full mt-5 py-2.5 bg-green-pri hover:bg-green-light text-white font-bold rounded-xl text-sm transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5 border-none"
-              >
-                <span>$</span>
-                <span>Record Settle Up</span>
-              </button>
-            </div>
+            )}
 
             {/* 2. Group Members card */}
-            <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left">
-              <div className="flex justify-between items-center pb-3 border-b border-border-custom">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted">Group Members</h3>
-                <span className="text-[10px] bg-grey-bg text-text-muted border border-border-custom px-2 py-0.5 rounded-full font-bold">
-                  {members.length}
-                </span>
-              </div>
+            {activeView === 'members' && (
+              <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left">
+                <div className="flex justify-between items-center pb-3 border-b border-border-custom">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted">Group Members</h3>
+                  <span className="text-[10px] bg-grey-bg text-text-muted border border-border-custom px-2 py-0.5 rounded-full font-bold">
+                    {members.length}
+                  </span>
+                </div>
 
-              <div className="space-y-3.5 mt-4">
-                {members.map(m => {
-                  const memberBalance = balances.netBalances[m.id] || 0;
-                  const memberBalanceINR = balances.netBalancesByCurrency?.INR?.[m.id] || 0;
-                  const memberBalanceUSD = balances.netBalancesByCurrency?.USD?.[m.id] || 0;
-                  const isCurrentUser = m.id === user.id;
+                <div className="space-y-3.5 mt-4">
+                  {members.map(m => {
+                    const memberBalance = balances.netBalances[m.id] || 0;
+                    const memberBalanceINR = balances.netBalancesByCurrency?.INR?.[m.id] || 0;
+                    const memberBalanceUSD = balances.netBalancesByCurrency?.USD?.[m.id] || 0;
+                    const isCurrentUser = m.id === user.id;
 
-                  return (
-                    <div key={m.id} className="flex justify-between items-center py-0.5">
-                      <div 
-                        onClick={() => {
-                          setDrilldownMember({
-                            member: m,
-                            balance: memberBalance
-                          });
-                        }}
-                        className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
-                      >
-                        <div className="w-8 h-8 rounded-full bg-grey-bg border border-border-custom flex items-center justify-center text-text-primary text-xs font-bold font-sans">
-                          {m.name[0].toUpperCase()}
+                    return (
+                      <div key={m.id} className="flex justify-between items-center py-0.5">
+                        <div 
+                          onClick={() => {
+                            setDrilldownMember({
+                              member: m,
+                              balance: memberBalance
+                            });
+                          }}
+                          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+                        >
+                          <div className="w-8 h-8 rounded-full bg-grey-bg border border-border-custom flex items-center justify-center text-text-primary text-xs font-bold font-sans">
+                            {m.name[0].toUpperCase()}
+                          </div>
+                          <div className="text-left">
+                            <h4 className="text-base font-bold text-text-primary leading-tight">
+                              {m.name} {isCurrentUser && <span className="text-[9px] text-text-muted font-normal">(you)</span>}
+                            </h4>
+                          </div>
                         </div>
-                        <div className="text-left">
-                          <h4 className="text-base font-bold text-text-primary leading-tight">
-                            {m.name} {isCurrentUser && <span className="text-[9px] text-text-muted font-normal">(you)</span>}
-                          </h4>
+
+                        <div className="text-right flex flex-col gap-0.5">
+                          {/* INR balance (takes priority if non-zero) */}
+                          {Math.abs(memberBalanceINR) > 0.01 ? (
+                            <span className={`text-base font-extrabold ${memberBalanceINR > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
+                              {memberBalanceINR > 0 ? '+' : '-'}₹{Math.abs(memberBalanceINR).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                            </span>
+                          ) : Math.abs(memberBalanceUSD) > 0.01 ? (
+                            /* USD balance (only shown if INR balance is zero/settled) */
+                            <span className={`text-base font-extrabold ${memberBalanceUSD > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
+                              {memberBalanceUSD > 0 ? '+' : '-'}${Math.abs(memberBalanceUSD).toFixed(2)}
+                            </span>
+                          ) : (
+                            /* Settled */
+                            <span className="text-base font-bold text-text-muted">
+                              ₹0.00
+                            </span>
+                          )}
+
+                          {/* Remove member button for non-current-users who are settled up */}
+                          {!isCurrentUser && Math.abs(memberBalanceINR) <= 0.01 && Math.abs(memberBalanceUSD) <= 0.01 && (
+                            <button
+                              onClick={() => handleRemoveMember(m.id, m.name)}
+                              className="text-[11px] text-red-owe hover:underline cursor-pointer text-right block mt-0.5"
+                            >
+                              Remove
+                            </button>
+                          )}
                         </div>
                       </div>
-
-                      <div className="text-right flex flex-col gap-0.5">
-                        {/* INR balance (takes priority if non-zero) */}
-                        {Math.abs(memberBalanceINR) > 0.01 ? (
-                          <span className={`text-base font-extrabold ${memberBalanceINR > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
-                            {memberBalanceINR > 0 ? '+' : '-'}₹{Math.abs(memberBalanceINR).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                          </span>
-                        ) : Math.abs(memberBalanceUSD) > 0.01 ? (
-                          /* USD balance (only shown if INR balance is zero/settled) */
-                          <span className={`text-base font-extrabold ${memberBalanceUSD > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
-                            {memberBalanceUSD > 0 ? '+' : '-'}${Math.abs(memberBalanceUSD).toFixed(2)}
-                          </span>
-                        ) : (
-                          /* Settled */
-                          <span className="text-base font-bold text-text-muted">
-                            ₹0.00
-                          </span>
-                        )}
-
-                        {/* Remove member button for non-current-users who are settled up */}
-                        {!isCurrentUser && Math.abs(memberBalanceINR) <= 0.01 && Math.abs(memberBalanceUSD) <= 0.01 && (
-                          <button
-                            onClick={() => handleRemoveMember(m.id, m.name)}
-                            className="text-[11px] text-red-owe hover:underline cursor-pointer text-right block mt-0.5"
-                          >
-                            Remove
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* 3. Simplified Debts card */}
-            <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted pb-3 border-b border-border-custom">Simplified Debts</h3>
-              
-              <div className="space-y-4 mt-4">
-                {/* INR Debts */}
-                {balances.simplifiedDebtsByCurrency?.INR?.length > 0 && (
-                  <div>
-                    <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">INR Debts</p>
-                    <div className="space-y-2">
-                      {balances.simplifiedDebtsByCurrency.INR.map((debt, idx) => (
-                        <div key={idx} className="bg-grey-bg/50 border border-border-custom p-3 rounded-xl flex items-center justify-between text-sm">
-                          <div className="text-left pr-2 leading-tight">
-                            <span className="font-bold text-text-primary">{debt.fromUser?.name}</span>
-                            <span className="text-text-muted"> owes </span>
-                            <span className="font-bold text-text-primary">{debt.toUser?.name}</span>
+            {activeView === 'settlements' && (
+              <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted pb-3 border-b border-border-custom">Simplified Debts</h3>
+                
+                <div className="space-y-4 mt-4">
+                  {/* INR Debts */}
+                  {balances.simplifiedDebtsByCurrency?.INR?.length > 0 && (
+                    <div>
+                      <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">INR Debts</p>
+                      <div className="space-y-2">
+                        {balances.simplifiedDebtsByCurrency.INR.map((debt, idx) => (
+                          <div key={idx} className="bg-grey-bg/50 border border-border-custom p-3 rounded-xl flex items-center justify-between text-sm">
+                            <div className="text-left pr-2 leading-tight">
+                              <span className="font-bold text-text-primary">{debt.fromUser?.name}</span>
+                              <span className="text-text-muted"> owes </span>
+                              <span className="font-bold text-text-primary">{debt.toUser?.name}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-black text-text-primary text-sm">₹{debt.amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
+                              <button
+                                onClick={() => handleQuickSettlement(debt.from, debt.to, debt.amount, 'INR')}
+                                className="text-xs bg-green-pri hover:bg-green-light text-white px-2.5 py-1 rounded font-bold cursor-pointer border-none"
+                              >
+                                Settle
+                              </button>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-black text-text-primary text-sm">₹{debt.amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                            <button
-                              onClick={() => handleQuickSettlement(debt.from, debt.to, debt.amount, 'INR')}
-                              className="text-xs bg-green-pri hover:bg-green-light text-white px-2.5 py-1 rounded font-bold cursor-pointer border-none"
-                            >
-                              Settle
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* USD Debts */}
-                {balances.simplifiedDebtsByCurrency?.USD?.length > 0 && (
-                  <div>
-                    <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">USD Debts</p>
-                    <div className="space-y-2">
-                      {balances.simplifiedDebtsByCurrency.USD.map((debt, idx) => (
-                        <div key={idx} className="bg-grey-bg/50 border border-border-custom p-3 rounded-xl flex items-center justify-between text-sm">
-                          <div className="text-left pr-2 leading-tight">
-                            <span className="font-bold text-text-primary">{debt.fromUser?.name}</span>
-                            <span className="text-text-muted"> owes </span>
-                            <span className="font-bold text-text-primary">{debt.toUser?.name}</span>
+                  {/* USD Debts */}
+                  {balances.simplifiedDebtsByCurrency?.USD?.length > 0 && (
+                    <div>
+                      <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">USD Debts</p>
+                      <div className="space-y-2">
+                        {balances.simplifiedDebtsByCurrency.USD.map((debt, idx) => (
+                          <div key={idx} className="bg-grey-bg/50 border border-border-custom p-3 rounded-xl flex items-center justify-between text-sm">
+                            <div className="text-left pr-2 leading-tight">
+                              <span className="font-bold text-text-primary">{debt.fromUser?.name}</span>
+                              <span className="text-text-muted"> owes </span>
+                              <span className="font-bold text-text-primary">{debt.toUser?.name}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-black text-text-primary text-sm">${debt.amount.toFixed(2)}</span>
+                              <button
+                                onClick={() => handleQuickSettlement(debt.from, debt.to, debt.amount, 'USD')}
+                                className="text-xs bg-green-pri hover:bg-green-light text-white px-2.5 py-1 rounded font-bold cursor-pointer border-none"
+                              >
+                                Settle
+                              </button>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-black text-text-primary text-sm">${debt.amount.toFixed(2)}</span>
-                            <button
-                              onClick={() => handleQuickSettlement(debt.from, debt.to, debt.amount, 'USD')}
-                              className="text-xs bg-green-pri hover:bg-green-light text-white px-2.5 py-1 rounded font-bold cursor-pointer border-none"
-                            >
-                              Settle
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {(!balances.simplifiedDebtsByCurrency?.INR?.length && !balances.simplifiedDebtsByCurrency?.USD?.length) && (
-                  <p className="text-sm text-text-muted text-left">No outstanding debts in this group! 🥳</p>
-                )}
+                  {(!balances.simplifiedDebtsByCurrency?.INR?.length && !balances.simplifiedDebtsByCurrency?.USD?.length) && (
+                    <p className="text-sm text-text-muted text-left">No outstanding debts in this group! 🥳</p>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
           </aside>
 
@@ -958,7 +975,7 @@ export default function GroupDetailPage() {
             )}
           </section>
         </div>
-      </main>
+        </div>
 
       {/* BALANCE DRILLDOWN MODAL */}
       {drilldownMember && (
@@ -1210,6 +1227,7 @@ export default function GroupDetailPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </Layout>
   );
 }

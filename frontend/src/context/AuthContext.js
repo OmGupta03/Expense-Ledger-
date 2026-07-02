@@ -61,37 +61,25 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    // 1. Get initial session
-    const getInitialSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          setUser(session.user);
-          await fetchProfile(
-            session.user.id,
-            session.user.email,
-            session.user.user_metadata?.name
-          );
-        }
-      } catch (err) {
-        console.error('Error getting session:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Ping backend in the background to trigger container wake-up
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+    fetch(`${backendUrl}/api/health`).catch((err) => {
+      console.warn('Backend wake-up ping failed/offline:', err.message);
+    });
 
-    getInitialSession();
-
-    // 2. Listen to auth changes
+    // Listen to auth changes (handles initial session load and subsequent state updates)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (session?.user) {
           setUser(session.user);
-          await fetchProfile(
+          // Run fetchProfile in the background without blocking the UI loading state
+          fetchProfile(
             session.user.id,
             session.user.email,
             session.user.user_metadata?.name
-          );
+          ).catch((err) => {
+            console.error('Failed to load profile in background:', err);
+          });
         } else {
           setUser(null);
           setProfile(null);

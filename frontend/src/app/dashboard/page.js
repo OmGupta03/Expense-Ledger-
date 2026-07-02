@@ -7,6 +7,7 @@ import { fetchUserGroups, createGroup, calculateBalancesAndDebts, deleteGroup } 
 import { Plus, LogOut, Users, User, ArrowUpRight, ArrowDownLeft, RefreshCw, FileSpreadsheet, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import CsvImporter from '@/components/CsvImporter';
+import Layout from '@/components/Layout';
 
 export default function Dashboard() {
   const { user, profile, loading, signOut } = useAuth();
@@ -158,36 +159,25 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-grey-bg min-h-screen text-text-primary">
-      {/* Navbar */}
-      <header className="sticky top-0 z-10 bg-green-pri shadow-sm px-4 sm:px-6 lg:px-8 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-green-pri shadow-sm font-bold text-lg select-none">
-              E
-            </div>
-            <h1 className="text-xl font-bold text-white tracking-tight">Expense Ledger</h1>
+    <Layout>
+      <div className="w-full flex-1 flex flex-col bg-grey-bg overflow-hidden h-full">
+        {/* Top Header Bar */}
+        <div className="bg-white border-b border-border-custom px-8 py-5 flex justify-between items-center flex-shrink-0 text-left">
+          <div>
+            <h1 className="text-xl font-bold text-text-primary tracking-tight">Dashboard</h1>
+            <p className="text-xs text-text-muted mt-0.5">Manage your group expenses and settlements</p>
           </div>
-
-          <div className="flex items-center space-x-4">
-            <div className="hidden md:flex items-center space-x-2 px-3 py-1.5 bg-green-dark/30 rounded-xl border border-green-light/20">
-              <User className="h-4 w-4 text-green-bg" />
-              <span className="text-sm font-medium text-white">{profile?.name || user.email}</span>
-            </div>
-            
-            <button
-              onClick={() => signOut()}
-              className="flex items-center space-x-2 px-3.5 py-2 rounded-xl text-green-bg/90 hover:text-white hover:bg-green-dark/30 border border-transparent hover:border-green-light/20 transition-all text-sm font-semibold cursor-pointer"
-            >
-              <LogOut className="h-4 w-4" />
-              <span className="hidden sm:inline">Log out</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-2 bg-green-pri hover:bg-green-light text-white font-bold rounded-xl shadow-sm transition-all cursor-pointer text-xs border-none"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Create Group</span>
+          </button>
         </div>
-      </header>
 
-      {/* Main Dashboard Area */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Scrollable Dashboard Area */}
+        <div className="page-body overflow-y-auto flex-1 space-y-8">
         
         {/* Profile details header card on mobile */}
         <div className="md:hidden flex items-center space-x-3 p-4 bg-white border border-border-custom rounded-2xl">
@@ -490,7 +480,7 @@ export default function Dashboard() {
             </div>
           </div>
         </section>
-      </main>
+        </div>
 
       {/* Create Group Modal */}
       {isModalOpen && (
@@ -658,6 +648,7 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </Layout>
   );
 }

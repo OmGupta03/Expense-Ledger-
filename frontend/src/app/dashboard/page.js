@@ -245,7 +245,7 @@ export default function Dashboard() {
         </div>
 
         {/* Scrollable Dashboard Area */}
-        <div className="page-body overflow-y-auto flex-1 space-y-6 py-8">
+        <div className="page-body flex-1 space-y-6 py-8">
           
           {/* Header Title Section */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-left">

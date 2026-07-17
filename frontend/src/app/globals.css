@@ -716,7 +716,9 @@
 
 .page-body {
   padding: 32px 48px;
+  max-width: 1200px;
   width: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 

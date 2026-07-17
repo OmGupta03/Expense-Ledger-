@@ -26,8 +26,11 @@
   --text-muted:     #757575;
 
   /* Sidebar */
-  --sidebar-bg:     #1b5e20;
+  --sidebar-bg:     #042318;
   --sidebar-text:   #c8e6c9;
+  --sidebar-active: #0d5f41;
+  --mint-green:     #86efac;
+  --dark-green-text: #022c22;
 }
 
 @theme {
@@ -42,8 +45,9 @@
   --color-grey-bg: var(--grey-bg);
   --color-sidebar-bg: var(--sidebar-bg);
   --color-sidebar-text: var(--sidebar-text);
-  --color-text-primary: var(--text-primary);
-  --color-text-muted: var(--text-muted);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-mint-green: var(--mint-green);
+  --color-dark-green-text: var(--dark-green-text);
   --color-border-custom: var(--border);
 }
 

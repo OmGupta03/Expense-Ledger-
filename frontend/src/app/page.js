@@ -57,7 +57,7 @@ export default function RootLandingPage() {
     return (
       <div className="loading-screen">
         <div className="loading-spinner"></div>
-        <p className="loading-text">Loading Expense Ledger...</p>
+        <p className="loading-text">Loading Settle Up...</p>
       </div>
     );
   }
@@ -68,8 +68,8 @@ export default function RootLandingPage() {
       <nav className="landing-nav">
         <div className="landing-nav-inner">
           <Link href="/" className="landing-logo">
-            <span className="landing-logo-icon">⬡</span>
-            <span className="landing-logo-text">Expense Ledger</span>
+            <span className="landing-logo-icon">🌲</span>
+            <span className="landing-logo-text">Settle Up</span>
           </Link>
 
           <div className="landing-nav-links">
@@ -87,7 +87,7 @@ export default function RootLandingPage() {
               The last expense<br />app you&apos;ll ever need!
             </h1>
             <p className="landing-hero-desc">
-              Expense Ledger is a smart shared expense manager for flatmates and friend groups.
+              Settle Up is a smart shared expense manager for flatmates and friend groups.
               Easily add expenses, import CSVs, split bills with multiple methods, and
               track who owes whom — so you always know the score.
             </p>

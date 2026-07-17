@@ -67,9 +67,15 @@ export function AuthProvider({ children }) {
       console.warn('Backend wake-up ping failed/offline:', err.message);
     });
 
+    // Safety timeout: stop showing loading screen after 3 seconds if Supabase hangs or is unreachable
+    const safetyTimeout = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
     // Listen to auth changes (handles initial session load and subsequent state updates)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        clearTimeout(safetyTimeout);
         if (session?.user) {
           setUser(session.user);
           // Run fetchProfile in the background without blocking the UI loading state
@@ -89,6 +95,7 @@ export function AuthProvider({ children }) {
     );
 
     return () => {
+      clearTimeout(safetyTimeout);
       subscription?.unsubscribe();
     };
   }, []);

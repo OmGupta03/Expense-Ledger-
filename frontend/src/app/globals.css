@@ -25,12 +25,12 @@
   --text-primary:   #212121;
   --text-muted:     #757575;
 
-  /* Sidebar & Dashboard Landing Theme colors */
-  --sidebar-bg:     #052414;   /* very dark forest green */
-  --sidebar-text:   #e8f5e9;   /* light sage green */
-  --sidebar-active: #2e7d32;   /* landing page primary green */
-  --mint-green:     #c8e6c9;   /* landing page light green */
-  --dark-green-text: #1b5e20;   /* deep green for text */
+  /* Sidebar & Dashboard mockup theme colors */
+  --sidebar-bg:     #042318;
+  --sidebar-text:   #c8e6c9;
+  --sidebar-active: #0d5f41;
+  --mint-green:     #86efac;
+  --dark-green-text: #022c22;
 }
 
 @theme {

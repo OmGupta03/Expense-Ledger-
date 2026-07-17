@@ -149,7 +149,7 @@ function Sidebar() {
             <TreePine className="h-5 w-5" />
           </div>
           <div>
-            <div className="text-white font-extrabold text-sm tracking-tight leading-none">Settle Up</div>
+            <div className="text-white font-extrabold text-sm tracking-tight leading-none">Forest Ledger</div>
             <div className="text-[10px] text-sidebar-text/70 mt-1 leading-none font-semibold">Student Group</div>
             <div className="text-[10px] text-sidebar-text/70 mt-0.5 leading-none font-semibold">Finances</div>
           </div>

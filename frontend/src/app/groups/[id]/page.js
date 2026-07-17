@@ -555,7 +555,7 @@ export default function GroupDetailPage() {
     return groups;
   };
 
-  if (loading || (pageLoading && !group)) {
+  if (loading || !user || (pageLoading && !group)) {
     return (
       <div className="loading-screen">
         <div className="loading-spinner"></div>

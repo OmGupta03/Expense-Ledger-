@@ -238,7 +238,7 @@ export default function Dashboard() {
               Invite Member
             </button>
 
-            <div className="h-8 w-8 rounded-full bg-[#0e5c3e] border border-white flex items-center justify-center text-white text-xs font-extrabold select-none shadow-sm cursor-pointer">
+            <div className="h-8 w-8 rounded-full bg-green-pri border border-white flex items-center justify-center text-white text-xs font-extrabold select-none shadow-sm cursor-pointer">
               {(profile?.name || user.email)[0].toUpperCase()}
             </div>
           </div>
@@ -259,7 +259,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-2">
               <button
                 onClick={handleAddExpenseClick}
-                className="flex items-center gap-2 px-4 py-2.5 bg-mint-green hover:bg-[#74df98] text-[#064e3b] font-bold rounded-lg shadow-sm transition-all cursor-pointer text-xs border-none"
+                className="flex items-center gap-2 px-4 py-2.5 bg-mint-green hover:bg-mint-green/85 text-dark-green-text font-bold rounded-lg shadow-sm transition-all cursor-pointer text-xs border-none"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Expense</span>
@@ -339,7 +339,7 @@ export default function Dashboard() {
           {/* Groups list title bar */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-gray-100">
             <div className="flex items-center gap-2 text-left">
-              <Users className="h-5 w-5 text-[#0e5c3e]" />
+              <Users className="h-5 w-5 text-green-pri" />
               <h2 className="text-lg font-extrabold text-gray-900">Your Groups</h2>
             </div>
             
@@ -363,7 +363,7 @@ export default function Dashboard() {
 
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#0e5c3e] hover:bg-[#0b4a32] text-white shadow-sm font-bold text-xs transition-all cursor-pointer border-none"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-green-pri hover:bg-green-dark text-white shadow-sm font-bold text-xs transition-all cursor-pointer border-none"
               >
                 <Plus className="h-4 w-4" />
                 <span>Create Group</span>
@@ -374,7 +374,7 @@ export default function Dashboard() {
           {/* Group Grid / List */}
           {dataLoading && groups.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-16 bg-white border border-border-custom rounded-2xl">
-              <div className="w-6 h-6 border-2 border-[#0e5c3e] border-t-transparent rounded-full animate-spin mb-3"></div>
+              <div className="w-6 h-6 border-2 border-green-pri border-t-transparent rounded-full animate-spin mb-3"></div>
               <p className="text-text-muted text-xs font-semibold">Loading groups...</p>
             </div>
           ) : groups.length === 0 ? (
@@ -390,7 +390,7 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-4 py-2.5 rounded-lg bg-mint-green hover:bg-[#74df98] text-[#064e3b] font-bold text-xs transition-all cursor-pointer border-none"
+                className="px-4 py-2.5 rounded-lg bg-mint-green hover:bg-mint-green/85 text-dark-green-text font-bold text-xs transition-all cursor-pointer border-none"
               >
                 Create your first group
               </button>

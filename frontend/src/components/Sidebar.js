@@ -11,10 +11,10 @@ function NavItem({ icon: Icon, label, to, disabled, isActive }) {
   if (disabled) {
     return (
       <div
-        className="flex items-center gap-3 px-4 py-2.5 mx-3 text-white/20 font-medium text-sm cursor-not-allowed select-none opacity-40 transition-all text-left"
+        className="flex items-center gap-3 px-4 py-2.5 mx-3 text-white/20 font-semibold text-sm cursor-not-allowed select-none opacity-40 transition-all text-left"
         title="Create a group first to access this section"
       >
-        {Icon && <Icon className="h-4 w-4 animate-pulse" />}
+        {Icon && <Icon className="h-4.5 w-4.5 animate-pulse" />}
         <span>{label}</span>
       </div>
     );
@@ -23,13 +23,13 @@ function NavItem({ icon: Icon, label, to, disabled, isActive }) {
   return (
     <Link
       href={to}
-      className={`flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer transition-all duration-150 rounded-lg text-left ${
+      className={`flex items-center gap-3 px-4 py-3 mx-3 font-semibold text-sm cursor-pointer transition-all duration-150 rounded-full text-left ${
         isActive
-          ? 'bg-sidebar-active text-white'
+          ? 'bg-sidebar-active text-white shadow-xs'
           : 'text-sidebar-text/80 hover:bg-white/5 hover:text-white'
       }`}
     >
-      {Icon && <Icon className="h-4 w-4" />}
+      {Icon && <Icon className="h-4.5 w-4.5" />}
       <span>{label}</span>
     </Link>
   );
@@ -141,15 +141,15 @@ function Sidebar() {
   };
 
   return (
-    <aside className="sidebar flex flex-col justify-between select-none relative z-45 bg-sidebar-bg text-sidebar-text">
-      <div className="flex flex-col flex-1">
+    <aside className="sidebar flex flex-col justify-between select-none relative z-45 bg-sidebar-bg text-sidebar-text h-full">
+      <div className="flex flex-col flex-1 h-full">
         {/* Logo and Brand */}
-        <div className="flex items-center gap-3 px-6 py-5 text-left border-b border-white/5 bg-slate-950/15">
-          <div className="h-9 w-9 rounded-full bg-sidebar-active flex items-center justify-center text-white flex-shrink-0">
-            <TreePine className="h-5 w-5" />
+        <div className="flex items-center gap-3 px-6 py-6 text-left border-b border-white/5 bg-slate-950/15">
+          <div className="h-10 w-10 rounded-full bg-sidebar-active flex items-center justify-center text-white flex-shrink-0">
+            <TreePine className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-white font-extrabold text-sm tracking-tight leading-none">Forest Ledger</div>
+            <div className="text-white font-extrabold text-base tracking-tight leading-none">Forest Ledger</div>
             <div className="text-[10px] text-sidebar-text/70 mt-1 leading-none font-semibold">Student Group</div>
             <div className="text-[10px] text-sidebar-text/70 mt-0.5 leading-none font-semibold">Finances</div>
           </div>
@@ -205,7 +205,7 @@ function Sidebar() {
         )}
 
         {/* Main Nav */}
-        <nav className="sidebar-nav py-4 flex flex-col gap-1">
+        <nav className="sidebar-nav py-4 flex flex-col flex-1 gap-1.5 h-full">
           <NavItem
             icon={LayoutGrid}
             label="Dashboard"
@@ -245,10 +245,13 @@ function Sidebar() {
             isActive={checkActive('import')}
           />
 
+          {/* Spacer to push "+ Create New Group" to bottom of Nav area */}
+          <div className="flex-1 min-h-[20px]"></div>
+
           {/* Bottom create group launcher button styled like in screenshot */}
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2.5 px-4 py-2.5 mx-3 mt-6 bg-mint-green hover:bg-mint-green/95 text-dark-green-text font-bold text-xs rounded-lg transition-all cursor-pointer border-none shadow-sm"
+            className="flex items-center justify-center gap-2.5 px-4 py-3 mx-3 mb-2 bg-mint-green hover:bg-[#72df9b] text-dark-green-text font-bold text-xs rounded-full transition-all cursor-pointer border-none shadow-sm"
           >
             <Plus className="h-4.5 w-4.5" />
             <span>Create New Group</span>
@@ -257,7 +260,7 @@ function Sidebar() {
       </div>
 
       {/* User Footer info showing settings and logout as items */}
-      <div className="py-4 flex flex-col gap-0.5 border-t border-white/5 bg-slate-950/5">
+      <div className="py-3 flex flex-col gap-0.5 border-t border-white/5 bg-slate-950/15">
         <Link
           href="#"
           className="flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer rounded-lg text-sidebar-text/80 hover:bg-white/5 hover:text-white text-left"

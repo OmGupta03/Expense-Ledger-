@@ -233,14 +233,16 @@ export default function Dashboard() {
                   setIsModalOpen(true);
                 }
               }}
-              className="px-4 py-1.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
+              className="px-5 py-1.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
             >
               Invite Member
             </button>
 
-            <div className="h-8 w-8 rounded-full bg-green-pri border border-white flex items-center justify-center text-white text-xs font-extrabold select-none shadow-sm cursor-pointer">
-              {(profile?.name || user.email)[0].toUpperCase()}
-            </div>
+            <img 
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop" 
+              alt="Profile" 
+              className="h-8 w-8 rounded-full object-cover border border-gray-200 shadow-xs cursor-pointer"
+            />
           </div>
         </div>
 
@@ -259,15 +261,17 @@ export default function Dashboard() {
             <div className="flex items-center gap-2">
               <button
                 onClick={handleAddExpenseClick}
-                className="flex items-center gap-2 px-4 py-2.5 bg-mint-green hover:bg-mint-green/85 text-dark-green-text font-bold rounded-lg shadow-sm transition-all cursor-pointer text-xs border-none"
+                className="flex items-center gap-2 px-5 py-2.5 bg-mint-green hover:bg-[#72df9b] text-dark-green-text font-extrabold rounded-full shadow-sm transition-all cursor-pointer text-xs border-none"
               >
-                <Plus className="h-4 w-4" />
+                <div className="flex items-center justify-center h-4.5 w-4.5 rounded-full bg-[#0e5c3e] text-white">
+                  <Plus className="h-3 w-3" strokeWidth={3} />
+                </div>
                 <span>Add Expense</span>
               </button>
               
               <button
                 onClick={() => setIsCsvImportOpen(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-bold rounded-lg shadow-sm transition-all cursor-pointer text-xs border border-gray-300"
+                className="flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-extrabold rounded-full shadow-sm transition-all cursor-pointer text-xs border border-gray-300"
               >
                 <Upload className="h-4 w-4 text-gray-500" />
                 <span>Upload CSV</span>
@@ -281,7 +285,7 @@ export default function Dashboard() {
             <div className="flex-1 text-left space-y-4">
               <div>
                 <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">Overall Balance</p>
-                <div className="flex flex-col gap-1.5 mt-2.5">
+                <div className="flex flex-col gap-1 mt-2.5">
                   <div className={`text-3xl font-extrabold tracking-tight ${
                     overallBalanceINR > 0.01 
                       ? 'text-green-owed' 
@@ -363,7 +367,7 @@ export default function Dashboard() {
 
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-green-pri hover:bg-green-dark text-white shadow-sm font-bold text-xs transition-all cursor-pointer border-none"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#0e5c3e] hover:bg-[#0b4a32] text-white shadow-sm font-bold text-xs transition-all cursor-pointer border-none"
               >
                 <Plus className="h-4 w-4" />
                 <span>Create Group</span>
@@ -390,7 +394,7 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-4 py-2.5 rounded-lg bg-mint-green hover:bg-mint-green/85 text-dark-green-text font-bold text-xs transition-all cursor-pointer border-none"
+                className="px-6 py-2.5 rounded-full bg-mint-green hover:bg-[#72df9b] text-dark-green-text font-bold text-xs transition-all cursor-pointer border-none"
               >
                 Create your first group
               </button>
@@ -400,77 +404,108 @@ export default function Dashboard() {
               <p className="text-text-muted text-sm font-semibold">No groups matching &quot;{searchQuery}&quot;</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredGroups.map((group) => {
-                const balance = groupBalances[group.id] || { INR: 0, USD: 0 };
+                const balance = groupBalances[group.id] || { consolidated: 0, INR: 0, USD: 0, member_count: 1 };
+                const inrVal = balance.INR || 0;
+                const usdVal = balance.USD || 0;
+
+                let statusText = "SETTLED UP";
+                let statusBg = "bg-[#f1f5f9] text-[#6b7280]";
+                
+                if (balance.consolidated > 0.01) {
+                  statusText = "YOU ARE OWED";
+                  statusBg = "bg-[#dcfce7] text-[#15803d]";
+                } else if (balance.consolidated < -0.01) {
+                  statusText = "YOU OWE";
+                  statusBg = "bg-[#fee2e2] text-[#b91c1c]";
+                }
+
+                const renderCardBalance = () => {
+                  const hasInr = Math.abs(inrVal) > 0.01;
+                  const hasUsd = Math.abs(usdVal) > 0.01;
+                  
+                  if (!hasInr && !hasUsd) {
+                    return <p className="font-extrabold text-sm text-text-primary">$0.00</p>;
+                  }
+                  
+                  return (
+                    <div className="flex flex-col">
+                      {hasInr && (
+                        <p className={`font-extrabold text-sm ${inrVal > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
+                          {inrVal > 0 ? '+' : '-'}₹{Math.abs(inrVal).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        </p>
+                      )}
+                      {hasUsd && (
+                        <p className={`font-extrabold text-sm ${usdVal > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
+                          {usdVal > 0 ? '+' : '-'}${Math.abs(usdVal).toFixed(2)}
+                        </p>
+                      )}
+                    </div>
+                  );
+                };
+
                 return (
-                  <div key={group.id} className="relative group/card">
-                    <Link
-                      href={`/groups/${group.id}`}
-                      className="group flex items-center justify-between p-5 bg-white hover:bg-gray-50 border border-border-custom hover:border-green-pri/40 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md pr-14"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className="h-10 w-10 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 group-hover:bg-[#e8f5e9] group-hover:text-green-pri transition-all duration-300">
-                          <Users className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <h3 className="font-extrabold text-gray-950 text-sm group-hover:text-green-pri transition-colors text-left">
-                            {group.name}
-                          </h3>
-                          <p className="text-text-muted text-[10px] mt-0.5 text-left font-semibold">
-                            Created {new Date(group.created_at).toLocaleDateString()}
-                          </p>
+                  <div key={group.id} className="relative group/card bg-white border border-border-custom hover:border-green-pri/40 rounded-2xl p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[170px]">
+                    
+                    {/* Top Row with Icon and Badge/Delete */}
+                    <div className="flex justify-between items-start">
+                      <div className="h-10 w-10 rounded-xl bg-[#e8f5e9] flex items-center justify-center text-green-pri">
+                        <Users className="h-5 w-5" />
+                      </div>
+                      
+                      <div className="absolute top-6 right-6">
+                        <span className={`group-hover/card:hidden inline-block px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider ${statusBg}`}>
+                          {statusText}
+                        </span>
+                        <button
+                          onClick={(e) => handleDeleteGroup(e, group.id, group.name)}
+                          className="group-hover/card:inline-flex hidden items-center justify-center p-1.5 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 text-red-owe hover:text-red-700 transition-all cursor-pointer"
+                          title={`Delete ${group.name}`}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Group Info */}
+                    <div className="mt-4 text-left">
+                      <h3 className="font-extrabold text-gray-950 text-sm group-hover/card:text-green-pri transition-colors">
+                        {group.name}
+                      </h3>
+                      <p className="text-text-muted text-[11px] mt-0.5 font-semibold">
+                        {balance.member_count} member{balance.member_count !== 1 ? 's' : ''}
+                      </p>
+                    </div>
+
+                    {/* Divider */}
+                    <hr className="border-gray-100 my-4" />
+
+                    {/* Bottom balance and view details */}
+                    <div className="flex items-center justify-between">
+                      <div className="text-left">
+                        <p className="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider">Your Balance</p>
+                        <div className="mt-0.5">
+                          {renderCardBalance()}
                         </div>
                       </div>
+                      
+                      <Link
+                        href={`/groups/${group.id}`}
+                        className="flex items-center gap-0.5 text-xs font-bold text-green-pri hover:text-[#0b4a32] transition-colors cursor-pointer"
+                      >
+                        <span>View Details</span>
+                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
+                    </div>
 
-                      <div className="text-right flex flex-col gap-1">
-                        {/* Display INR */}
-                        {(balance.INR > 0.01 || balance.INR < -0.01) && (
-                          <div>
-                            <p className="text-[9px] uppercase font-bold tracking-wider text-text-muted">
-                              {balance.INR > 0 ? 'owed' : 'owe'} (INR)
-                            </p>
-                            <p className={`font-extrabold text-xs mt-0.5 ${balance.INR > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
-                              ₹{Math.abs(balance.INR).toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                            </p>
-                          </div>
-                        )}
-                        
-                        {/* Display USD */}
-                        {(balance.USD > 0.01 || balance.USD < -0.01) && (
-                          <div>
-                            <p className="text-[9px] uppercase font-bold tracking-wider text-text-muted">
-                              {balance.USD > 0 ? 'owed' : 'owe'} (USD)
-                            </p>
-                            <p className={`font-extrabold text-xs mt-0.5 ${balance.USD > 0 ? 'text-green-owed' : 'text-red-owe'}`}>
-                              ${Math.abs(balance.USD).toFixed(2)}
-                            </p>
-                          </div>
-                        )}
-
-                        {/* Settled up */}
-                        {Math.abs(balance.INR || 0) <= 0.01 && Math.abs(balance.USD || 0) <= 0.01 && (
-                          <div>
-                            <p className="text-[9px] uppercase font-bold tracking-wider text-text-muted">settled up</p>
-                            <p className="font-bold text-text-muted text-xs mt-0.5">₹0.00</p>
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-
-                    <button
-                      onClick={(e) => handleDeleteGroup(e, group.id, group.name)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 text-red-owe hover:text-red-700 transition-all opacity-100 md:opacity-0 md:group-hover/card:opacity-100 focus:opacity-100 z-10 cursor-pointer"
-                      title={`Delete ${group.name}`}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
                   </div>
                 );
               })}
             </div>
           )}
-
 
         </div>
 

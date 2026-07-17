@@ -110,7 +110,7 @@ export async function deleteGroup(groupId) {
 // 2. EXPENSE OPERATIONS (Reads: Direct DB; Writes: Backend API)
 // ==========================================
 
-export async function addExpense(groupId, paidBy, description, amount, splitType, splits, currency = 'INR') {
+export async function addExpense(groupId, paidBy, description, amount, splitType, splits, currency = 'INR', createdAt = null) {
   return request('/api/expenses', {
     method: 'POST',
     body: JSON.stringify({
@@ -121,6 +121,7 @@ export async function addExpense(groupId, paidBy, description, amount, splitType
       splitType,
       splits,
       currency,
+      createdAt,
     }),
   });
 }

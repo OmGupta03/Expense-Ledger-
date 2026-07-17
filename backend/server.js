@@ -382,7 +382,7 @@ app.delete('/api/groups/:groupId', async (req, res) => {
 app.post('/api/expenses', async (req, res) => {
   const client = getClient(req);
   try {
-    const { groupId, paidBy, description, amount, splitType, splits, currency } = req.body;
+    const { groupId, paidBy, description, amount, splitType, splits, currency, createdAt } = req.body;
     const finalCurrency = currency || 'INR';
 
     if (!groupId || !description || amount === undefined || amount === null || amount === '' || isNaN(parseFloat(amount)) || !splitType || !splits || splits.length === 0) {
@@ -408,6 +408,7 @@ app.post('/api/expenses', async (req, res) => {
           amount: parseFloat(amount),
           split_type: splitType,
           currency: finalCurrency,
+          ...(createdAt && { created_at: new Date(createdAt).toISOString() }),
         },
       ])
       .select()

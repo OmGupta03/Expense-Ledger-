@@ -1945,17 +1945,9 @@ export default function GroupDetailPage() {
                   <div className="bg-white rounded-3xl border border-border-custom p-16 text-center shadow-sm max-w-xl mx-auto my-12 text-left">
                     <span className="text-5xl block mb-4 select-none">🤝</span>
                     <h3 className="text-lg font-extrabold text-text-primary mb-2">This group has no settlements yet</h3>
-                    <p className="text-xs text-text-muted max-w-sm mx-auto mb-6">
+                    <p className="text-xs text-text-muted max-w-sm mx-auto">
                       Record a settle up transaction between group members to clear off outstanding balances.
                     </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                      <button
-                        onClick={openGenericSettlementModal}
-                        className="w-full sm:w-auto px-5 py-3 bg-green-pri hover:bg-green-light text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer border-none"
-                      >
-                        ➕ Settle Up
-                      </button>
-                    </div>
                   </div>
                 ) : (
                   <div className="bg-white border border-border-custom px-6 py-5 rounded-3xl shadow-sm">

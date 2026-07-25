@@ -965,7 +965,14 @@ export default function GroupDetailPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Date</label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">Date</label>
+                        {expDate && !isNaN(new Date(expDate + 'T00:00:00').getTime()) && (
+                          <span className="text-[10px] font-extrabold text-[#0e5c3e] bg-green-50 px-2 py-0.5 rounded-full border border-green-pri/20">
+                            {new Date(expDate + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                          </span>
+                        )}
+                      </div>
                       <input
                         type="date"
                         required

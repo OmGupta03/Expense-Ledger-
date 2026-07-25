@@ -7,16 +7,20 @@ import Avatar from './Avatar';
 import CreateGroupModal from './CreateGroupModal';
 import { LayoutGrid, CreditCard, Users, RefreshCw, FileSpreadsheet, Settings, LogOut, Plus, TreePine } from 'lucide-react';
 
-function NavItem({ icon: Icon, label, to, disabled, isActive }) {
-  if (disabled) {
+function NavItem({ icon: Icon, label, to, isActive, onClick }) {
+  if (onClick) {
     return (
-      <div
-        className="flex items-center gap-3 px-4 py-2.5 mx-3 text-white/20 font-semibold text-sm cursor-not-allowed select-none opacity-40 transition-all text-left"
-        title="Create a group first to access this section"
+      <button
+        onClick={onClick}
+        className={`w-[calc(100%-24px)] flex items-center gap-3 px-4 py-3 mx-3 font-semibold text-sm cursor-pointer transition-all duration-150 rounded-full text-left bg-transparent border-none ${
+          isActive
+            ? 'bg-sidebar-active text-white shadow-xs font-bold'
+            : 'text-sidebar-text/80 hover:bg-white/5 hover:text-white'
+        }`}
       >
-        {Icon && <Icon className="h-4.5 w-4.5 animate-pulse" />}
+        {Icon && <Icon className="h-4.5 w-4.5" />}
         <span>{label}</span>
-      </div>
+      </button>
     );
   }
 
@@ -25,7 +29,7 @@ function NavItem({ icon: Icon, label, to, disabled, isActive }) {
       href={to}
       className={`flex items-center gap-3 px-4 py-3 mx-3 font-semibold text-sm cursor-pointer transition-all duration-150 rounded-full text-left ${
         isActive
-          ? 'bg-sidebar-active text-white shadow-xs'
+          ? 'bg-sidebar-active text-white shadow-xs font-bold'
           : 'text-sidebar-text/80 hover:bg-white/5 hover:text-white'
       }`}
     >
@@ -217,7 +221,7 @@ function Sidebar() {
             icon={CreditCard}
             label="Expenses"
             to={resolvedGroupId ? `/groups/${resolvedGroupId}?tab=expenses` : '#'}
-            disabled={!hasGroupsTotal}
+            onClick={!hasGroupsTotal ? () => setShowCreateModal(true) : undefined}
             isActive={checkActive('expenses')}
           />
 
@@ -225,7 +229,7 @@ function Sidebar() {
             icon={Users}
             label="Members"
             to={resolvedGroupId ? `/groups/${resolvedGroupId}?tab=members` : '#'}
-            disabled={!hasGroupsTotal}
+            onClick={!hasGroupsTotal ? () => setShowCreateModal(true) : undefined}
             isActive={checkActive('members')}
           />
 
@@ -233,7 +237,7 @@ function Sidebar() {
             icon={RefreshCw}
             label="Settlements"
             to={resolvedGroupId ? `/groups/${resolvedGroupId}?tab=settlements` : '#'}
-            disabled={!hasGroupsTotal}
+            onClick={!hasGroupsTotal ? () => setShowCreateModal(true) : undefined}
             isActive={checkActive('settlements')}
           />
 
@@ -241,7 +245,7 @@ function Sidebar() {
             icon={FileSpreadsheet}
             label="CSV Importer"
             to={resolvedGroupId ? `/groups/${resolvedGroupId}/import` : '#'}
-            disabled={!hasGroupsTotal}
+            onClick={!hasGroupsTotal ? () => setShowCreateModal(true) : undefined}
             isActive={checkActive('import')}
           />
 

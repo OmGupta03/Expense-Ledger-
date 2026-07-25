@@ -4,6 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import { TreePine } from 'lucide-react';
 
 export default function RegisterPage() {
   const { user, signUp, loading } = useAuth();
@@ -60,73 +64,74 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-logo">
-          <div className="auth-logo-icon">🌲</div>
-          <span className="auth-logo-text">Settle Up</span>
+    <div className="min-h-screen flex items-center justify-center bg-bg-primary p-4">
+      <Card className="w-full max-w-sm flex flex-col gap-6 text-center select-none shadow-md">
+        
+        {/* Brand Logo Header */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-11 w-11 rounded-full bg-green-bg flex items-center justify-center text-green-pri">
+            <TreePine className="h-5.5 w-5.5" />
+          </div>
+          <span className="font-extrabold text-green-pri text-lg tracking-tight">Settle Up</span>
         </div>
 
-        <h2 className="auth-title">Create Account</h2>
-        <p className="auth-subtitle">Join a group of flatmates to track expenses</p>
+        <div className="text-center">
+          <h2 className="text-lg font-extrabold text-text-primary">Create Account</h2>
+          <p className="text-xs text-text-muted mt-1 font-semibold">Join a group of flatmates to track expenses</p>
+        </div>
 
         {error && (
-          <div className="auth-error">
+          <div className="bg-red-50 border border-red-200 text-red-owe px-4 py-2.5 rounded-xl text-left text-[11px] font-bold">
             <strong>Error:</strong> {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="text-left">
-            <label className="auth-label">Full Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="auth-input"
-              placeholder="e.g., Aisha"
-              required
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <Input
+            label="Full Name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. Aisha"
+            required
+          />
 
-          <div className="text-left">
-            <label className="auth-label">Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="auth-input"
-              placeholder="e.g., aisha@example.com"
-              required
-            />
-          </div>
+          <Input
+            label="Email Address"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="e.g. aisha@example.com"
+            required
+          />
 
-          <div className="text-left">
-            <label className="auth-label">Password (6+ chars)</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="auth-input"
-              placeholder="••••••••"
-              required
-            />
-          </div>
+          <Input
+            label="Password (min 6 chars)"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+          />
 
-          <button
+          <Button
             type="submit"
-            disabled={isSubmitting}
-            className="auth-btn"
+            variant="primary"
+            size="md"
+            loading={isSubmitting}
+            className="w-full mt-2"
           >
-            {isSubmitting ? 'Registering...' : 'Sign Up'}
-          </button>
+            Create Account
+          </Button>
         </form>
 
-        <p className="auth-footer">
+        <p className="text-[11px] font-bold text-text-muted">
           Already have an account?{' '}
-          <Link href="/login">Sign In</Link>
+          <Link href="/login" className="text-green-pri hover:underline ml-1">
+            Sign In
+          </Link>
         </p>
-      </div>
+      </Card>
     </div>
   );
 }

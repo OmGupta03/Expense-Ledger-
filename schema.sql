@@ -13,6 +13,15 @@
 -- ALTER TABLE public.expenses DROP CONSTRAINT IF EXISTS expenses_amount_check;
 -- 3. Add currency column in settlements
 -- ALTER TABLE public.settlements ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'INR';
+-- 4. Add payment_method, notes, status, and updated_at columns in settlements
+-- ALTER TABLE public.settlements ADD COLUMN IF NOT EXISTS payment_method text NOT NULL DEFAULT 'cash';
+-- ALTER TABLE public.settlements ADD COLUMN IF NOT EXISTS notes text;
+-- ALTER TABLE public.settlements ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'completed';
+-- ALTER TABLE public.settlements ADD COLUMN IF NOT EXISTS updated_at timestamp with time zone NOT NULL DEFAULT timezone('utc'::text, now());
+-- ALTER TABLE public.settlements DROP CONSTRAINT IF EXISTS check_payment_method;
+-- ALTER TABLE public.settlements ADD CONSTRAINT check_payment_method CHECK (payment_method IN ('cash', 'upi', 'bank_transfer'));
+-- ALTER TABLE public.settlements DROP CONSTRAINT IF EXISTS check_status;
+-- ALTER TABLE public.settlements ADD CONSTRAINT check_status CHECK (status IN ('completed', 'partial', 'reversed'));
 -- =========================================================================
 
 -- 1. Create Public Users Profile Table (decoupled from auth.users to allow unregistered members from CSV)
@@ -61,7 +70,7 @@ create table if not exists public.expense_splits (
     share numeric(10, 2)
 );
 
--- 6. Create Settlements Table (with currency support)
+-- 6. Create Settlements Table (with currency support, payment method, notes and status)
 create table if not exists public.settlements (
     id uuid default gen_random_uuid() primary key,
     group_id uuid references public.groups(id) on delete cascade not null,
@@ -69,7 +78,11 @@ create table if not exists public.settlements (
     payee_id uuid references public.users(id) on delete set null not null,
     amount numeric(12, 2) not null check (amount > 0),
     currency text not null default 'INR',
+    payment_method text not null default 'cash' check (payment_method in ('cash', 'upi', 'bank_transfer')),
+    notes text,
+    status text not null default 'completed' check (status in ('completed', 'partial', 'reversed')),
     created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
     check (payer_id <> payee_id)
 );
 

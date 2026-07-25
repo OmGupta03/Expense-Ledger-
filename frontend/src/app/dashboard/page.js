@@ -8,6 +8,7 @@ import { Plus, LogOut, Users, User, ArrowUpRight, ArrowDownLeft, RefreshCw, File
 import Link from 'next/link';
 import CsvImporter from '@/components/CsvImporter';
 import Layout from '@/components/Layout';
+import Header from '@/components/Header';
 
 export default function Dashboard() {
   const { user, profile, loading, signOut } = useAuth();
@@ -191,60 +192,33 @@ export default function Dashboard() {
     <Layout>
       <div className="w-full flex-1 flex flex-col bg-[#f8fafc] overflow-hidden h-full">
         {/* Top Header Bar */}
-        <div className="bg-white border-b border-border-custom px-8 py-4 flex justify-between items-center flex-shrink-0">
-          {/* Search bar */}
-          <div className="relative w-80">
-            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
-              <Search className="h-4 w-4" />
-            </span>
-            <input
-              type="text"
-              placeholder="Search transactions or groups..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-1.5 bg-[#f1f5f9] border border-transparent rounded-full text-sm text-text-primary placeholder-gray-400 focus:outline-none focus:bg-white focus:border-gray-300 transition-all text-left"
-            />
-          </div>
+        <Header 
+          placeholder="Search transactions or groups..." 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        >
+          <button
+            onClick={loadData}
+            disabled={dataLoading}
+            className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer border-none bg-transparent"
+            title="Refresh balances"
+          >
+            <RefreshCw className={`h-4.5 w-4.5 ${dataLoading ? 'animate-spin' : ''}`} />
+          </button>
 
-          {/* Right items */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={loadData}
-              disabled={dataLoading}
-              className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer border-none bg-transparent"
-              title="Refresh balances"
-            >
-              <RefreshCw className={`h-4.5 w-4.5 ${dataLoading ? 'animate-spin' : ''}`} />
-            </button>
-            
-            <button
-              className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer relative border-none bg-transparent"
-              title="Notifications"
-            >
-              <Bell className="h-4.5 w-4.5" />
-              <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
-            </button>
-
-            <button
-              onClick={() => {
-                if (groups.length > 0) {
-                  router.push(`/groups/${groups[0].id}?tab=members`);
-                } else {
-                  setIsModalOpen(true);
-                }
-              }}
-              className="px-5 py-1.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
-            >
-              Invite Member
-            </button>
-
-            <img 
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop" 
-              alt="Profile" 
-              className="h-8 w-8 rounded-full object-cover border border-gray-200 shadow-xs cursor-pointer"
-            />
-          </div>
-        </div>
+          <button
+            onClick={() => {
+              if (groups.length > 0) {
+                router.push(`/groups/${groups[0].id}?tab=members`);
+              } else {
+                setIsModalOpen(true);
+              }
+            }}
+            className="px-5 py-1.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
+          >
+            Invite Member
+          </button>
+        </Header>
 
         {/* Scrollable Dashboard Area */}
         <div className="page-body flex-1 space-y-6 py-8">
@@ -446,7 +420,11 @@ export default function Dashboard() {
                 };
 
                 return (
-                  <div key={group.id} className="relative group/card bg-white border border-border-custom hover:border-green-pri/40 rounded-2xl p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[170px]">
+                  <div 
+                    key={group.id} 
+                    onClick={() => router.push(`/groups/${group.id}`)}
+                    className="relative group/card bg-white border border-border-custom hover:border-green-pri/40 rounded-2xl p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[170px] cursor-pointer"
+                  >
                     
                     {/* Top Row with Icon and Badge/Delete */}
                     <div className="flex justify-between items-start">
@@ -492,6 +470,7 @@ export default function Dashboard() {
                       
                       <Link
                         href={`/groups/${group.id}`}
+                        onClick={(e) => e.stopPropagation()}
                         className="flex items-center gap-0.5 text-xs font-bold text-green-pri hover:text-[#0b4a32] transition-colors cursor-pointer"
                       >
                         <span>View Details</span>

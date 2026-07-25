@@ -4,6 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import { TreePine } from 'lucide-react';
 
 export default function LoginPage() {
   const { user, signIn, signInWithGoogle, loading } = useAuth();
@@ -62,57 +66,59 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-logo">
-          <div className="auth-logo-icon">🌲</div>
-          <span className="auth-logo-text">Settle Up</span>
+    <div className="min-h-screen flex items-center justify-center bg-bg-primary p-4">
+      <Card className="w-full max-w-sm flex flex-col gap-6 text-center select-none shadow-md">
+        
+        {/* Brand Logo Header */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-11 w-11 rounded-full bg-green-bg flex items-center justify-center text-green-pri">
+            <TreePine className="h-5.5 w-5.5" />
+          </div>
+          <span className="font-extrabold text-green-pri text-lg tracking-tight">Settle Up</span>
         </div>
 
-        <h2 className="auth-title">Welcome Back</h2>
-        <p className="auth-subtitle">Sign in to your shared expense portal</p>
+        <div className="text-center">
+          <h2 className="text-lg font-extrabold text-text-primary">Welcome Back</h2>
+          <p className="text-xs text-text-muted mt-1 font-semibold">Sign in to your shared expense portal</p>
+        </div>
 
         {error && (
-          <div className="auth-error">
+          <div className="bg-red-50 border border-red-200 text-red-owe px-4 py-2.5 rounded-xl text-left text-[11px] font-bold">
             <strong>Error:</strong> {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="text-left">
-            <label className="auth-label">Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="auth-input"
-              placeholder="e.g., aisha@example.com"
-              required
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <Input
+            label="Email Address"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="e.g., aisha@example.com"
+            required
+          />
 
-          <div className="text-left">
-            <label className="auth-label">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="auth-input"
-              placeholder="••••••••"
-              required
-            />
-          </div>
+          <Input
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+          />
 
-          <button
+          <Button
             type="submit"
-            disabled={isSubmitting}
-            className="auth-btn"
+            variant="primary"
+            size="md"
+            loading={isSubmitting}
+            className="w-full mt-2"
           >
-            {isSubmitting ? 'Verifying Account...' : 'Sign In'}
-          </button>
+            Sign In
+          </Button>
         </form>
 
-        <div className="flex items-center my-4">
+        <div className="flex items-center">
           <div className="flex-grow border-t border-border-custom opacity-50"></div>
           <span className="mx-3 text-text-muted text-[10px] uppercase font-bold tracking-wider">or</span>
           <div className="flex-grow border-t border-border-custom opacity-50"></div>
@@ -121,9 +127,9 @@ export default function LoginPage() {
         <button
           onClick={handleGoogleSignIn}
           type="button"
-          className="w-full py-3 px-4 border border-border-custom rounded-xl font-semibold text-xs flex items-center justify-center gap-2 hover:bg-slate-50 transition-all cursor-pointer bg-white text-text-primary mb-3 shadow-xs"
+          className="w-full py-3 px-4 border border-border-custom rounded-full font-bold text-xs flex items-center justify-center gap-2 hover:bg-slate-50 transition-all cursor-pointer bg-white text-text-primary shadow-xs"
         >
-          <svg className="h-4 w-4" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+          <svg className="h-4.5 w-4.5" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
             <g transform="matrix(1, 0, 0, 1, 0, 0)">
               <path d="M21.35,11.1H12v2.7h5.38c-0.24,1.28 -0.96,2.37 -2.04,3.1v2.58h3.3c1.93,-1.78 3.04,-4.4 3.04,-7.38C21.68,11.83 21.56,11.43 21.35,11.1z" fill="#4285F4" />
               <path d="M12,20.62c2.6,0 4.78,-0.86 6.38,-2.34l-3.3,-2.58c-0.91,0.61 -2.08,0.98 -3.08,0.98 -2.38,0 -4.39,-1.61 -5.11,-3.77H3.45v2.66C5.07,18.8 8.35,20.62 12,20.62z" fill="#34A853" />
@@ -131,14 +137,16 @@ export default function LoginPage() {
               <path d="M12,5.38c1.41,0 2.68,0.49 3.68,1.44l2.76,-2.76C16.78,2.51 14.6,1.62 12,1.62c-3.65,0 -6.93,1.82 -8.55,4.78l3.44,2.66C7.61,6.99 9.62,5.38 12,5.38z" fill="#EA4335" />
             </g>
           </svg>
-          Sign In with Google
+          <span>Sign In with Google</span>
         </button>
 
-        <p className="auth-footer">
+        <p className="text-[11px] font-bold text-text-muted">
           Don&apos;t have an account?{' '}
-          <Link href="/register">Sign Up</Link>
+          <Link href="/register" className="text-green-pri hover:underline ml-1">
+            Sign Up
+          </Link>
         </p>
-      </div>
+      </Card>
     </div>
   );
 }

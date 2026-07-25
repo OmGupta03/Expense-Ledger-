@@ -262,15 +262,19 @@ function Sidebar() {
       {/* User Footer info showing settings and logout as items */}
       <div className="py-3 flex flex-col gap-0.5 border-t border-white/5 bg-slate-950/15">
         <Link
-          href="#"
-          className="flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer rounded-lg text-sidebar-text/80 hover:bg-white/5 hover:text-white text-left"
+          href="/settings"
+          className={`flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer rounded-full text-left transition-all duration-150 ${
+            pathname === '/settings'
+              ? 'bg-mint-green text-dark-green-text shadow-xs font-bold'
+              : 'text-sidebar-text/80 hover:bg-white/5 hover:text-white'
+          }`}
         >
           <Settings className="h-4 w-4" />
-          <span>Profile Settings</span>
+          <span>Settings</span>
         </Link>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer rounded-lg text-sidebar-text/80 hover:bg-white/5 hover:text-white text-left border-none bg-transparent w-[calc(100%-24px)]"
+          className="flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer rounded-full text-sidebar-text/80 hover:bg-white/5 hover:text-white text-left border-none bg-transparent w-[calc(100%-24px)] transition-all duration-150"
         >
           <LogOut className="h-4 w-4" />
           <span>Logout</span>

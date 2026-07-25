@@ -11,19 +11,21 @@
   --green-bg:       #e8f5e9;   /* light green tint backgrounds */
   --green-dark:     #1b5e20;   /* pressed / dark accent */
 
-  /* Semantic colors */
-  --red-owe:        #c62828;   /* "you owe" amounts */
-  --green-owed:     #2e7d32;   /* "you are owed" amounts */
-  --orange:         #ef6c00;   /* warnings, flagged items */
-  --purple:         #7b1fa2;   /* group/trip accents */
+  /* Neutral/Background scales - structured for dark mode support */
+  --bg-primary:     #f8fafc;   /* light mode primary background (slate-50) */
+  --bg-secondary:   #ffffff;   /* light mode secondary background (white) */
+  --bg-tertiary:    #f1f5f9;   /* light mode tertiary background (slate-100) */
+  
+  --text-primary:   #0f172a;   /* light mode dark slate text (slate-900) */
+  --text-secondary: #475569;   /* light mode muted slate text (slate-600) */
+  --text-muted:     #94a3b8;   /* light mode muted text (slate-400) */
+  --border:         #e2e8f0;   /* light mode border (slate-200) */
 
-  /* Neutrals */
-  --white:          #ffffff;
-  --grey-bg:        #f5f5f5;   /* page background */
-  --grey-light:     #fafafa;
-  --border:         #e0e0e0;
-  --text-primary:   #212121;
-  --text-muted:     #757575;
+  /* Semantic colors */
+  --red-owe:        #dc2626;   /* "you owe" amounts (red-600) */
+  --green-owed:     #16a34a;   /* "you are owed" amounts (green-600) */
+  --orange:         #ea580c;   /* warnings, flagged items (orange-600) */
+  --purple:         #7c3aed;   /* group/trip accents (violet-600) */
 
   /* Sidebar & Dashboard mockup theme colors */
   --sidebar-bg:     #042318;
@@ -31,6 +33,37 @@
   --sidebar-active: #0d5f41;
   --mint-green:     #86efac;
   --dark-green-text: #022c22;
+  
+  /* Neutrals for compatibility layer */
+  --white:          #ffffff;
+  --grey-bg:        #f8fafc;
+  --grey-light:     #f1f5f9;
+
+  /* Border radius custom tokens */
+  --radius-sm:      6px;
+  --radius-md:      12px;
+  --radius-lg:      20px;
+
+  /* Shadow custom tokens */
+  --shadow-sm:      0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md:      0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:      0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Future-ready Dark Mode Variable Overrides */
+.dark {
+  --bg-primary:     #0f172a;   /* dark mode primary background */
+  --bg-secondary:   #1e293b;   /* dark mode secondary card background */
+  --bg-tertiary:    #334155;   /* dark mode tertiary background */
+  
+  --text-primary:   #f8fafc;   /* light slate text */
+  --text-secondary: #cbd5e1;   /* slate-300 secondary text */
+  --text-muted:     #64748b;   /* slate-500 muted text */
+  --border:         #334155;   /* slate-700 border */
+  
+  --grey-bg:        #0f172a;
+  --grey-light:     #1e293b;
+  --white:          #1e293b;
 }
 
 @theme {
@@ -38,17 +71,34 @@
   --color-green-light: var(--green-light);
   --color-green-bg: var(--green-bg);
   --color-green-dark: var(--green-dark);
+  
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  
   --color-red-owe: var(--red-owe);
   --color-green-owed: var(--green-owed);
   --color-orange: var(--orange);
   --color-purple: var(--purple);
-  --color-grey-bg: var(--grey-bg);
+  
   --color-sidebar-bg: var(--sidebar-bg);
   --color-sidebar-text: var(--sidebar-text);
   --color-sidebar-active: var(--sidebar-active);
   --color-mint-green: var(--mint-green);
   --color-dark-green-text: var(--dark-green-text);
   --color-border-custom: var(--border);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
 }
 
 /* ──────────── BASE ──────────── */

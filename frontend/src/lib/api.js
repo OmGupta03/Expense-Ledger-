@@ -183,7 +183,7 @@ export async function deleteExpense(expenseId) {
 // 3. SETTLEMENT OPERATIONS (Reads: Direct DB; Writes: Backend API)
 // ==========================================
 
-export async function recordSettlement(groupId, payerId, payeeId, amount, currency = 'INR') {
+export async function recordSettlement(groupId, payerId, payeeId, amount, currency = 'INR', paymentMethod = 'cash', notes = '', status = 'completed') {
   return request('/api/settlements', {
     method: 'POST',
     body: JSON.stringify({
@@ -192,6 +192,9 @@ export async function recordSettlement(groupId, payerId, payeeId, amount, curren
       payeeId,
       amount,
       currency,
+      paymentMethod,
+      notes,
+      status
     }),
   });
 }
@@ -244,23 +247,7 @@ export async function fetchExpenseChat(expenseId) {
 // 5. LEDGER AND BALANCES (Client-side logic + Direct DB Reads)
 // ==========================================
 
-export async function calculateBalancesAndDebts(groupId) {
-  // 1. Fetch group members
-  const { data: membersData, error: membersError } = await supabase
-    .from('group_members')
-    .select(`
-      user_id,
-      users (
-        id,
-        email,
-        name
-      )
-    `)
-    .eq('group_id', groupId);
-
-  if (membersError) throw membersError;
-  const members = membersData.map((item) => item.users).filter(Boolean);
-
+export function computeBalancesAndDebts(members, expenses, splits, settlements) {
   const memberMap = {};
   members.forEach((m) => {
     memberMap[m.id] = m;
@@ -277,14 +264,6 @@ export async function calculateBalancesAndDebts(groupId) {
     netBalancesByCurrency.USD[m.id] = 0;
   });
 
-  // 2. Fetch all expenses
-  const { data: expenses, error: expError } = await supabase
-    .from('expenses')
-    .select('id, paid_by, amount, currency')
-    .eq('group_id', groupId);
-
-  if (expError) throw expError;
-
   // Add payments to net balances
   expenses.forEach((e) => {
     const curr = e.currency === 'USD' ? 'USD' : 'INR';
@@ -293,43 +272,27 @@ export async function calculateBalancesAndDebts(groupId) {
     }
   });
 
-  // 3. Fetch all splits for those expenses
-  const expenseIds = expenses.map((e) => e.id);
   const expenseMap = {};
   expenses.forEach((e) => {
     expenseMap[e.id] = e;
   });
 
-  if (expenseIds.length > 0) {
-    const { data: splits, error: splitError } = await supabase
-      .from('expense_splits')
-      .select('user_id, amount, expense_id')
-      .in('expense_id', expenseIds);
-
-    if (splitError) throw splitError;
-
-    // Deduct splits
-    splits.forEach((s) => {
-      const exp = expenseMap[s.expense_id];
-      if (exp) {
-        const curr = exp.currency === 'USD' ? 'USD' : 'INR';
-        if (netBalancesByCurrency[curr][s.user_id] !== undefined) {
-          netBalancesByCurrency[curr][s.user_id] -= parseFloat(s.amount);
-        }
+  // Deduct splits
+  splits.forEach((s) => {
+    const exp = expenseMap[s.expense_id];
+    if (exp) {
+      const curr = exp.currency === 'USD' ? 'USD' : 'INR';
+      if (netBalancesByCurrency[curr][s.user_id] !== undefined) {
+        netBalancesByCurrency[curr][s.user_id] -= parseFloat(s.amount);
       }
-    });
-  }
+    }
+  });
 
-  // 4. Fetch settlements
-  const { data: settlements, error: setError } = await supabase
-    .from('settlements')
-    .select('payer_id, payee_id, amount, currency')
-    .eq('group_id', groupId);
-
-  if (setError) throw setError;
-
+  // Fetch settlements and adjust balances
   settlements.forEach((s) => {
     const curr = s.currency === 'USD' ? 'USD' : 'INR';
+    if (s.status === 'reversed') return;
+
     if (netBalancesByCurrency[curr][s.payer_id] !== undefined) {
       netBalancesByCurrency[curr][s.payer_id] += parseFloat(s.amount);
     }
@@ -345,7 +308,7 @@ export async function calculateBalancesAndDebts(groupId) {
     });
   });
 
-  // 5. Greedy Debt Simplification
+  // Greedy Debt Simplification
   const simplifiedDebtsByCurrency = {
     INR: [],
     USD: []
@@ -420,4 +383,67 @@ export async function calculateBalancesAndDebts(groupId) {
     netBalancesByCurrency,
     simplifiedDebtsByCurrency
   };
+}
+
+export async function calculateBalancesAndDebts(groupId) {
+  // 1. Fetch group members
+  const { data: membersData, error: membersError } = await supabase
+    .from('group_members')
+    .select(`
+      user_id,
+      users (
+        id,
+        email,
+        name
+      )
+    `)
+    .eq('group_id', groupId);
+
+  if (membersError) throw membersError;
+  const members = membersData.map((item) => item.users).filter(Boolean);
+
+  // 2. Fetch all expenses
+  const { data: expenses, error: expError } = await supabase
+    .from('expenses')
+    .select('id, paid_by, amount, currency')
+    .eq('group_id', groupId);
+
+  if (expError) throw expError;
+
+  // 3. Fetch all splits for those expenses
+  const expenseIds = expenses.map((e) => e.id);
+  let splits = [];
+  if (expenseIds.length > 0) {
+    const { data: splitsData, error: splitError } = await supabase
+      .from('expense_splits')
+      .select('user_id, amount, expense_id')
+      .in('expense_id', expenseIds);
+
+    if (splitError) throw splitError;
+    splits = splitsData;
+  }
+
+  // 4. Fetch settlements
+  let settlements = [];
+  const { data: settlementsData, error: setError } = await supabase
+    .from('settlements')
+    .select('payer_id, payee_id, amount, currency, status')
+    .eq('group_id', groupId);
+
+  if (setError) {
+    if (setError.code === '42703') {
+      const { data: retryData, error: retryError } = await supabase
+        .from('settlements')
+        .select('payer_id, payee_id, amount, currency')
+        .eq('group_id', groupId);
+      if (retryError) throw retryError;
+      settlements = (retryData || []).map(s => ({ ...s, status: 'completed' }));
+    } else {
+      throw setError;
+    }
+  } else {
+    settlements = settlementsData || [];
+  }
+
+  return computeBalancesAndDebts(members, expenses, splits, settlements);
 }

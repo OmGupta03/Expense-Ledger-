@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase';
 import { addExpense, recordSettlement } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import Layout from '@/components/Layout';
+import Header from '@/components/Header';
 import Avatar from '@/components/Avatar';
 import { getCategoryIcon } from '@/utils/categoryIcons';
 import { FileSpreadsheet, AlertTriangle, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
@@ -69,8 +70,15 @@ function generateUUID() {
 export default function ImportPage() {
   const params = useParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const groupId = params.id;
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
 
   useEffect(() => {
     if (groupId && typeof window !== 'undefined') {
@@ -97,6 +105,15 @@ export default function ImportPage() {
       setError('');
     }
   };
+
+  if (loading || !user) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner"></div>
+        <p className="loading-text">Loading session...</p>
+      </div>
+    );
+  }
 
   const handleUpload = (e) => {
     e.preventDefault();
@@ -786,21 +803,24 @@ export default function ImportPage() {
         }
       }
 
-      // 3. Ensure members are added to the group
+      // Create a separate group automatically for this import to avoid conflict
+      setImportStatus('Creating a new group for this import...');
+      const cleanFileName = file ? file.name.replace(/\.[^/.]+$/, "") : "Group";
+      const newGroupName = `Imported - ${cleanFileName}`;
+      const newGroupId = generateUUID();
+      
+      const { error: groupError } = await supabase
+        .from('groups')
+        .insert([{ id: newGroupId, name: newGroupName }]);
+        
+      if (groupError) throw groupError;
+
+      // Add all identified/created members to this new group
       setImportStatus('Adding group members...');
-      const { data: currentMembers } = await supabase
-        .from('group_members')
-        .select('user_id')
-        .eq('group_id', groupId);
-
-      const existingMemberIds = new Set((currentMembers || []).map(m => m.user_id));
-
-      const memberInserts = Object.values(userMappings)
-        .filter(uid => !existingMemberIds.has(uid))
-        .map(uid => ({
-          group_id: groupId,
-          user_id: uid
-        }));
+      const memberInserts = Object.values(userMappings).map(uid => ({
+        group_id: newGroupId,
+        user_id: uid
+      }));
 
       if (memberInserts.length > 0) {
         const { error: memberError } = await supabase
@@ -810,7 +830,7 @@ export default function ImportPage() {
         if (memberError) throw memberError;
       }
 
-      // 4. Ingest selected rows row-by-row
+      // 4. Ingest selected rows row-by-row into the new group
       const rowsToImport = parsingData.reports.filter(r => selectedRows[r.rowIndex]);
       let expensesCount = 0;
       let settlementsCount = 0;
@@ -831,7 +851,7 @@ export default function ImportPage() {
           const payeeName = row.splitWithNames[0] || 'Unknown Payer';
           const payeeId = userMappings[payeeName] || userMappings['Unknown Payer'];
 
-          await recordSettlement(groupId, payerId, payeeId, Math.abs(row.amount), row.currency);
+          await recordSettlement(newGroupId, payerId, payeeId, Math.abs(row.amount), row.currency);
           settlementsCount++;
         } else if (row.amount === 0) {
           // Skip zero amounts
@@ -845,7 +865,7 @@ export default function ImportPage() {
 
             const settlementAmt = Math.abs(split.amount);
             if (settlementAmt > 0.01) {
-              await recordSettlement(groupId, payerId, payeeId, settlementAmt, row.currency);
+              await recordSettlement(newGroupId, payerId, payeeId, settlementAmt, row.currency);
             }
           }
           settlementsCount++;
@@ -859,7 +879,7 @@ export default function ImportPage() {
             share: s.share || null
           }));
 
-          await addExpense(groupId, paidByUuid, row.description, row.amount, row.split_type, mappedSplits, row.currency);
+          await addExpense(newGroupId, paidByUuid, row.description, row.amount, row.split_type, mappedSplits, row.currency);
           expensesCount++;
         }
       }
@@ -867,7 +887,8 @@ export default function ImportPage() {
       setImportSuccess({
         expensesCount,
         settlementsCount,
-        skippedCount: parsingData.reports.length - rowsToImport.length
+        skippedCount: parsingData.reports.length - rowsToImport.length,
+        newGroupId
       });
       setPhase('complete');
 
@@ -918,41 +939,42 @@ export default function ImportPage() {
     <Layout>
       <div className="w-full flex-1 flex flex-col bg-grey-bg overflow-hidden h-full">
         {/* Top Header Bar */}
-        <div className="bg-white border-b border-border-custom px-8 py-5 flex justify-between items-center flex-shrink-0 text-left">
-          <div>
-            <h1 className="text-xl font-bold text-text-primary tracking-tight">CSV Importer</h1>
-            <p className="text-xs text-text-muted mt-0.5">
-              {phase === 'upload' && 'Upload & validate your CSV flatmate logs'}
-              {phase === 'preview' && `Preview Report — ${stats?.total} rows, ${stats?.anomalyCount} anomalies detected`}
-              {phase === 'complete' && 'Import completed successfully'}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/groups/${groupId}`}
-              className="border border-border-custom px-4 py-2 hover:bg-slate-50 transition-colors text-xs font-semibold rounded-lg text-text-primary"
-            >
-              ← Back to Group
-            </Link>
-            {phase === 'preview' && (
-              <>
-                <button
-                  onClick={handleApproveAll}
-                  className="px-4 py-2 bg-white border border-green-pri text-green-pri text-xs font-semibold rounded-lg hover:bg-emerald-50 cursor-pointer transition-all"
-                >
-                  Approve All
-                </button>
-                <button
-                  onClick={handleImportConfirmed}
-                  disabled={importing}
-                  className="px-5 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-lg shadow-sm transition-all disabled:opacity-50 cursor-pointer"
-                >
-                  {importing ? '⏳ Importing...' : '✅ Confirm & Import'}
-                </button>
-              </>
-            )}
-          </div>
-        </div>
+        <Header
+          leftSection={
+            <div>
+              <h1 className="text-xl font-bold text-text-primary tracking-tight">CSV Importer</h1>
+              <p className="text-xs text-text-muted mt-0.5">
+                {phase === 'upload' && 'Upload & validate your CSV flatmate logs'}
+                {phase === 'preview' && `Preview Report — ${stats?.total} rows, ${stats?.anomalyCount} anomalies detected`}
+                {phase === 'complete' && 'Import completed successfully'}
+              </p>
+            </div>
+          }
+        >
+          <Link
+            href={`/groups/${groupId}`}
+            className="border border-border-custom px-4 py-2 hover:bg-slate-50 transition-colors text-xs font-semibold rounded-lg text-text-primary no-underline flex items-center justify-center h-8"
+          >
+            ← Back to Group
+          </Link>
+          {phase === 'preview' && (
+            <>
+              <button
+                onClick={handleApproveAll}
+                className="px-4 py-2 bg-white border border-green-pri text-green-pri text-xs font-semibold rounded-lg hover:bg-emerald-50 cursor-pointer transition-all h-8 flex items-center justify-center"
+              >
+                Approve All
+              </button>
+              <button
+                onClick={handleImportConfirmed}
+                disabled={importing}
+                className="px-5 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-lg shadow-sm transition-all disabled:opacity-50 cursor-pointer h-8 flex items-center justify-center border-none"
+              >
+                {importing ? '⏳ Importing...' : '✅ Confirm & Import'}
+              </button>
+            </>
+          )}
+        </Header>
 
         {/* Main Content Area */}
         <div className="page-body flex-1 overflow-y-auto space-y-6">
@@ -1200,10 +1222,10 @@ export default function ImportPage() {
                   📁 Import Another CSV
                 </button>
                 <Link
-                  href={`/groups/${groupId}`}
+                  href={`/groups/${importSuccess.newGroupId || groupId}`}
                   className="px-5 py-2.5 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-lg shadow-sm inline-flex items-center gap-1 transition-all"
                 >
-                  Return to Group Dashboard →
+                  Go to Imported Group →
                 </Link>
               </div>
             </div>

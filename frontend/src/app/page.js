@@ -39,10 +39,10 @@ const features = [
 ];
 
 export default function RootLandingPage() {
-  const { user, loading } = useAuth();
   const router = useRouter();
+  const { user, loading } = useAuth();
 
-  // If user is already logged in, redirect to dashboard
+  // Redirect to dashboard if already logged in
   useEffect(() => {
     if (user && !loading) {
       router.push('/dashboard');
@@ -52,15 +52,6 @@ export default function RootLandingPage() {
   const handleFeatureClick = () => {
     router.push('/login');
   };
-
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-spinner"></div>
-        <p className="loading-text">Loading Settle Up...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="landing-page text-text-primary">

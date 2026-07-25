@@ -19,6 +19,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   // Helper to fetch the profile from public.users with client-side auto-creation fallback
+  // Helper to fetch the profile from public.users with client-side auto-creation and sync fallback
   const fetchProfile = async (userId, userEmail = '', userName = '') => {
     try {
       const { data, error } = await supabase
@@ -32,9 +33,10 @@ export function AuthProvider({ children }) {
         return;
       }
 
+      const fallbackName = userName || userEmail?.split('@')[0] || 'User';
+
       if (!data) {
-        // Fallback: If no public profile exists (e.g. database trigger delay/lag), insert it now!
-        const fallbackName = userName || userEmail?.split('@')[0] || 'User';
+        // Fallback: If no public profile exists, insert it now with latest auth metadata!
         const newProfile = {
           id: userId,
           email: userEmail || '',
@@ -53,6 +55,20 @@ export function AuthProvider({ children }) {
           setProfile(insertedData);
         }
       } else {
+        // Sync name if OAuth/Auth user metadata provides a name and it differs or updates
+        if (userName && userName !== data.name) {
+          const { data: updatedData } = await supabase
+            .from('users')
+            .update({ name: userName })
+            .eq('id', userId)
+            .select()
+            .maybeSingle();
+
+          if (updatedData) {
+            setProfile(updatedData);
+            return;
+          }
+        }
         setProfile(data);
       }
     } catch (err) {
@@ -78,11 +94,12 @@ export function AuthProvider({ children }) {
         clearTimeout(safetyTimeout);
         if (session?.user) {
           setUser(session.user);
+          const oauthName = session.user.user_metadata?.full_name || session.user.user_metadata?.name;
           // Run fetchProfile in the background without blocking the UI loading state
           fetchProfile(
             session.user.id,
             session.user.email,
-            session.user.user_metadata?.name
+            oauthName
           ).catch((err) => {
             console.error('Failed to load profile in background:', err);
           });
@@ -122,10 +139,11 @@ export function AuthProvider({ children }) {
       setUser(data.user);
       // Wait briefly, then fetch/ensure the profile is created
       setTimeout(() => {
+        const oauthName = data.user.user_metadata?.full_name || data.user.user_metadata?.name || name;
         fetchProfile(
           data.user.id,
           data.user.email,
-          data.user.user_metadata?.name || name
+          oauthName
         );
         setLoading(false);
       }, 1000);
@@ -150,10 +168,11 @@ export function AuthProvider({ children }) {
 
     if (data?.user) {
       setUser(data.user);
+      const oauthName = data.user.user_metadata?.full_name || data.user.user_metadata?.name;
       await fetchProfile(
         data.user.id,
         data.user.email,
-        data.user.user_metadata?.name
+        oauthName
       );
     }
     setLoading(false);

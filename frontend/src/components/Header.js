@@ -55,15 +55,12 @@ function Header({ placeholder = "Search...", value, onChange, leftSection, cente
           className="flex items-center gap-3 cursor-pointer group hover:opacity-90 transition-opacity no-underline text-current select-none"
         >
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-bold text-gray-950 leading-tight">
+            <p className="text-sm font-bold text-gray-950 leading-none">
               {profile?.name || user?.email?.split('@')[0] || 'User'}
-            </p>
-            <p className="text-[9px] font-extrabold text-gray-400 tracking-wider uppercase mt-0.5">
-              Premium Member
             </p>
           </div>
           <img 
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop" 
+            src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop"} 
             alt="Profile" 
             className="h-8 w-8 rounded-full object-cover border border-gray-200 shadow-xs group-hover:border-green-pri/50 transition-colors"
           />

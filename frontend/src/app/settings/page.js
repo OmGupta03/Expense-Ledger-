@@ -182,7 +182,7 @@ export default function SettingsPage() {
 
               {/* Avatar Selector Block */}
               <div className="flex items-center gap-4">
-                <Avatar name={fullName} size="xl" />
+                <Avatar name={fullName} src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture} size="xl" />
                 <div className="text-left space-y-1.5">
                   <Button
                     variant="outline"

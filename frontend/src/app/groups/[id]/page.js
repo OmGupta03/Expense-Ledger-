@@ -1476,57 +1476,11 @@ export default function GroupDetailPage() {
         {/* Main Body Grid */}
         <div className="page-body overflow-y-auto flex-1">
         
-        {/* Invite Member form block (inline dropdown when toggled) */}
-        {showMemberForm && (
-          <div className="mb-6 bg-white border border-border-custom rounded-2xl p-5 max-w-md mx-auto shadow-sm text-left">
-            <h3 className="font-bold text-sm text-text-primary mb-1">Invite New Flatmate</h3>
-            <p className="text-xs text-text-muted mb-4">Send an invitation to join this shared ledger.</p>
-            {memberError && (
-              <div className="mb-4 bg-red-50 border border-red-200 text-red-owe p-3 rounded-lg text-xs font-semibold">
-                {memberError}
-              </div>
-            )}
-            <form onSubmit={handleInviteMember} className="space-y-4">
-              <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Email Address</label>
-                <input
-                  type="email"
-                  required
-                  value={newMemberEmail}
-                  onChange={(e) => setNewMemberEmail(e.target.value)}
-                  placeholder="e.g. flatmate@example.com"
-                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3.5 py-2.5 text-text-primary placeholder-text-muted focus:outline-none focus:border-green-pri text-xs"
-                />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowMemberForm(false);
-                    setNewMemberEmail('');
-                    setMemberError('');
-                  }}
-                  className="px-4 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg text-xs font-semibold transition-all cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={memberLoading}
-                  className="px-4 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer disabled:opacity-50 border-none"
-                >
-                  {memberLoading ? 'Sending...' : 'Invite Flatmate'}
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
         {/* Two column layout */}
         <div className="flex flex-col md:flex-row gap-8">
           
           {/* Left Column (w-full md:w-80 or centered max-w-xl based on activeView) */}
-          <aside className={activeView === 'expenses' ? "w-full md:w-80 flex-shrink-0 flex flex-col gap-6" : "w-full max-w-xl mx-auto flex flex-col gap-6"}>
+          <aside className={(activeView === 'expenses' || activeView === 'settlements') ? "w-full md:w-80 flex-shrink-0 flex flex-col gap-6" : "w-full max-w-xl mx-auto flex flex-col gap-6"}>
             
             {/* 1. MY GROUP BALANCE card */}
             {activeView === 'expenses' && (
@@ -2293,6 +2247,56 @@ export default function GroupDetailPage() {
               >
                 {expenseLoading ? 'Adding...' : 'Save Expense'}
               </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Invite Member modal block */}
+      {showMemberForm && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="bg-white border border-border-custom rounded-3xl p-6 max-w-md w-full shadow-xl text-left relative">
+            <h3 className="text-base font-extrabold text-gray-900 border-b border-border-custom pb-3 mb-4">
+              Invite New Flatmate
+            </h3>
+            <p className="text-xs text-text-muted mb-4">Send an invitation to join this shared ledger.</p>
+            {memberError && (
+              <div className="mb-4 bg-red-50 border border-red-200 text-red-owe p-3 rounded-lg text-xs font-semibold">
+                {memberError}
+              </div>
+            )}
+            <form onSubmit={handleInviteMember} className="space-y-4">
+              <div>
+                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1.5">Email Address</label>
+                <input
+                  type="email"
+                  required
+                  value={newMemberEmail}
+                  onChange={(e) => setNewMemberEmail(e.target.value)}
+                  placeholder="e.g. flatmate@example.com"
+                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3.5 py-2.5 text-text-primary placeholder-text-muted focus:outline-none focus:border-green-pri text-xs"
+                />
+              </div>
+              <div className="flex justify-end space-x-2 pt-2 border-t border-border-custom mt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowMemberForm(false);
+                    setNewMemberEmail('');
+                    setMemberError('');
+                  }}
+                  className="px-4 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg text-xs font-semibold transition-all cursor-pointer bg-transparent border-none"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={memberLoading}
+                  className="px-4 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer disabled:opacity-50 border-none"
+                >
+                  {memberLoading ? 'Sending...' : 'Invite Flatmate'}
+                </button>
+              </div>
             </form>
           </div>
         </div>

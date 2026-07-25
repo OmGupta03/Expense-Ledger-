@@ -1308,9 +1308,6 @@ export default function GroupDetailPage() {
                   <p className="text-3xl font-extrabold text-gray-900 mt-1">
                     {members.length < 10 ? `0${members.length}` : members.length}
                   </p>
-                  <p className="text-[10px] text-[#2e7d32] font-semibold mt-1">
-                    +2 added this month
-                  </p>
                 </div>
               </div>
 

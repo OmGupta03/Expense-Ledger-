@@ -1750,20 +1750,33 @@ export default function GroupDetailPage() {
             <section className="flex-1 flex flex-col gap-6">
               
               {/* Action Header block */}
-              {activeView !== 'expenses' && (
+              {activeView === 'expenses' ? (
+                <div className="flex items-center justify-between pb-3 border-b border-border-custom text-left">
+                  <h2 className="text-xl font-bold text-text-primary">
+                    Expense History
+                  </h2>
+                  <button
+                    onClick={openGenericExpenseModal}
+                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-[#0e5c3e] hover:bg-[#0b4a32] text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>Add Expense</span>
+                  </button>
+                </div>
+              ) : activeView === 'settlements' ? (
                 <div className="flex items-center justify-between pb-3 border-b border-border-custom text-left">
                   <h2 className="text-xl font-bold text-text-primary">
                     Settlements History
                   </h2>
                   <button
                     onClick={openGenericSettlementModal}
-                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
+                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-[#0e5c3e] hover:bg-[#0b4a32] text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
                   >
                     <Plus className="h-4 w-4" />
                     <span>Settle Up</span>
                   </button>
                 </div>
-              )}
+              ) : null}
 
               {/* Expandable row details card inside drawer overlay */}
               {selectedExpense && (

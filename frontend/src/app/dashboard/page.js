@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { fetchUserGroups, createGroup, calculateBalancesAndDebts, deleteGroup } from '@/lib/api';
-import { Plus, LogOut, Users, User, ArrowUpRight, ArrowDownLeft, RefreshCw, FileSpreadsheet, Trash2, Search, Bell, Upload } from 'lucide-react';
+import { Plus, LogOut, Users, User, ArrowUpRight, ArrowDownLeft, RefreshCw, FileSpreadsheet, Trash2, Search, Upload } from 'lucide-react';
 import Link from 'next/link';
 import CsvImporter from '@/components/CsvImporter';
 import Layout from '@/components/Layout';
@@ -197,14 +197,7 @@ export default function Dashboard() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         >
-          <button
-            onClick={loadData}
-            disabled={dataLoading}
-            className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer border-none bg-transparent"
-            title="Refresh balances"
-          >
-            <RefreshCw className={`h-4.5 w-4.5 ${dataLoading ? 'animate-spin' : ''}`} />
-          </button>
+
 
           <button
             onClick={() => {
@@ -230,26 +223,6 @@ export default function Dashboard() {
               <p className="text-xs text-text-muted mt-1 font-semibold">
                 Welcome back, {profile?.name || 'User'}. You have {pendingSettlementsCount} pending settlement{pendingSettlementsCount !== 1 ? 's' : ''}.
               </p>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleAddExpenseClick}
-                className="flex items-center gap-2 px-5 py-2.5 bg-mint-green hover:bg-[#72df9b] text-dark-green-text font-extrabold rounded-full shadow-sm transition-all cursor-pointer text-xs border-none"
-              >
-                <div className="flex items-center justify-center h-4.5 w-4.5 rounded-full bg-[#0e5c3e] text-white">
-                  <Plus className="h-3 w-3" strokeWidth={3} />
-                </div>
-                <span>Add Expense</span>
-              </button>
-              
-              <button
-                onClick={() => setIsCsvImportOpen(true)}
-                className="flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-gray-50 text-gray-700 font-extrabold rounded-full shadow-sm transition-all cursor-pointer text-xs border border-gray-300"
-              >
-                <Upload className="h-4 w-4 text-gray-500" />
-                <span>Upload CSV</span>
-              </button>
             </div>
           </div>
 
@@ -322,14 +295,7 @@ export default function Dashboard() {
             </div>
             
             <div className="flex items-center gap-2">
-              <button
-                onClick={loadData}
-                disabled={dataLoading}
-                className="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-white border border-gray-300 bg-white disabled:opacity-50 transition-all cursor-pointer shadow-xs"
-                title="Refresh balances"
-              >
-                <RefreshCw className={`h-4 w-4 ${dataLoading ? 'animate-spin' : ''}`} />
-              </button>
+
 
               <button
                 onClick={() => setIsCsvImportOpen(true)}

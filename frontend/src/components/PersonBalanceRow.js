@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from './Avatar';
+import Avatar from './ui/Avatar';
 
 function PersonBalanceRow({ person, balance = 0, onClick }) {
   return (

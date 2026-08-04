@@ -3,7 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { Search, Bell } from 'lucide-react';
+import Avatar from './ui/Avatar';
+import { Search } from 'lucide-react';
 
 function Header({ placeholder = "Search...", value, onChange, leftSection, centerSection, children }) {
   const { user, profile } = useAuth();
@@ -41,14 +42,6 @@ function Header({ placeholder = "Search...", value, onChange, leftSection, cente
       <div className="flex items-center gap-4">
         {children}
         
-        <button
-          className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer relative border-none bg-transparent"
-          title="Notifications"
-        >
-          <Bell className="h-4.5 w-4.5" />
-          <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
-        </button>
-
         {/* Profile Setting Button (clickable user block) */}
         <Link 
           href="/settings"
@@ -59,10 +52,11 @@ function Header({ placeholder = "Search...", value, onChange, leftSection, cente
               {profile?.name || user?.email?.split('@')[0] || 'User'}
             </p>
           </div>
-          <img 
-            src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop"} 
-            alt="Profile" 
-            className="h-8 w-8 rounded-full object-cover border border-gray-200 shadow-xs group-hover:border-green-pri/50 transition-colors"
+          <Avatar 
+            name={profile?.name || user?.email?.split('@')[0] || 'User'}
+            src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture} 
+            size={32}
+            className="border border-gray-200 shadow-xs group-hover:border-green-pri/50 transition-colors"
           />
         </Link>
       </div>

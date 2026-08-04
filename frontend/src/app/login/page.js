@@ -48,11 +48,15 @@ export default function LoginPage() {
 
   const handleGoogleSignIn = async () => {
     setError('');
+    setIsSubmitting(true);
     try {
       await signInWithGoogle();
+      router.push('/dashboard');
     } catch (err) {
       console.error('Google sign in error:', err);
       setError(err.message || 'Google authentication failed');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

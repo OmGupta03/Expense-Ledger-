@@ -8,7 +8,7 @@ import { addExpense, recordSettlement } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import Layout from '@/components/Layout';
 import Header from '@/components/Header';
-import Avatar from '@/components/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import { getCategoryIcon } from '@/utils/categoryIcons';
 import { FileSpreadsheet, AlertTriangle, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 

@@ -111,10 +111,135 @@ if (!isLocalMode) {
       },
       signInWithOAuth: async ({ provider }) => {
         try {
+          const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || (typeof window !== 'undefined' ? localStorage.getItem('google_client_id') : null);
+
+          // If Google Client ID is available, trigger real Google Auth Popup via Google Identity Services Token Client
+          if (clientId && typeof window !== 'undefined') {
+            return new Promise((resolve) => {
+              const startGoogleOAuth = () => {
+                try {
+                  if (window.google?.accounts?.oauth2) {
+                    const tokenClient = window.google.accounts.oauth2.initTokenClient({
+                      client_id: clientId,
+                      scope: 'email profile openid',
+                      callback: async (tokenResponse) => {
+                        if (tokenResponse.error) {
+                          return resolve({ data: null, error: new Error(tokenResponse.error_description || 'Google sign-in cancelled or failed') });
+                        }
+                        try {
+                          // Fetch real Google user profile info
+                          const userinfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                            headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+                          });
+                          const googleUser = await userinfoRes.json();
+
+                          const res = await fetch(`${BACKEND_URL}/api/auth/google`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              email: googleUser.email,
+                              name: googleUser.name,
+                              picture: googleUser.picture,
+                              googleId: googleUser.sub
+                            })
+                          });
+
+                          const data = await res.json();
+                          if (!res.ok) {
+                            return resolve({ data: null, error: new Error(data.error || 'Google backend authentication failed') });
+                          }
+                          localStorage.setItem('supabase_session', JSON.stringify(data.session));
+                          window.dispatchEvent(new Event('storage'));
+                          resolve({ data: { user: data.session.user }, error: null });
+                        } catch (e) {
+                          resolve({ data: null, error: e });
+                        }
+                      }
+                    });
+                    tokenClient.requestAccessToken();
+                  } else {
+                    // Fallback to ID token client
+                    window.google.accounts.id.initialize({
+                      client_id: clientId,
+                      callback: async (response) => {
+                        try {
+                          const base64Url = response.credential.split('.')[1];
+                          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                          const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+                          const payload = JSON.parse(jsonPayload);
+
+                          const res = await fetch(`${BACKEND_URL}/api/auth/google`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              email: payload.email,
+                              name: payload.name,
+                              picture: payload.picture,
+                              googleId: payload.sub
+                            })
+                          });
+
+                          const data = await res.json();
+                          if (!res.ok) return resolve({ data: null, error: new Error(data.error || 'Google auth failed') });
+                          localStorage.setItem('supabase_session', JSON.stringify(data.session));
+                          window.dispatchEvent(new Event('storage'));
+                          resolve({ data: { user: data.session.user }, error: null });
+                        } catch (e) {
+                          resolve({ data: null, error: e });
+                        }
+                      }
+                    });
+                    window.google.accounts.id.prompt();
+                  }
+                } catch (err) {
+                  resolve({ data: null, error: err });
+                }
+              };
+
+              if (window.google?.accounts) {
+                startGoogleOAuth();
+              } else {
+                const script = document.createElement('script');
+                script.src = 'https://accounts.google.com/gsi/client';
+                script.async = true;
+                script.onload = () => startGoogleOAuth();
+                document.head.appendChild(script);
+              }
+            });
+          }
+
+          // If no Client ID set yet, prompt user for Client ID or custom Google Email
+          if (typeof window !== 'undefined') {
+            const userEntered = window.prompt(
+              'Google OAuth Setup:\nOption A: Enter your Google Client ID (e.g. 123456789-xxxx.apps.googleusercontent.com)\nOption B: Enter your Google Email to sign in (e.g. your-email@gmail.com)\nClick Cancel for default guest login:'
+            );
+            
+            if (userEntered && userEntered.trim()) {
+              const input = userEntered.trim();
+              if (input.includes('googleusercontent.com')) {
+                localStorage.setItem('google_client_id', input);
+                return supabaseClient.auth.signInWithOAuth({ provider });
+              } else if (input.includes('@')) {
+                const name = input.split('@')[0];
+                const res = await fetch(`${BACKEND_URL}/api/auth/google`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: input, name })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                  localStorage.setItem('supabase_session', JSON.stringify(data.session));
+                  window.dispatchEvent(new Event('storage'));
+                  return { data: { user: data.session.user }, error: null };
+                }
+              }
+            }
+          }
+
+          // Default fallback guest login
           const email = `google_${provider}_guest@example.com`;
           const name = `Google Guest`;
           
-          // Try to sign in first
           let res = await fetch(`${BACKEND_URL}/api/auth/signin`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -122,7 +247,6 @@ if (!isLocalMode) {
           });
           
           if (!res.ok) {
-            // If sign in fails (e.g. user does not exist), try signing up
             res = await fetch(`${BACKEND_URL}/api/auth/signup`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },

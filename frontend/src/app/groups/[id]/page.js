@@ -22,7 +22,7 @@ import {
   deleteGroup
 } from '@/lib/api';
 
-import Avatar from '@/components/Avatar';
+import Avatar from '@/components/ui/Avatar';
 import PersonBalanceRow from '@/components/PersonBalanceRow';
 import ExpenseRow from '@/components/ExpenseRow';
 import ExpenseDetail from '@/components/ExpenseDetail';
@@ -48,7 +48,6 @@ import {
   Users,
   Download,
   Filter,
-  Bell,
   Wallet,
   Landmark,
   UserX
@@ -165,17 +164,19 @@ export default function GroupDetailPage() {
     if (!groupId || !user) return;
     setPageLoading(true);
     try {
-      const g = await fetchGroupDetails(groupId);
+      const [g, m, expList, setList, balData] = await Promise.all([
+        fetchGroupDetails(groupId),
+        fetchGroupMembers(groupId),
+        fetchGroupExpenses(groupId),
+        fetchGroupSettlements(groupId),
+        calculateBalancesAndDebts(groupId)
+      ]);
+
       setGroup(g);
-      
-      const m = await fetchGroupMembers(groupId);
       setMembers(m);
-
-      const expList = await fetchGroupExpenses(groupId);
       setExpenses(expList);
-
-      const setList = await fetchGroupSettlements(groupId);
       setSettlements(setList);
+      setBalances(balData);
 
       const expenseIds = expList.map((e) => e.id);
       let splitsList = [];
@@ -188,9 +189,6 @@ export default function GroupDetailPage() {
         splitsList = splitsData;
       }
       setSplits(splitsList);
-
-      const balData = await calculateBalancesAndDebts(groupId);
-      setBalances(balData);
     } catch (err) {
       console.error('Error loading group details:', err);
       router.push('/dashboard');
@@ -1458,14 +1456,6 @@ export default function GroupDetailPage() {
             />
           }
         >
-          <button
-            onClick={loadData}
-            disabled={pageLoading}
-            className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer bg-transparent border-none"
-            title="Refresh ledger"
-          >
-            <RefreshCw className={`h-4 w-4 ${pageLoading ? 'animate-spin' : ''}`} />
-          </button>
 
           <button
             onClick={handleDeleteGroup}

@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from './Avatar';
+import Avatar from './ui/Avatar';
 
 function BalanceDrilldownModal({ member, balance = 0, expenses = [], settlements = [], members = [], onSettleUp, onClose }) {
   if (!member) return null;

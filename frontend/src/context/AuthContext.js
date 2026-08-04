@@ -77,32 +77,29 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    // Ping backend in the background to trigger container wake-up
+    // Background ping to backend API health check
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
-    fetch(`${backendUrl}/api/health`).catch((err) => {
-      console.warn('Backend wake-up ping failed/offline:', err.message);
+    fetch(`${backendUrl}/api/health`).catch(() => {});
+
+    // Fast initial session hydration from localStorage / client cache
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user);
+        const oauthName = session.user.user_metadata?.full_name || session.user.user_metadata?.name;
+        fetchProfile(session.user.id, session.user.email, oauthName).catch(() => {});
+      }
+      setLoading(false);
+    }).catch(() => {
+      setLoading(false);
     });
 
-    // Safety timeout: stop showing loading screen after 3 seconds if Supabase hangs or is unreachable
-    const safetyTimeout = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-
-    // Listen to auth changes (handles initial session load and subsequent state updates)
+    // Listen for subsequent auth state updates
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        clearTimeout(safetyTimeout);
+      (event, session) => {
         if (session?.user) {
           setUser(session.user);
           const oauthName = session.user.user_metadata?.full_name || session.user.user_metadata?.name;
-          // Run fetchProfile in the background without blocking the UI loading state
-          fetchProfile(
-            session.user.id,
-            session.user.email,
-            oauthName
-          ).catch((err) => {
-            console.error('Failed to load profile in background:', err);
-          });
+          fetchProfile(session.user.id, session.user.email, oauthName).catch(() => {});
         } else {
           setUser(null);
           setProfile(null);
@@ -112,7 +109,6 @@ export function AuthProvider({ children }) {
     );
 
     return () => {
-      clearTimeout(safetyTimeout);
       subscription?.unsubscribe();
     };
   }, []);
@@ -192,6 +188,13 @@ export function AuthProvider({ children }) {
       setLoading(false);
       throw error;
     }
+
+    if (data?.user) {
+      setUser(data.user);
+      const oauthName = data.user.user_metadata?.full_name || data.user.user_metadata?.name || 'Google Guest';
+      await fetchProfile(data.user.id, data.user.email, oauthName);
+    }
+    setLoading(false);
     return data;
   };
 

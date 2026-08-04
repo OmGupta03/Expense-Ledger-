@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from './Avatar';
+import Avatar from './ui/Avatar';
 import { getCategoryIcon } from '../utils/categoryIcons';
 import { Send, MessageSquare } from 'lucide-react';
 

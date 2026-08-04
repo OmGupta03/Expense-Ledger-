@@ -47,6 +47,65 @@
       "name": "liam.jones",
       "password": "google_oauth_bypass",
       "created_at": "2026-07-17T11:25:13.440Z"
+    },
+    {
+      "id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "email": "guptaom985@gmail.com",
+      "name": "Om Gupta",
+      "password": "Guptaom@2005",
+      "created_at": "2026-08-04T19:50:33.870Z",
+      "avatar_url": "https://lh3.googleusercontent.com/a/ACg8ocIbze-q8yCTN-XEtz6mUwQrL4eZ-hve5G17WnJ2yA39z8inew=s96-c"
+    },
+    {
+      "id": "google-1234567890",
+      "email": "om.gupta@example.com",
+      "name": "Om Gupta",
+      "avatar_url": "https://lh3.googleusercontent.com/a/default-user",
+      "created_at": "2026-08-04T20:01:31.471Z"
+    },
+    {
+      "id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "name": "Meera",
+      "email": null,
+      "created_at": "2026-08-04T20:12:55.066Z"
+    },
+    {
+      "id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "name": "Dev",
+      "email": null,
+      "created_at": "2026-08-04T20:12:55.097Z"
+    },
+    {
+      "id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "name": "Dev's friend Kabir",
+      "email": null,
+      "created_at": "2026-08-04T20:12:55.127Z"
+    },
+    {
+      "id": "631555a6-b2db-4452-b3a6-1b142db6ac47",
+      "name": "Sam",
+      "email": null,
+      "created_at": "2026-08-04T20:12:55.163Z"
+    },
+    {
+      "id": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "name": "Unknown Payer",
+      "email": null,
+      "created_at": "2026-08-04T20:12:55.196Z"
+    },
+    {
+      "id": "ffd17c8c-5d80-49b9-a794-eeffa573533c",
+      "email": "newuser_1785875354278@example.com",
+      "name": "New Test User",
+      "password": "password123",
+      "created_at": "2026-08-04T20:29:14.319Z"
+    },
+    {
+      "id": "google-987654321",
+      "email": "om.gupta.google@gmail.com",
+      "name": "Om Gupta Google",
+      "avatar_url": "https://lh3.googleusercontent.com/a/default-user",
+      "created_at": "2026-08-04T20:29:14.340Z"
     }
   ],
   "groups": [
@@ -67,6 +126,17 @@
       "created_by": "82dd82f1-2314-483a-acd6-5c936c24a9f7",
       "id": "b70faabc-d15c-4c83-b0e5-3b8ecd56452e",
       "created_at": "2026-07-17T11:05:43.760Z"
+    },
+    {
+      "id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "name": "Imported - Expenses Export",
+      "created_at": "2026-08-04T20:13:15.732Z"
+    },
+    {
+      "name": "Room",
+      "created_by": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "created_at": "2026-08-04T20:33:38.044Z"
     }
   ],
   "group_members": [
@@ -84,6 +154,191 @@
       "group_id": "b70faabc-d15c-4c83-b0e5-3b8ecd56452e",
       "user_id": "82dd82f1-2314-483a-acd6-5c936c24a9f7",
       "id": "2a14d0ca-452d-4c65-9ef2-5e018bb38638"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "82dd82f1-2314-483a-acd6-5c936c24a9f7",
+      "id": "ae66ffc6-c4c8-4355-b68c-59892320d40c"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "id": "7dcf79d9-96b0-4702-b9b6-192f9e92a67a"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "id": "6fcbf438-9c4c-4efc-846d-cbe8ed759024"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "id": "ae12d409-33a7-4763-bea1-5febf7a394dc"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "id": "db5afd3c-a204-4e0a-a879-94d1da050f24"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "id": "2ef4a4eb-0765-4227-9346-62bdbc3472bd"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "id": "dab60fc1-f0f1-4092-bc88-92440ea5f145"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "631555a6-b2db-4452-b3a6-1b142db6ac47",
+      "id": "048ccc0f-0aa5-4a6b-982f-5cf0440ca317"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "user_id": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "id": "69e7c4c4-d9d7-4b77-828e-e8d3e8e86a35"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "82dd82f1-2314-483a-acd6-5c936c24a9f7",
+      "id": "6c915962-d339-4859-bb0c-ac3ebea6ce5d"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "id": "4863f0f1-b2c2-421b-9260-fd6c87e7164e"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "id": "6209a11a-202b-4d6a-bafd-de58ab1e889e"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "id": "d6aa8643-99d1-46f8-981c-7090208022d0"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "id": "6c450b6e-5343-47ca-a849-003235ec1470"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "id": "d332ccb0-de02-4770-8321-54a16c60af39"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "id": "7067a490-ac00-4993-9114-fbe6e1ee296b"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "631555a6-b2db-4452-b3a6-1b142db6ac47",
+      "id": "fbe08790-1801-4e86-b18b-306dcb3f1d27"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "user_id": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "id": "83f6480e-33f1-42ef-9071-2229331d0366"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "82dd82f1-2314-483a-acd6-5c936c24a9f7",
+      "id": "2dec01ef-ad62-452d-97c8-59661cdcd3c4"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "id": "49322bcb-d0a2-4ef8-8636-58d80172f3db"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "id": "aeefa597-eccf-4986-a7c0-dae175df73f4"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "id": "7a610bde-ec6f-4dae-8ec1-d63a67fef9d4"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "id": "da5e687d-7bf5-4702-afd7-22afdbe32a78"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "id": "c8f8cb47-2d4f-4294-b6fc-0b872bbf8b17"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "id": "6cc82f21-0e8e-418a-bf98-e2d88d4cb47c"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "631555a6-b2db-4452-b3a6-1b142db6ac47",
+      "id": "2a5a1fb4-71a7-4c15-b78b-ca29ec04ca43"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "user_id": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "id": "b75f7787-6901-4ad8-8d4e-b16ddd91d4ba"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "82dd82f1-2314-483a-acd6-5c936c24a9f7",
+      "id": "555ca662-3a1f-4a70-bfca-20fc1f5be272"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "id": "ea5e84ca-b5ea-4e7b-a551-38d026d22565"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "id": "c11e051e-e9a0-4b30-acc4-e242889a75c6"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "id": "951b0b7b-93ec-48f1-b931-4c457bc37469"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "id": "d1846996-5a0e-4f76-b225-6d4ad95ac3af"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "id": "4bebb99e-27ec-439e-a42f-7e53c1a9f1e7"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "id": "f93af56d-1542-4d5a-8dbc-2c0b1d90e652"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "631555a6-b2db-4452-b3a6-1b142db6ac47",
+      "id": "c65b20d0-8d10-4db0-a2fd-770b17998598"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "user_id": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "id": "e35071a3-e912-412d-9be8-60e2ebb330e8"
+    },
+    {
+      "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "user_id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "id": "154faef6-bdc2-4172-b1df-e2a4a976da8c"
     }
   ],
   "expenses": [
@@ -96,6 +351,1326 @@
       "currency": "INR",
       "id": "447f3f87-177f-42ff-84dc-5438c75511ad",
       "created_at": "2026-07-16T19:41:12.700Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "February rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "6acd9053-879a-418f-9096-c7bfe435f3f8",
+      "created_at": "2026-08-04T20:12:55.250Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2340,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "4f01ae61-fbb0-44a2-ab72-3df5a36e2ee8",
+      "created_at": "2026-08-04T20:12:55.278Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Feb",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "f8655abd-d704-428c-9385-eb67f66d0899",
+      "created_at": "2026-08-04T20:12:55.302Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Dinner at Marina Bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "a74b224c-2006-40bd-8e52-2118105021b3",
+      "created_at": "2026-08-04T20:12:55.334Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "dinner - marina bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "3ab649de-f457-4886-b83c-a46dab0af0e0",
+      "created_at": "2026-08-04T20:12:55.357Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Feb",
+      "amount": 1200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "976b3e3a-779a-4b28-958c-65398f6bca21",
+      "created_at": "2026-08-04T20:12:55.386Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Feb",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "a7733b0c-a268-40b1-97ef-0d8bea5dd6e7",
+      "created_at": "2026-08-04T20:12:55.432Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Movie night snacks",
+      "amount": 640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "06cc4700-f95e-4595-9e0a-5b98ed424a1d",
+      "created_at": "2026-08-04T20:12:55.467Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Cylinder refill",
+      "amount": 900,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "e87c120e-5377-490b-88bf-924e14d65f2c",
+      "created_at": "2026-08-04T20:12:55.499Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 1875,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "5deda929-e681-459b-b501-5078318e62fc",
+      "created_at": "2026-08-04T20:12:56.328Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Aisha birthday cake",
+      "amount": 1500,
+      "split_type": "unequal",
+      "currency": "INR",
+      "id": "96d65f56-7bce-437f-bd25-c7a643fd6194",
+      "created_at": "2026-08-04T20:12:56.340Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "description": "House cleaning supplies",
+      "amount": 780,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "a3878875-fb9a-4bb0-a283-5f3ab2868f14",
+      "created_at": "2026-08-04T20:12:56.367Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Pizza Friday",
+      "amount": 1440,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "53edf467-4d63-4c19-8dbb-76d79ced4a47",
+      "created_at": "2026-08-04T20:12:56.425Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "March rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "1860b339-ce37-4eb0-8607-befa6e3975c6",
+      "created_at": "2026-08-04T20:12:56.452Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Groceries BigBasket",
+      "amount": 2810,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "b74e5f50-c7a8-48ce-8618-3a5bb187414c",
+      "created_at": "2026-08-04T20:12:56.480Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Mar",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "2f44b1fb-67a2-4bba-b0f5-ae3537f26c1b",
+      "created_at": "2026-08-04T20:12:56.500Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Goa flights",
+      "amount": 32400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "11f38d11-012f-45a8-a438-7bda00a2d466",
+      "created_at": "2026-08-04T20:12:56.514Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Goa villa booking",
+      "amount": 540,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "ce60b352-f94c-422b-8876-52aac89bdf4e",
+      "created_at": "2026-08-04T20:12:56.540Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Beach shack lunch",
+      "amount": 84,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "333c22ab-3083-400b-98eb-951b6f0d449e",
+      "created_at": "2026-08-04T20:12:56.550Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Scooter rentals",
+      "amount": 3600,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "613e38f4-04ff-43d3-bb0d-113fc69a9872",
+      "created_at": "2026-08-04T20:12:56.567Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Parasailing",
+      "amount": 150,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "48e080b2-8f98-4f2f-9ed8-9042960b6cb6",
+      "created_at": "2026-08-04T20:12:56.585Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Dinner at Thalassa",
+      "amount": 2400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "d4bce9fa-2918-48a4-8e00-d70d907c8ed5",
+      "created_at": "2026-08-04T20:12:56.601Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Thalassa dinner",
+      "amount": 2450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "ffbd4b0e-4786-4525-86d1-a1d79939da34",
+      "created_at": "2026-08-04T20:12:56.620Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Airport cab",
+      "amount": 1100,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "ff6316f8-e1a1-4a56-978c-036161069c22",
+      "created_at": "2026-08-04T20:12:56.637Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 2105,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "2da15565-6790-4a38-92bd-08e6ef27f724",
+      "created_at": "2026-08-04T20:12:57.450Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Mar",
+      "amount": 1450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "a76e5f87-5909-44bf-a685-ced1c580284b",
+      "created_at": "2026-08-04T20:12:57.464Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Mar",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "17229c64-8394-4873-9a17-45dec87f6466",
+      "created_at": "2026-08-04T20:12:57.492Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Weekend brunch",
+      "amount": 2200,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "17f426ea-ecb8-4098-9fee-c49d5c9d8e54",
+      "created_at": "2026-08-04T20:12:57.521Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Meera farewell dinner",
+      "amount": 4800,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "d9889ccf-2fc2-4a07-b5b4-7f04525717ca",
+      "created_at": "2026-08-04T20:12:57.556Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Deep cleaning service",
+      "amount": 2500,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "23618b31-15e5-432a-a676-ab30f1841668",
+      "created_at": "2026-08-04T20:12:57.583Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "April rent",
+      "amount": 48000,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "9a8cd304-76d6-4c54-8b2c-431ba4d9fda9",
+      "created_at": "2026-08-04T20:12:57.613Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "8325afd7-d2b9-480e-9535-fa3a73bd805b",
+      "created_at": "2026-08-04T20:12:57.631Z"
+    },
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Apr",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "db12a958-921f-4ff7-afda-13165746af00",
+      "created_at": "2026-08-04T20:12:57.649Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "February rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "de2da2d5-e0ec-4c95-85a9-203bb6c00c5a",
+      "created_at": "2026-08-04T20:13:07.531Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2340,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "359e5931-ee6c-4292-840e-cbc31a717311",
+      "created_at": "2026-08-04T20:13:07.561Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Feb",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "fcf40e5d-ccaf-4ac0-9b0a-c64940e02c2a",
+      "created_at": "2026-08-04T20:13:07.582Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Dinner at Marina Bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "4ce29661-cbd7-464d-91ed-045726648399",
+      "created_at": "2026-08-04T20:13:07.605Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "dinner - marina bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "defab317-890b-441c-89d3-4fba098711dd",
+      "created_at": "2026-08-04T20:13:07.626Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Feb",
+      "amount": 1200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "22ebce66-03e6-4695-958d-db911362800a",
+      "created_at": "2026-08-04T20:13:07.666Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Feb",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "0a68023e-e206-4d4b-a9bd-e1f63dcbf775",
+      "created_at": "2026-08-04T20:13:07.697Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Movie night snacks",
+      "amount": 640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "c7582a1f-730d-47d7-9adf-433f461fe330",
+      "created_at": "2026-08-04T20:13:07.712Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Cylinder refill",
+      "amount": 900,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "03fe5630-8093-4fbb-95c7-0b5e005067e2",
+      "created_at": "2026-08-04T20:13:07.729Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 1875,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "1601e773-cb34-40c1-ac50-74a057918c5f",
+      "created_at": "2026-08-04T20:13:08.300Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Aisha birthday cake",
+      "amount": 1500,
+      "split_type": "unequal",
+      "currency": "INR",
+      "id": "e7ac8624-f331-4fc4-9ca5-366f63b80607",
+      "created_at": "2026-08-04T20:13:08.314Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "description": "House cleaning supplies",
+      "amount": 780,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "45619cfd-b82b-49f2-b7f0-b3bd12c95719",
+      "created_at": "2026-08-04T20:13:08.332Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Pizza Friday",
+      "amount": 1440,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "f3a61f85-6a0f-421b-a713-094f3647a713",
+      "created_at": "2026-08-04T20:13:08.376Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "March rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "c4c6ac81-1010-420d-a366-67e801b91d12",
+      "created_at": "2026-08-04T20:13:08.398Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Groceries BigBasket",
+      "amount": 2810,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "098a52a2-d4dc-47ac-8a96-ceafe1a05e88",
+      "created_at": "2026-08-04T20:13:08.429Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Mar",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "0b963086-110f-487a-b357-a856be171447",
+      "created_at": "2026-08-04T20:13:08.456Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Goa flights",
+      "amount": 32400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "b022ece1-0f43-4399-a1af-5926fb7680f9",
+      "created_at": "2026-08-04T20:13:08.488Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Goa villa booking",
+      "amount": 540,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "7718cc44-560a-402a-a73d-f012d8a10437",
+      "created_at": "2026-08-04T20:13:08.524Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Beach shack lunch",
+      "amount": 84,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "904b3c2f-e3f0-4438-9d86-fa328d5a02ae",
+      "created_at": "2026-08-04T20:13:08.548Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Scooter rentals",
+      "amount": 3600,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "5c5ab61b-6d27-412d-b614-986f7445ba18",
+      "created_at": "2026-08-04T20:13:08.584Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Parasailing",
+      "amount": 150,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "d571df9c-f5f8-491a-b999-5da0c6c81ec0",
+      "created_at": "2026-08-04T20:13:08.596Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Dinner at Thalassa",
+      "amount": 2400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "14987d12-b856-410d-9788-630cd5926c35",
+      "created_at": "2026-08-04T20:13:08.614Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Thalassa dinner",
+      "amount": 2450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "7fe894bc-0660-474a-bede-bfe1bad0d7e9",
+      "created_at": "2026-08-04T20:13:08.635Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Airport cab",
+      "amount": 1100,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "0445e5e1-7de0-4b27-8e28-47b61ef508ef",
+      "created_at": "2026-08-04T20:13:09.448Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 2105,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "836e604c-08bc-4ef3-9a6e-991b302df87a",
+      "created_at": "2026-08-04T20:13:09.461Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Mar",
+      "amount": 1450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "7fc83d76-1829-451c-964f-88351ce2d552",
+      "created_at": "2026-08-04T20:13:09.487Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Mar",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "6a28a9d9-1c27-42b9-a250-091ff04d6aaa",
+      "created_at": "2026-08-04T20:13:09.520Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Weekend brunch",
+      "amount": 2200,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "b92d0fed-d08d-4941-b42d-c704f47ad29f",
+      "created_at": "2026-08-04T20:13:09.546Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Meera farewell dinner",
+      "amount": 4800,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "0d2f5b0c-d57e-4dd0-9c72-3dca99112873",
+      "created_at": "2026-08-04T20:13:09.572Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Deep cleaning service",
+      "amount": 2500,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "a0c176fd-c83a-430c-aadc-e64ac480f7ae",
+      "created_at": "2026-08-04T20:13:09.597Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "April rent",
+      "amount": 48000,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "d6206c64-31ed-4100-af8e-ab9477f88faf",
+      "created_at": "2026-08-04T20:13:09.616Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "73de35ec-0a22-47d2-978a-3e34fe17bde8",
+      "created_at": "2026-08-04T20:13:09.635Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Apr",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "1d09036a-b165-4b16-9edc-7cef76b545c4",
+      "created_at": "2026-08-04T20:13:09.655Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "February rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "9bbaac20-d759-46e8-bc78-f9f21dc111d7",
+      "created_at": "2026-08-04T20:13:11.968Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2340,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "a8ad3d9b-a86b-450d-a67a-f6c937d58b86",
+      "created_at": "2026-08-04T20:13:11.998Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Feb",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "78f01ac3-d6b1-48f8-baba-8b8fb146fb3d",
+      "created_at": "2026-08-04T20:13:12.029Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Dinner at Marina Bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "9147f542-67a5-4677-b6fc-bdbd1d62f46a",
+      "created_at": "2026-08-04T20:13:12.047Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "dinner - marina bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "f1ec1483-b52f-4978-88d0-2c6543f099c7",
+      "created_at": "2026-08-04T20:13:12.066Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Feb",
+      "amount": 1200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "3074558c-26eb-4b00-9344-dcbd6203274a",
+      "created_at": "2026-08-04T20:13:12.087Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Feb",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "754eb2ee-554b-4b45-9a31-5187fa618268",
+      "created_at": "2026-08-04T20:13:12.110Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Movie night snacks",
+      "amount": 640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "1050305c-d231-4c63-9d39-b002f374122e",
+      "created_at": "2026-08-04T20:13:12.150Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Cylinder refill",
+      "amount": 900,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "4a046302-febe-4abb-b4ed-2468765ba713",
+      "created_at": "2026-08-04T20:13:12.162Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 1875,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "7573a9cc-5836-4be2-990c-b412fe7c036f",
+      "created_at": "2026-08-04T20:13:12.178Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Aisha birthday cake",
+      "amount": 1500,
+      "split_type": "unequal",
+      "currency": "INR",
+      "id": "08bcf2c2-1cde-479b-844b-e8003866ec16",
+      "created_at": "2026-08-04T20:13:12.195Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "description": "House cleaning supplies",
+      "amount": 780,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "d44801b3-1f1c-4cc7-9d7f-eeff7477ec95",
+      "created_at": "2026-08-04T20:13:12.215Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Pizza Friday",
+      "amount": 1440,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "20da21f0-4fe1-4591-bc80-60435e510eae",
+      "created_at": "2026-08-04T20:13:12.267Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "March rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "97c9d8d2-59a9-470e-aa1b-d2e6ef9db8ee",
+      "created_at": "2026-08-04T20:13:12.283Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Groceries BigBasket",
+      "amount": 2810,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "8c88f677-d7ef-42d9-810f-28c9d9c2743e",
+      "created_at": "2026-08-04T20:13:12.302Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Mar",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "4a7178b2-c7c9-42bc-896f-0d23ce09a17b",
+      "created_at": "2026-08-04T20:13:12.322Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Goa flights",
+      "amount": 32400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "cd3b22df-a817-4045-b055-df4916526e6f",
+      "created_at": "2026-08-04T20:13:12.342Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Goa villa booking",
+      "amount": 540,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "fe446357-d727-425f-8ac9-98a934bc180f",
+      "created_at": "2026-08-04T20:13:13.464Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Beach shack lunch",
+      "amount": 84,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "76bdd4eb-c642-42e4-85aa-c5ebee29fe1b",
+      "created_at": "2026-08-04T20:13:13.481Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Scooter rentals",
+      "amount": 3600,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "f7fb1e83-5da9-4210-9b4a-191249995323",
+      "created_at": "2026-08-04T20:13:13.506Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Parasailing",
+      "amount": 150,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "1c386965-4b6a-44c9-8d83-69165412834c",
+      "created_at": "2026-08-04T20:13:13.534Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Dinner at Thalassa",
+      "amount": 2400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "efa3b114-631a-410a-9332-a80463cc18ab",
+      "created_at": "2026-08-04T20:13:13.562Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Thalassa dinner",
+      "amount": 2450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "11e7737b-6e06-4e23-a8c0-08078501f609",
+      "created_at": "2026-08-04T20:13:13.590Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Airport cab",
+      "amount": 1100,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "0310f53a-3a3b-4118-949e-2f96586e6737",
+      "created_at": "2026-08-04T20:13:13.620Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 2105,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "8e081b75-c234-4a49-919a-a3865a69412e",
+      "created_at": "2026-08-04T20:13:13.638Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Mar",
+      "amount": 1450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "31a4ab29-61ce-49ce-ae6d-7ce86b165f67",
+      "created_at": "2026-08-04T20:13:13.655Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Mar",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "a9240640-ef7a-4d8e-ac95-78ed3d9fbf1a",
+      "created_at": "2026-08-04T20:13:13.672Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Weekend brunch",
+      "amount": 2200,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "c41f79a4-a69f-4028-a2cd-6e1309cfbc5c",
+      "created_at": "2026-08-04T20:13:13.693Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Meera farewell dinner",
+      "amount": 4800,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "c2b8e67e-46cf-4156-a996-f07519638f2f",
+      "created_at": "2026-08-04T20:13:13.712Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Deep cleaning service",
+      "amount": 2500,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "b92980aa-8bf8-465e-996e-ea65d0cea86d",
+      "created_at": "2026-08-04T20:13:13.731Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "April rent",
+      "amount": 48000,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "e1ec7d65-854e-4bcf-89fa-35b8cc8d37c5",
+      "created_at": "2026-08-04T20:13:13.749Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "1b42959e-3d49-44a0-a0a9-342ae0a7de16",
+      "created_at": "2026-08-04T20:13:13.770Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Apr",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "06b12400-119b-43f2-9f5c-3e523199172a",
+      "created_at": "2026-08-04T20:13:13.794Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "February rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "e74f589d-f2a1-4b3a-b22f-053835682547",
+      "created_at": "2026-08-04T20:13:15.788Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2340,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "c01bf4f1-7c93-4683-8505-a680394158bd",
+      "created_at": "2026-08-04T20:13:15.816Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Feb",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "cd89957c-a922-423a-b90b-c39d1bd4f79f",
+      "created_at": "2026-08-04T20:13:15.846Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Dinner at Marina Bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "77880b94-10cc-424e-bfad-f8b8c23637ba",
+      "created_at": "2026-08-04T20:13:15.864Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "dinner - marina bites",
+      "amount": 3200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "827b90ec-5bb2-48ec-9bec-b50e11158834",
+      "created_at": "2026-08-04T20:13:15.883Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Feb",
+      "amount": 1200,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "062efda9-eccc-435b-a136-b14eaf4593f5",
+      "created_at": "2026-08-04T20:13:15.907Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Feb",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "22baf5e9-7ce4-4ba6-ade2-3184c7e1457f",
+      "created_at": "2026-08-04T20:13:15.932Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Movie night snacks",
+      "amount": 640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "2d4e9127-2d3d-4056-8364-489f06e492a1",
+      "created_at": "2026-08-04T20:13:15.954Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Cylinder refill",
+      "amount": 900,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "506124f9-7c91-46f3-82b8-02136e6412f7",
+      "created_at": "2026-08-04T20:13:15.973Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 1875,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "268f2d16-b0c2-4a0b-94c0-d22ba18fd895",
+      "created_at": "2026-08-04T20:13:15.990Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Aisha birthday cake",
+      "amount": 1500,
+      "split_type": "unequal",
+      "currency": "INR",
+      "id": "5cd16f31-b586-4b08-8a76-8295de082c57",
+      "created_at": "2026-08-04T20:13:17.061Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "199faa0c-79d4-463e-ab58-6b272faa160e",
+      "description": "House cleaning supplies",
+      "amount": 780,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "7059f52e-7149-4dd5-a828-bce49bd26b80",
+      "created_at": "2026-08-04T20:13:17.076Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Pizza Friday",
+      "amount": 1440,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "d8f6ce97-aa49-4dce-a658-8f889e855670",
+      "created_at": "2026-08-04T20:13:17.133Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "March rent",
+      "amount": 48000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "c14428ea-b2e9-4732-870f-8d31aa7c849c",
+      "created_at": "2026-08-04T20:13:17.161Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Groceries BigBasket",
+      "amount": 2810,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "6b85175b-66f7-410e-b733-17b40ea0d9d9",
+      "created_at": "2026-08-04T20:13:17.189Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Mar",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "ea4f5bab-3c45-4fb1-87cf-e33fe4cba6df",
+      "created_at": "2026-08-04T20:13:17.212Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Goa flights",
+      "amount": 32400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "e50cebbb-7250-4616-b9be-2c0131c6d141",
+      "created_at": "2026-08-04T20:13:17.238Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Goa villa booking",
+      "amount": 540,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "32988228-7260-4437-a096-68e3369cde61",
+      "created_at": "2026-08-04T20:13:17.252Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Beach shack lunch",
+      "amount": 84,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "23f94348-3f42-4692-a31e-19824aa6061a",
+      "created_at": "2026-08-04T20:13:17.265Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Scooter rentals",
+      "amount": 3600,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "7d605b0b-de5a-4761-8806-0d5f15f83835",
+      "created_at": "2026-08-04T20:13:17.282Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "description": "Parasailing",
+      "amount": 150,
+      "split_type": "equal",
+      "currency": "USD",
+      "id": "80a8c1e2-ca11-4c9e-890e-7a733df8b81e",
+      "created_at": "2026-08-04T20:13:17.300Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Dinner at Thalassa",
+      "amount": 2400,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "96c5e0a9-7f84-4084-b29f-e4108d073bbd",
+      "created_at": "2026-08-04T20:13:17.320Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Thalassa dinner",
+      "amount": 2450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "fda9224c-8420-4b87-8cc0-2848a011dde6",
+      "created_at": "2026-08-04T20:13:17.333Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Airport cab",
+      "amount": 1100,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "8a76bc8e-0371-46ca-905b-a36091d7ce21",
+      "created_at": "2026-08-04T20:13:17.888Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries DMart",
+      "amount": 2105,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "5f5becbb-3c94-49e0-aea1-70ffab0d577d",
+      "created_at": "2026-08-04T20:13:17.904Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Electricity Mar",
+      "amount": 1450,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "15a9b01a-f214-437e-9d25-cbce82bc2517",
+      "created_at": "2026-08-04T20:13:17.921Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Maid salary Mar",
+      "amount": 3000,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "f13c60bf-324d-4040-9788-e364fdcfa21d",
+      "created_at": "2026-08-04T20:13:17.938Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "description": "Weekend brunch",
+      "amount": 2200,
+      "split_type": "percentage",
+      "currency": "INR",
+      "id": "7ec61cbc-9539-44af-b078-f443c5f857d7",
+      "created_at": "2026-08-04T20:13:17.956Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "Meera farewell dinner",
+      "amount": 4800,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "de8f6ed4-d166-464e-8d48-f6944c2b8231",
+      "created_at": "2026-08-04T20:13:17.972Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Deep cleaning service",
+      "amount": 2500,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "bdd2921c-7c84-4fa2-b70d-87f36bed910e",
+      "created_at": "2026-08-04T20:13:17.988Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "22222222-2222-2222-2222-222222222222",
+      "description": "April rent",
+      "amount": 48000,
+      "split_type": "share",
+      "currency": "INR",
+      "id": "9c0b4011-c991-4350-8b6c-41c0e5ce8efc",
+      "created_at": "2026-08-04T20:13:18.005Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "44444444-4444-4444-4444-444444444444",
+      "description": "Groceries BigBasket",
+      "amount": 2640,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "6e4d3fae-a8ca-4263-93ee-d535dc8e01be",
+      "created_at": "2026-08-04T20:13:18.023Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "paid_by": "33333333-3333-3333-3333-333333333333",
+      "description": "Wifi bill Apr",
+      "amount": 1199,
+      "split_type": "equal",
+      "currency": "INR",
+      "id": "940a4b0d-f711-476e-ba89-02d29d0aa69c",
+      "created_at": "2026-08-04T20:13:18.040Z"
     }
   ],
   "expense_splits": [
@@ -106,8 +1681,4153 @@
       "percentage": null,
       "share": null,
       "id": "3a1017ba-c069-4885-8159-fc24e4221faa"
+    },
+    {
+      "expense_id": "6acd9053-879a-418f-9096-c7bfe435f3f8",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "11dfb0fe-4b61-43cd-b44d-b1d17c9a5bd4"
+    },
+    {
+      "expense_id": "6acd9053-879a-418f-9096-c7bfe435f3f8",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "3a2e0798-141e-424c-940c-1a36730778b6"
+    },
+    {
+      "expense_id": "6acd9053-879a-418f-9096-c7bfe435f3f8",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "3fe77c5b-0540-4ae1-9589-88a4a0fd7cd7"
+    },
+    {
+      "expense_id": "6acd9053-879a-418f-9096-c7bfe435f3f8",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "28abb84d-f992-4ff6-bbeb-37541cb82da7"
+    },
+    {
+      "expense_id": "4f01ae61-fbb0-44a2-ab72-3df5a36e2ee8",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "c36daa6e-2b08-4c09-a685-d99c8ac090e4"
+    },
+    {
+      "expense_id": "4f01ae61-fbb0-44a2-ab72-3df5a36e2ee8",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "03add3a2-7e7d-4aeb-bb9f-09a870743dc9"
+    },
+    {
+      "expense_id": "4f01ae61-fbb0-44a2-ab72-3df5a36e2ee8",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "acd9ab1f-5130-427a-8833-f9aadee4f12b"
+    },
+    {
+      "expense_id": "4f01ae61-fbb0-44a2-ab72-3df5a36e2ee8",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "cafd8e10-0a6d-4986-bc08-66848efa095e"
+    },
+    {
+      "expense_id": "f8655abd-d704-428c-9385-eb67f66d0899",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "da809e9f-041f-46de-bf12-2994d07a3d7c"
+    },
+    {
+      "expense_id": "f8655abd-d704-428c-9385-eb67f66d0899",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "e378f2c0-254d-4cd7-a591-427ad43acaf2"
+    },
+    {
+      "expense_id": "f8655abd-d704-428c-9385-eb67f66d0899",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "32c6f9bb-a8af-49c5-a703-baf0c22dfbcd"
+    },
+    {
+      "expense_id": "f8655abd-d704-428c-9385-eb67f66d0899",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "ee4c5e79-7249-45ba-b9f9-84ab3d5a0fd9"
+    },
+    {
+      "expense_id": "a74b224c-2006-40bd-8e52-2118105021b3",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "f102a602-1052-4943-99bc-d7d0f7ba6e0c"
+    },
+    {
+      "expense_id": "a74b224c-2006-40bd-8e52-2118105021b3",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "a0e25253-e8cb-494e-a740-eefb2a51d70c"
+    },
+    {
+      "expense_id": "a74b224c-2006-40bd-8e52-2118105021b3",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "e0de5af7-0d3d-4a0f-aef2-cd80101a31a2"
+    },
+    {
+      "expense_id": "a74b224c-2006-40bd-8e52-2118105021b3",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "fc54a504-1f96-4448-8c11-fc5001e0faed"
+    },
+    {
+      "expense_id": "3ab649de-f457-4886-b83c-a46dab0af0e0",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "3784f5a6-2ec9-45ea-af18-a506e1a4ae5e"
+    },
+    {
+      "expense_id": "3ab649de-f457-4886-b83c-a46dab0af0e0",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "6774f709-a267-45bf-9b2e-b7ba338b8b76"
+    },
+    {
+      "expense_id": "3ab649de-f457-4886-b83c-a46dab0af0e0",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "141eb69d-67e3-4c12-bee6-e8ae5e82b221"
+    },
+    {
+      "expense_id": "3ab649de-f457-4886-b83c-a46dab0af0e0",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "848709ee-5f1e-44b9-b0e6-bd85ab7b5e2b"
+    },
+    {
+      "expense_id": "976b3e3a-779a-4b28-958c-65398f6bca21",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "72b24833-97cb-43f3-b2b6-1098903cd315"
+    },
+    {
+      "expense_id": "976b3e3a-779a-4b28-958c-65398f6bca21",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "880338ed-f18e-4666-b48d-5c3cb631ed59"
+    },
+    {
+      "expense_id": "976b3e3a-779a-4b28-958c-65398f6bca21",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "a50aaeff-38f8-4c00-9b8b-212e874b69aa"
+    },
+    {
+      "expense_id": "976b3e3a-779a-4b28-958c-65398f6bca21",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "51864e27-97f0-4549-bd9a-fe4406076b47"
+    },
+    {
+      "expense_id": "a7733b0c-a268-40b1-97ef-0d8bea5dd6e7",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "d2f8e2ab-dafc-4348-8426-ca0463c071c9"
+    },
+    {
+      "expense_id": "a7733b0c-a268-40b1-97ef-0d8bea5dd6e7",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "bc001d01-e805-4ccc-a29d-fae2f5c6b857"
+    },
+    {
+      "expense_id": "a7733b0c-a268-40b1-97ef-0d8bea5dd6e7",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "415eb96b-ccfd-4b06-a17a-0f05e67b319f"
+    },
+    {
+      "expense_id": "a7733b0c-a268-40b1-97ef-0d8bea5dd6e7",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "ce2f3386-987b-43ed-81dd-72d1b5af77e9"
+    },
+    {
+      "expense_id": "06cc4700-f95e-4595-9e0a-5b98ed424a1d",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "372b1b7a-9230-4c9b-8768-70fa8274b0c0"
+    },
+    {
+      "expense_id": "06cc4700-f95e-4595-9e0a-5b98ed424a1d",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "264c2cb1-c18e-4ae8-8c6a-5832efb4dcf6"
+    },
+    {
+      "expense_id": "06cc4700-f95e-4595-9e0a-5b98ed424a1d",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 213.34,
+      "percentage": null,
+      "share": null,
+      "id": "ea0ce358-5d74-4428-a26f-22d9874fd57d"
+    },
+    {
+      "expense_id": "e87c120e-5377-490b-88bf-924e14d65f2c",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "dd7241af-287f-49d4-905d-e03394f2cdf6"
+    },
+    {
+      "expense_id": "e87c120e-5377-490b-88bf-924e14d65f2c",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "320507d6-6aca-47ce-bd25-d5a1161f77fe"
+    },
+    {
+      "expense_id": "e87c120e-5377-490b-88bf-924e14d65f2c",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "9f4cc337-21be-4db6-ac97-6c969ac3977b"
+    },
+    {
+      "expense_id": "e87c120e-5377-490b-88bf-924e14d65f2c",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "27f34348-9564-4adc-95b5-8d40fdcc3297"
+    },
+    {
+      "expense_id": "5deda929-e681-459b-b501-5078318e62fc",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "944fd321-e4a5-4fd0-a526-e3ba39d17f33"
+    },
+    {
+      "expense_id": "5deda929-e681-459b-b501-5078318e62fc",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "8d2b7eda-5210-49a7-bcb5-bd73712c706a"
+    },
+    {
+      "expense_id": "5deda929-e681-459b-b501-5078318e62fc",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "833b8662-8887-4c3f-b81e-ad4827746b53"
+    },
+    {
+      "expense_id": "5deda929-e681-459b-b501-5078318e62fc",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "1d844b58-4743-4c0d-8574-0be5353aa7db"
+    },
+    {
+      "expense_id": "96d65f56-7bce-437f-bd25-c7a643fd6194",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 700,
+      "percentage": null,
+      "share": null,
+      "id": "55237a4f-45dd-4367-929b-933b8360215c"
+    },
+    {
+      "expense_id": "96d65f56-7bce-437f-bd25-c7a643fd6194",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "6b3bd3f6-8dc7-414d-9fdb-e595cdbb0894"
+    },
+    {
+      "expense_id": "96d65f56-7bce-437f-bd25-c7a643fd6194",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "e21bb6f1-72e4-4149-a8e4-c2f528182440"
+    },
+    {
+      "expense_id": "a3878875-fb9a-4bb0-a283-5f3ab2868f14",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "6cae6116-4392-4de6-8e49-0487d08299c1"
+    },
+    {
+      "expense_id": "a3878875-fb9a-4bb0-a283-5f3ab2868f14",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "27858545-31ba-41dc-9736-ad72a1f5b18b"
+    },
+    {
+      "expense_id": "a3878875-fb9a-4bb0-a283-5f3ab2868f14",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "f9fb65c7-fbb1-4a8e-bc61-e3bf2a7cc929"
+    },
+    {
+      "expense_id": "a3878875-fb9a-4bb0-a283-5f3ab2868f14",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "06124675-e3f8-4894-9817-94265ec4f67f"
+    },
+    {
+      "expense_id": "53edf467-4d63-4c19-8dbb-76d79ced4a47",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "ecab6b53-4f04-47c3-bc63-bb0bc9a798ad"
+    },
+    {
+      "expense_id": "53edf467-4d63-4c19-8dbb-76d79ced4a47",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "43a1a67b-0f46-45b7-bf4a-8528a1f02cb1"
+    },
+    {
+      "expense_id": "53edf467-4d63-4c19-8dbb-76d79ced4a47",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "a945a784-6b6d-4793-bd50-57c45b9b79b4"
+    },
+    {
+      "expense_id": "53edf467-4d63-4c19-8dbb-76d79ced4a47",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 261.81,
+      "percentage": 18.18,
+      "share": null,
+      "id": "113ec190-4d9d-4e55-a30f-2a587fc916fc"
+    },
+    {
+      "expense_id": "1860b339-ce37-4eb0-8607-befa6e3975c6",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "a9f48886-00b9-4763-8968-6bad664206e2"
+    },
+    {
+      "expense_id": "1860b339-ce37-4eb0-8607-befa6e3975c6",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "ff3a1b3a-40a1-45a5-999a-ae6fc3ee399e"
+    },
+    {
+      "expense_id": "1860b339-ce37-4eb0-8607-befa6e3975c6",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "e078056e-35be-4e4d-b986-e9cad55aafb3"
+    },
+    {
+      "expense_id": "1860b339-ce37-4eb0-8607-befa6e3975c6",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "157229a1-83c1-4c9d-9f29-34ff1c1889b2"
+    },
+    {
+      "expense_id": "b74e5f50-c7a8-48ce-8618-3a5bb187414c",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "5cee1d38-392b-4c0c-a27d-c9a79acd5844"
+    },
+    {
+      "expense_id": "b74e5f50-c7a8-48ce-8618-3a5bb187414c",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "884a6177-c191-4e04-8222-474bd7e3992c"
+    },
+    {
+      "expense_id": "b74e5f50-c7a8-48ce-8618-3a5bb187414c",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "0c3053c9-da27-4c06-9a75-f53b857783aa"
+    },
+    {
+      "expense_id": "b74e5f50-c7a8-48ce-8618-3a5bb187414c",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "a5a7a645-e5d9-40c0-b1a7-0c9b598ac5c4"
+    },
+    {
+      "expense_id": "2f44b1fb-67a2-4bba-b0f5-ae3537f26c1b",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "5ac893c8-86d8-49d5-b185-7a192dca368e"
+    },
+    {
+      "expense_id": "2f44b1fb-67a2-4bba-b0f5-ae3537f26c1b",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "feb8230f-0d64-4ccc-a22f-9adaa275ad85"
+    },
+    {
+      "expense_id": "2f44b1fb-67a2-4bba-b0f5-ae3537f26c1b",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "51332621-12d1-4f54-8621-31d2ca4d8ac5"
+    },
+    {
+      "expense_id": "2f44b1fb-67a2-4bba-b0f5-ae3537f26c1b",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "be6f6982-614e-4d53-abf7-cb02937dffdf"
+    },
+    {
+      "expense_id": "11f38d11-012f-45a8-a438-7bda00a2d466",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "3c587ce3-49bd-4275-a4b8-400f3e90f9fe"
+    },
+    {
+      "expense_id": "11f38d11-012f-45a8-a438-7bda00a2d466",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "f3b8bf7f-5f06-4d94-90b6-76167863a193"
+    },
+    {
+      "expense_id": "11f38d11-012f-45a8-a438-7bda00a2d466",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "71ddf45d-d1ee-4a19-8a28-08ca9e5a5765"
+    },
+    {
+      "expense_id": "11f38d11-012f-45a8-a438-7bda00a2d466",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "deaf3394-6754-40ae-9bd5-9d8a91ced55c"
+    },
+    {
+      "expense_id": "ce60b352-f94c-422b-8876-52aac89bdf4e",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "46449ac7-59c0-414e-b90f-d254f1ec15c4"
+    },
+    {
+      "expense_id": "ce60b352-f94c-422b-8876-52aac89bdf4e",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "147c4107-c698-478e-ac3f-4f8debffe26e"
+    },
+    {
+      "expense_id": "ce60b352-f94c-422b-8876-52aac89bdf4e",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "80b38821-992e-4505-a433-996396881bdb"
+    },
+    {
+      "expense_id": "ce60b352-f94c-422b-8876-52aac89bdf4e",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "2c79f0f3-9236-4b71-b785-886206e4a1ef"
+    },
+    {
+      "expense_id": "333c22ab-3083-400b-98eb-951b6f0d449e",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "c143c8a3-6ab4-4a61-b25b-144420b5ed73"
+    },
+    {
+      "expense_id": "333c22ab-3083-400b-98eb-951b6f0d449e",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "ab87d9f8-1a4d-45bb-8747-e2238f9db503"
+    },
+    {
+      "expense_id": "333c22ab-3083-400b-98eb-951b6f0d449e",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "c63ea6a8-a7d0-40da-a062-f30948ccc1a3"
+    },
+    {
+      "expense_id": "333c22ab-3083-400b-98eb-951b6f0d449e",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "ffb05da2-ae18-4f31-b3fd-24607bb4f06b"
+    },
+    {
+      "expense_id": "613e38f4-04ff-43d3-bb0d-113fc69a9872",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "9044b160-5b5e-42e8-93e9-424e03d997a4"
+    },
+    {
+      "expense_id": "613e38f4-04ff-43d3-bb0d-113fc69a9872",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "346a33af-e851-4dec-92a4-5de506ff84c7"
+    },
+    {
+      "expense_id": "613e38f4-04ff-43d3-bb0d-113fc69a9872",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "8c9103ae-eb40-4485-b4bc-2f391971def6"
+    },
+    {
+      "expense_id": "613e38f4-04ff-43d3-bb0d-113fc69a9872",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "39aa8150-a34c-4db0-87b2-ea68e932cf3e"
+    },
+    {
+      "expense_id": "48e080b2-8f98-4f2f-9ed8-9042960b6cb6",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "bcf61a48-574d-4cab-bd56-e9ce5669a766"
+    },
+    {
+      "expense_id": "48e080b2-8f98-4f2f-9ed8-9042960b6cb6",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "2fcae7c7-f173-4a3a-baa6-6ce82914e788"
+    },
+    {
+      "expense_id": "48e080b2-8f98-4f2f-9ed8-9042960b6cb6",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "fc8acebf-76e8-4095-a5ed-26cb91a1de03"
+    },
+    {
+      "expense_id": "48e080b2-8f98-4f2f-9ed8-9042960b6cb6",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "12e7f927-d79c-46df-a1df-63a73a146e33"
+    },
+    {
+      "expense_id": "48e080b2-8f98-4f2f-9ed8-9042960b6cb6",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "9872aed1-de2b-48d5-9ae2-872cca593bba"
+    },
+    {
+      "expense_id": "d4bce9fa-2918-48a4-8e00-d70d907c8ed5",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "04a0554e-5799-4dde-bec9-e1333d34792b"
+    },
+    {
+      "expense_id": "d4bce9fa-2918-48a4-8e00-d70d907c8ed5",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "0a19164d-83e0-4b0b-b196-3473b41f4609"
+    },
+    {
+      "expense_id": "d4bce9fa-2918-48a4-8e00-d70d907c8ed5",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "a3750f5f-a060-4b85-a46d-be19601d78be"
+    },
+    {
+      "expense_id": "d4bce9fa-2918-48a4-8e00-d70d907c8ed5",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "ab990e88-db5c-4d08-a868-190abf83e90c"
+    },
+    {
+      "expense_id": "ffbd4b0e-4786-4525-86d1-a1d79939da34",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "20e54967-195b-4a6a-85e8-a88473c49dc5"
+    },
+    {
+      "expense_id": "ffbd4b0e-4786-4525-86d1-a1d79939da34",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "497ff16e-b2c4-416e-b22a-d8cdafa99a9f"
+    },
+    {
+      "expense_id": "ffbd4b0e-4786-4525-86d1-a1d79939da34",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "4e34823e-dd49-4939-9cd1-0c2fdd67abb4"
+    },
+    {
+      "expense_id": "ffbd4b0e-4786-4525-86d1-a1d79939da34",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "6da5d86a-14b4-4ad9-ba07-c3c53fbcce50"
+    },
+    {
+      "expense_id": "ff6316f8-e1a1-4a56-978c-036161069c22",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "63c9459c-b1d1-454c-939b-6b9cb7a2ec7a"
+    },
+    {
+      "expense_id": "ff6316f8-e1a1-4a56-978c-036161069c22",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "1b3bd95b-edc7-4782-82a2-ce74739a562a"
+    },
+    {
+      "expense_id": "ff6316f8-e1a1-4a56-978c-036161069c22",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "e03bf6c4-d263-4acf-8fb7-c51653f36691"
+    },
+    {
+      "expense_id": "ff6316f8-e1a1-4a56-978c-036161069c22",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "a4dda750-71ad-4beb-9047-c2524d050933"
+    },
+    {
+      "expense_id": "2da15565-6790-4a38-92bd-08e6ef27f724",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "c60f82dd-d136-4866-9101-686732511006"
+    },
+    {
+      "expense_id": "2da15565-6790-4a38-92bd-08e6ef27f724",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "d554907c-a2b5-42cb-a0c7-6c74f3bf12f7"
+    },
+    {
+      "expense_id": "2da15565-6790-4a38-92bd-08e6ef27f724",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "ce75e3cd-1a47-4ae6-8873-4519ef52c544"
+    },
+    {
+      "expense_id": "2da15565-6790-4a38-92bd-08e6ef27f724",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "ac9ada87-ab85-43e2-ade1-84f831636b12"
+    },
+    {
+      "expense_id": "a76e5f87-5909-44bf-a685-ced1c580284b",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "76814ef9-f98a-47b4-93b8-ca5841616c9f"
+    },
+    {
+      "expense_id": "a76e5f87-5909-44bf-a685-ced1c580284b",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "7de142c4-bf79-4652-9a00-319f5af07d09"
+    },
+    {
+      "expense_id": "a76e5f87-5909-44bf-a685-ced1c580284b",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "e8931088-a463-4f2d-a1ea-724569012890"
+    },
+    {
+      "expense_id": "a76e5f87-5909-44bf-a685-ced1c580284b",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "bbf69022-071a-47f1-b933-0a4a1776504f"
+    },
+    {
+      "expense_id": "17229c64-8394-4873-9a17-45dec87f6466",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "71f2d51e-b6bb-4f83-a298-924110a80778"
+    },
+    {
+      "expense_id": "17229c64-8394-4873-9a17-45dec87f6466",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "6e4fd4cf-6182-4e51-b855-7040ef683e1d"
+    },
+    {
+      "expense_id": "17229c64-8394-4873-9a17-45dec87f6466",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "60b6dd4b-c9fb-41e2-bb8a-ff41afcb2919"
+    },
+    {
+      "expense_id": "17229c64-8394-4873-9a17-45dec87f6466",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "10d06ab7-95cc-41fe-b9b3-e90efb37eddf"
+    },
+    {
+      "expense_id": "17f426ea-ecb8-4098-9fee-c49d5c9d8e54",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "65697588-321b-43d7-af14-e136ac6d751b"
+    },
+    {
+      "expense_id": "17f426ea-ecb8-4098-9fee-c49d5c9d8e54",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "beaaa369-559b-4830-8a4e-62fb6e2a8ca4"
+    },
+    {
+      "expense_id": "17f426ea-ecb8-4098-9fee-c49d5c9d8e54",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "7cefb8fd-f8ac-4f36-a73a-3af491a978bc"
+    },
+    {
+      "expense_id": "17f426ea-ecb8-4098-9fee-c49d5c9d8e54",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": 18.18,
+      "share": null,
+      "id": "5e340c82-1aa3-475f-ad62-a60840bae56a"
+    },
+    {
+      "expense_id": "d9889ccf-2fc2-4a07-b5b4-7f04525717ca",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "4adaf26c-b92e-41e9-9617-bf7a70b62f88"
+    },
+    {
+      "expense_id": "d9889ccf-2fc2-4a07-b5b4-7f04525717ca",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "1a4fb8f0-f34d-4f18-a88a-1c5728128d5b"
+    },
+    {
+      "expense_id": "d9889ccf-2fc2-4a07-b5b4-7f04525717ca",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "4e9c03da-a51d-477f-b70c-b4a587e11386"
+    },
+    {
+      "expense_id": "d9889ccf-2fc2-4a07-b5b4-7f04525717ca",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "35d93359-692e-496b-bc64-a988c34d484e"
+    },
+    {
+      "expense_id": "23618b31-15e5-432a-a676-ab30f1841668",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "84a686ba-49d6-499d-b06d-983ebff81497"
+    },
+    {
+      "expense_id": "23618b31-15e5-432a-a676-ab30f1841668",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "f9655ffd-b84b-44fa-b4a8-55275a97dca5"
+    },
+    {
+      "expense_id": "23618b31-15e5-432a-a676-ab30f1841668",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 833.34,
+      "percentage": null,
+      "share": null,
+      "id": "97745b6e-fddd-47a9-81b5-89813909d0fa"
+    },
+    {
+      "expense_id": "9a8cd304-76d6-4c54-8b2c-431ba4d9fda9",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 24000,
+      "percentage": null,
+      "share": 2,
+      "id": "99e1f19c-4f62-4856-98e2-ce7b5cc757ca"
+    },
+    {
+      "expense_id": "9a8cd304-76d6-4c54-8b2c-431ba4d9fda9",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "cbc7f722-d66f-4582-9bfc-b12cfe5f65c3"
+    },
+    {
+      "expense_id": "9a8cd304-76d6-4c54-8b2c-431ba4d9fda9",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "44d5cf61-9245-4b6f-a56e-0ce534e72293"
+    },
+    {
+      "expense_id": "8325afd7-d2b9-480e-9535-fa3a73bd805b",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "4c3e19b6-b2fd-4c3c-87ba-7c7c6b97e681"
+    },
+    {
+      "expense_id": "8325afd7-d2b9-480e-9535-fa3a73bd805b",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "fa138455-2bd4-4ede-87c9-d492c180f079"
+    },
+    {
+      "expense_id": "8325afd7-d2b9-480e-9535-fa3a73bd805b",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "711400f5-e7bf-4473-bd6f-051e66f9ffa2"
+    },
+    {
+      "expense_id": "8325afd7-d2b9-480e-9535-fa3a73bd805b",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "f7619b7f-1be1-4dda-b86a-0d6251cd04d3"
+    },
+    {
+      "expense_id": "db12a958-921f-4ff7-afda-13165746af00",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "0d3b8281-814b-42cf-bde4-a57d1de970ab"
+    },
+    {
+      "expense_id": "db12a958-921f-4ff7-afda-13165746af00",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "5dbbfb32-dcce-4343-9807-679e37c81ab5"
+    },
+    {
+      "expense_id": "db12a958-921f-4ff7-afda-13165746af00",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 399.66,
+      "percentage": null,
+      "share": null,
+      "id": "015dcf27-a499-451c-8f5d-0f6b635ffd2d"
+    },
+    {
+      "expense_id": "de2da2d5-e0ec-4c95-85a9-203bb6c00c5a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "97562e6b-09b9-41c7-99bd-eca13460c37d"
+    },
+    {
+      "expense_id": "de2da2d5-e0ec-4c95-85a9-203bb6c00c5a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "73d87ef5-6e08-4764-a95f-32692049017b"
+    },
+    {
+      "expense_id": "de2da2d5-e0ec-4c95-85a9-203bb6c00c5a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "1af57830-2fd9-4070-9a5b-611b9c99530f"
+    },
+    {
+      "expense_id": "de2da2d5-e0ec-4c95-85a9-203bb6c00c5a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "3ae71208-30a4-43f4-9b13-66417ba9b77f"
+    },
+    {
+      "expense_id": "359e5931-ee6c-4292-840e-cbc31a717311",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "94c05895-56fb-439a-a03c-e0f480fd8254"
+    },
+    {
+      "expense_id": "359e5931-ee6c-4292-840e-cbc31a717311",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "caf1efbb-7261-48cd-8a97-db6fc48ee547"
+    },
+    {
+      "expense_id": "359e5931-ee6c-4292-840e-cbc31a717311",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "6ab3353c-0730-414e-8419-18c9bf4f722c"
+    },
+    {
+      "expense_id": "359e5931-ee6c-4292-840e-cbc31a717311",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "6f733781-bd28-4ff2-b65f-245768ae214a"
+    },
+    {
+      "expense_id": "fcf40e5d-ccaf-4ac0-9b0a-c64940e02c2a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "c517dd6a-3853-490a-b5a9-22a1b7234f87"
+    },
+    {
+      "expense_id": "fcf40e5d-ccaf-4ac0-9b0a-c64940e02c2a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "dbfe35ac-0a8b-4e04-bd28-69c5e5e2d059"
+    },
+    {
+      "expense_id": "fcf40e5d-ccaf-4ac0-9b0a-c64940e02c2a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "6ae0f168-68e5-4c67-9d10-a0d997b53ab1"
+    },
+    {
+      "expense_id": "fcf40e5d-ccaf-4ac0-9b0a-c64940e02c2a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "9d162cba-a76d-48c4-a6ed-6058e5d6fc08"
+    },
+    {
+      "expense_id": "4ce29661-cbd7-464d-91ed-045726648399",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "712311eb-33ea-428f-af87-f02b130e8b8d"
+    },
+    {
+      "expense_id": "4ce29661-cbd7-464d-91ed-045726648399",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "e3b7a0ae-2176-414a-a171-4333d004c56e"
+    },
+    {
+      "expense_id": "4ce29661-cbd7-464d-91ed-045726648399",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "e266cb20-aa3e-415c-90dc-61d75cab532c"
+    },
+    {
+      "expense_id": "4ce29661-cbd7-464d-91ed-045726648399",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "9cea7951-5e9f-415e-9f6f-259993ded192"
+    },
+    {
+      "expense_id": "defab317-890b-441c-89d3-4fba098711dd",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "17496d97-2b44-4d2a-98d5-e3140faf39e6"
+    },
+    {
+      "expense_id": "defab317-890b-441c-89d3-4fba098711dd",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "09b3103e-7b14-4b99-918f-1b7336ebc341"
+    },
+    {
+      "expense_id": "defab317-890b-441c-89d3-4fba098711dd",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "47af9c0a-aa01-453b-885e-da90bc6a8bc1"
+    },
+    {
+      "expense_id": "defab317-890b-441c-89d3-4fba098711dd",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "24d4cc79-eadc-4133-aa6d-284da3fe6ffc"
+    },
+    {
+      "expense_id": "22ebce66-03e6-4695-958d-db911362800a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "05ec8fa1-896e-4951-8677-c40d5e927bc4"
+    },
+    {
+      "expense_id": "22ebce66-03e6-4695-958d-db911362800a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "d6418f89-8df5-4db6-8fa6-c56b020674e9"
+    },
+    {
+      "expense_id": "22ebce66-03e6-4695-958d-db911362800a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "feb8304b-4661-4a43-bfa4-f0eed87e377d"
+    },
+    {
+      "expense_id": "22ebce66-03e6-4695-958d-db911362800a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "c4db8051-4d64-4ba3-8d16-8fe8b68b41b9"
+    },
+    {
+      "expense_id": "0a68023e-e206-4d4b-a9bd-e1f63dcbf775",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "6c9fd57f-6412-47ba-8ed3-959f3a0b19fd"
+    },
+    {
+      "expense_id": "0a68023e-e206-4d4b-a9bd-e1f63dcbf775",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "326e2ab9-fb17-4247-ae81-3ae4b42d33f1"
+    },
+    {
+      "expense_id": "0a68023e-e206-4d4b-a9bd-e1f63dcbf775",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "342c90ee-c714-4b17-89d0-810b9d269f6f"
+    },
+    {
+      "expense_id": "0a68023e-e206-4d4b-a9bd-e1f63dcbf775",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "dfe1a226-0ff3-432b-b6ff-59f979400c3d"
+    },
+    {
+      "expense_id": "c7582a1f-730d-47d7-9adf-433f461fe330",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "8d9b769d-38e2-467b-ab92-803fdcfecc91"
+    },
+    {
+      "expense_id": "c7582a1f-730d-47d7-9adf-433f461fe330",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "d13f7779-c5be-4957-a4f4-add03129fc0d"
+    },
+    {
+      "expense_id": "c7582a1f-730d-47d7-9adf-433f461fe330",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 213.34,
+      "percentage": null,
+      "share": null,
+      "id": "46b9948b-721f-458f-8895-eb644677958e"
+    },
+    {
+      "expense_id": "03fe5630-8093-4fbb-95c7-0b5e005067e2",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "a59b971d-127f-406a-bdcb-23eab55dc52c"
+    },
+    {
+      "expense_id": "03fe5630-8093-4fbb-95c7-0b5e005067e2",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "b10c2481-a343-4ea8-a11b-0d1f082b3870"
+    },
+    {
+      "expense_id": "03fe5630-8093-4fbb-95c7-0b5e005067e2",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "2bbd5dc8-dea8-4739-aed5-a4fff0075f68"
+    },
+    {
+      "expense_id": "03fe5630-8093-4fbb-95c7-0b5e005067e2",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "2967bdca-8bbb-40f1-a9d5-ed07bf66a1a3"
+    },
+    {
+      "expense_id": "1601e773-cb34-40c1-ac50-74a057918c5f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "e9b6d491-0ff7-4f8a-b6af-f285adf9e342"
+    },
+    {
+      "expense_id": "1601e773-cb34-40c1-ac50-74a057918c5f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "576c59ff-3495-4ac3-bef5-8650de7b46e3"
+    },
+    {
+      "expense_id": "1601e773-cb34-40c1-ac50-74a057918c5f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "ad6aed71-870b-42e5-81a5-a86b51a02c27"
+    },
+    {
+      "expense_id": "1601e773-cb34-40c1-ac50-74a057918c5f",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "855e4d9d-4ab9-4fee-990f-aae28d094e27"
+    },
+    {
+      "expense_id": "e7ac8624-f331-4fc4-9ca5-366f63b80607",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 700,
+      "percentage": null,
+      "share": null,
+      "id": "567c5885-525e-40fc-b976-fdd234807362"
+    },
+    {
+      "expense_id": "e7ac8624-f331-4fc4-9ca5-366f63b80607",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "9aee3655-e71d-4f34-be52-e0fe7a2cf70c"
+    },
+    {
+      "expense_id": "e7ac8624-f331-4fc4-9ca5-366f63b80607",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "e43e5aeb-aebf-4b25-a126-9c6bfb00d8ec"
+    },
+    {
+      "expense_id": "45619cfd-b82b-49f2-b7f0-b3bd12c95719",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "d91191c8-7395-4aa2-8c52-c638716de636"
+    },
+    {
+      "expense_id": "45619cfd-b82b-49f2-b7f0-b3bd12c95719",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "b5dc3018-a655-4ce5-a9ee-3371af798869"
+    },
+    {
+      "expense_id": "45619cfd-b82b-49f2-b7f0-b3bd12c95719",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "91fc96e7-ee56-48eb-ae17-b4178192470b"
+    },
+    {
+      "expense_id": "45619cfd-b82b-49f2-b7f0-b3bd12c95719",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "2ed6ff64-67ec-435d-a17b-a567f99e41f3"
+    },
+    {
+      "expense_id": "f3a61f85-6a0f-421b-a713-094f3647a713",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "665df54a-6722-4b59-b866-912d3f949970"
+    },
+    {
+      "expense_id": "f3a61f85-6a0f-421b-a713-094f3647a713",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "d58dbab9-c344-42bc-9d4d-9d458f6f0a93"
+    },
+    {
+      "expense_id": "f3a61f85-6a0f-421b-a713-094f3647a713",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "f168a164-dd31-4dba-b957-a827f061d795"
+    },
+    {
+      "expense_id": "f3a61f85-6a0f-421b-a713-094f3647a713",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 261.81,
+      "percentage": 18.18,
+      "share": null,
+      "id": "cbcd616b-52e3-4425-b271-8d9d526618b1"
+    },
+    {
+      "expense_id": "c4c6ac81-1010-420d-a366-67e801b91d12",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "8a1204c8-ee4f-445b-8c7c-574a1fa443b4"
+    },
+    {
+      "expense_id": "c4c6ac81-1010-420d-a366-67e801b91d12",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "5fcaf67e-eb3d-4be8-874f-1849822479e1"
+    },
+    {
+      "expense_id": "c4c6ac81-1010-420d-a366-67e801b91d12",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "78311f71-b040-4923-a3a2-abd6be141f34"
+    },
+    {
+      "expense_id": "c4c6ac81-1010-420d-a366-67e801b91d12",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "518f744d-47c4-427f-b183-c7da079573df"
+    },
+    {
+      "expense_id": "098a52a2-d4dc-47ac-8a96-ceafe1a05e88",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "4763b866-9972-454a-a44e-fb49f1f2a493"
+    },
+    {
+      "expense_id": "098a52a2-d4dc-47ac-8a96-ceafe1a05e88",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "174f9ab2-21df-40b6-8909-e69c43721033"
+    },
+    {
+      "expense_id": "098a52a2-d4dc-47ac-8a96-ceafe1a05e88",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "c5c176f7-bd9c-4b20-a5e3-ec5a6f0bfe2c"
+    },
+    {
+      "expense_id": "098a52a2-d4dc-47ac-8a96-ceafe1a05e88",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "20280bb8-cd95-4aab-8b38-3fa192c80f7c"
+    },
+    {
+      "expense_id": "0b963086-110f-487a-b357-a856be171447",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "b9a30b76-7dd2-40b8-a397-cf3f3a87ab1c"
+    },
+    {
+      "expense_id": "0b963086-110f-487a-b357-a856be171447",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "97f5eac7-ee38-4fb8-98b6-157d7326881d"
+    },
+    {
+      "expense_id": "0b963086-110f-487a-b357-a856be171447",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "2dc0c593-4fb2-4f4a-9a90-6ef436d118b9"
+    },
+    {
+      "expense_id": "0b963086-110f-487a-b357-a856be171447",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "057348ac-ce9d-43cf-9514-2850aa15ab0a"
+    },
+    {
+      "expense_id": "b022ece1-0f43-4399-a1af-5926fb7680f9",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "cad99dff-1fa3-4d72-b8c2-fbd801a44cd5"
+    },
+    {
+      "expense_id": "b022ece1-0f43-4399-a1af-5926fb7680f9",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "54064232-e8a5-4721-a221-a3501137b801"
+    },
+    {
+      "expense_id": "b022ece1-0f43-4399-a1af-5926fb7680f9",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "f51c88a2-8321-4bae-9f21-688c15a05fff"
+    },
+    {
+      "expense_id": "b022ece1-0f43-4399-a1af-5926fb7680f9",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "f886fc50-0dcd-418e-8689-c7611092b4cc"
+    },
+    {
+      "expense_id": "7718cc44-560a-402a-a73d-f012d8a10437",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "3685d8c7-7c71-4310-82c2-08197c733728"
+    },
+    {
+      "expense_id": "7718cc44-560a-402a-a73d-f012d8a10437",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "7e802cb4-6da7-42a6-b1c1-e021a21bf2ab"
+    },
+    {
+      "expense_id": "7718cc44-560a-402a-a73d-f012d8a10437",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "1d569800-f542-4745-84fc-e7e9c44fa832"
+    },
+    {
+      "expense_id": "7718cc44-560a-402a-a73d-f012d8a10437",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "4a1647fc-be5e-4ec0-b95d-1c91c84921c9"
+    },
+    {
+      "expense_id": "904b3c2f-e3f0-4438-9d86-fa328d5a02ae",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "712e6080-8376-49d9-a6ea-45c32ca81065"
+    },
+    {
+      "expense_id": "904b3c2f-e3f0-4438-9d86-fa328d5a02ae",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "b51ef3b5-a8da-47a3-a342-60e43767536f"
+    },
+    {
+      "expense_id": "904b3c2f-e3f0-4438-9d86-fa328d5a02ae",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "fe07d3e5-bb4e-4ecc-8e5b-5388ad64ef35"
+    },
+    {
+      "expense_id": "904b3c2f-e3f0-4438-9d86-fa328d5a02ae",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "105c3530-0d9c-4ac4-aae6-4cb9f5a185f9"
+    },
+    {
+      "expense_id": "5c5ab61b-6d27-412d-b614-986f7445ba18",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "26fe451b-e28d-47c9-9f51-4b42d4bf97f1"
+    },
+    {
+      "expense_id": "5c5ab61b-6d27-412d-b614-986f7445ba18",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "1300073e-358d-4478-98a8-1cde0a880bf4"
+    },
+    {
+      "expense_id": "5c5ab61b-6d27-412d-b614-986f7445ba18",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "301196f9-032e-4d45-84ff-e82708032267"
+    },
+    {
+      "expense_id": "5c5ab61b-6d27-412d-b614-986f7445ba18",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "5e6e7dca-b678-48fa-957c-85a7a8961649"
+    },
+    {
+      "expense_id": "d571df9c-f5f8-491a-b999-5da0c6c81ec0",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "3fe00547-1a15-4614-9386-58ba852b16d0"
+    },
+    {
+      "expense_id": "d571df9c-f5f8-491a-b999-5da0c6c81ec0",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "bef53d2e-84b3-42da-96a8-ecd581951ef6"
+    },
+    {
+      "expense_id": "d571df9c-f5f8-491a-b999-5da0c6c81ec0",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "e2cbb09f-0374-458d-b5c1-21eac0a54562"
+    },
+    {
+      "expense_id": "d571df9c-f5f8-491a-b999-5da0c6c81ec0",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "3d04a94e-cdb0-4747-8e19-b3ce5275e971"
+    },
+    {
+      "expense_id": "d571df9c-f5f8-491a-b999-5da0c6c81ec0",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "8d9ce7bf-03d3-4afb-b2ca-d025f1946f74"
+    },
+    {
+      "expense_id": "14987d12-b856-410d-9788-630cd5926c35",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "c1d79cd3-148c-4798-95a4-d3a065c6e279"
+    },
+    {
+      "expense_id": "14987d12-b856-410d-9788-630cd5926c35",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "5f8805c8-5c0f-45e3-babf-2c6fb9349587"
+    },
+    {
+      "expense_id": "14987d12-b856-410d-9788-630cd5926c35",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "7d104578-feb4-41e1-b1c0-0d58c8945e55"
+    },
+    {
+      "expense_id": "14987d12-b856-410d-9788-630cd5926c35",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "ec2984dd-98d1-4cf9-8a21-a0ab4353618a"
+    },
+    {
+      "expense_id": "7fe894bc-0660-474a-bede-bfe1bad0d7e9",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "9b9a58cd-5fad-4144-b693-88e42accd592"
+    },
+    {
+      "expense_id": "7fe894bc-0660-474a-bede-bfe1bad0d7e9",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "e05885b9-3576-4642-8b11-bb41f158c680"
+    },
+    {
+      "expense_id": "7fe894bc-0660-474a-bede-bfe1bad0d7e9",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "493cc148-3bce-4b0d-b834-234f3b203894"
+    },
+    {
+      "expense_id": "7fe894bc-0660-474a-bede-bfe1bad0d7e9",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "1d191812-4707-4544-81dd-14bd9119d352"
+    },
+    {
+      "expense_id": "0445e5e1-7de0-4b27-8e28-47b61ef508ef",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "c2aaea49-04c3-4361-828b-d0d541c0e5db"
+    },
+    {
+      "expense_id": "0445e5e1-7de0-4b27-8e28-47b61ef508ef",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "b162a20e-7cf7-41f2-96ac-66c4998b8583"
+    },
+    {
+      "expense_id": "0445e5e1-7de0-4b27-8e28-47b61ef508ef",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "bf07aeae-0585-45b4-b151-f7d24e0f23a4"
+    },
+    {
+      "expense_id": "0445e5e1-7de0-4b27-8e28-47b61ef508ef",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "be2388e2-d315-49eb-b1cc-fb051c683f59"
+    },
+    {
+      "expense_id": "836e604c-08bc-4ef3-9a6e-991b302df87a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "b8404c22-33b4-4afa-8433-ed210c59cf8b"
+    },
+    {
+      "expense_id": "836e604c-08bc-4ef3-9a6e-991b302df87a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "5f1b47c6-d49c-4a08-9fe6-47c4322cbc59"
+    },
+    {
+      "expense_id": "836e604c-08bc-4ef3-9a6e-991b302df87a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "954f738e-0b0b-44c6-bd6c-d78a41a3ef2f"
+    },
+    {
+      "expense_id": "836e604c-08bc-4ef3-9a6e-991b302df87a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "cb5626b3-cccc-4ff0-87a3-801c1c6f44d3"
+    },
+    {
+      "expense_id": "7fc83d76-1829-451c-964f-88351ce2d552",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "afb13872-c9c3-4003-b11d-9049c950953a"
+    },
+    {
+      "expense_id": "7fc83d76-1829-451c-964f-88351ce2d552",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "f1b5ae97-b75f-4e6f-b1c2-ba06871feaa0"
+    },
+    {
+      "expense_id": "7fc83d76-1829-451c-964f-88351ce2d552",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "68da0071-b7cb-4012-8ea1-94e5b3c3a6d3"
+    },
+    {
+      "expense_id": "7fc83d76-1829-451c-964f-88351ce2d552",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "4ecfd784-2855-40b6-9336-d9a8596cb229"
+    },
+    {
+      "expense_id": "6a28a9d9-1c27-42b9-a250-091ff04d6aaa",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "f49a973c-a5c9-42b8-b124-d1e7cd50fb07"
+    },
+    {
+      "expense_id": "6a28a9d9-1c27-42b9-a250-091ff04d6aaa",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "df9728d1-4e23-4922-a24e-8244aaf1729e"
+    },
+    {
+      "expense_id": "6a28a9d9-1c27-42b9-a250-091ff04d6aaa",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "33f21d71-9570-47b0-9454-37c3acde4fd8"
+    },
+    {
+      "expense_id": "6a28a9d9-1c27-42b9-a250-091ff04d6aaa",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "2e173849-b44d-4376-a80d-0c29d0fb5cba"
+    },
+    {
+      "expense_id": "b92d0fed-d08d-4941-b42d-c704f47ad29f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "4a8822cd-e074-4c40-8eda-b7b6de012517"
+    },
+    {
+      "expense_id": "b92d0fed-d08d-4941-b42d-c704f47ad29f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "93221886-67cb-46d7-8fd0-077a0dde4dbc"
+    },
+    {
+      "expense_id": "b92d0fed-d08d-4941-b42d-c704f47ad29f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "e857940c-1645-43d3-9ea6-d39e60e9becd"
+    },
+    {
+      "expense_id": "b92d0fed-d08d-4941-b42d-c704f47ad29f",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": 18.18,
+      "share": null,
+      "id": "6d6382ba-2c2f-4297-92ff-cf050fc92f5b"
+    },
+    {
+      "expense_id": "0d2f5b0c-d57e-4dd0-9c72-3dca99112873",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "fe372034-5495-4abd-b015-2ffadad97a75"
+    },
+    {
+      "expense_id": "0d2f5b0c-d57e-4dd0-9c72-3dca99112873",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "5f48973e-4448-460b-9fc2-0aa6085b64a6"
+    },
+    {
+      "expense_id": "0d2f5b0c-d57e-4dd0-9c72-3dca99112873",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "1a5c45a7-c18b-45f2-b8bc-4335991bb16f"
+    },
+    {
+      "expense_id": "0d2f5b0c-d57e-4dd0-9c72-3dca99112873",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "50c1502f-7161-4a66-b973-d81c3334c457"
+    },
+    {
+      "expense_id": "a0c176fd-c83a-430c-aadc-e64ac480f7ae",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "15f435f2-0260-468e-a659-f4cfda78fc98"
+    },
+    {
+      "expense_id": "a0c176fd-c83a-430c-aadc-e64ac480f7ae",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "264c24a6-ac6d-4e0a-afd7-bdb6e088e761"
+    },
+    {
+      "expense_id": "a0c176fd-c83a-430c-aadc-e64ac480f7ae",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 833.34,
+      "percentage": null,
+      "share": null,
+      "id": "4bb82f12-b4c0-46ac-acb9-e08ddf683c6c"
+    },
+    {
+      "expense_id": "d6206c64-31ed-4100-af8e-ab9477f88faf",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 24000,
+      "percentage": null,
+      "share": 2,
+      "id": "b5a709c8-c4b2-44cc-8fac-334fa642bef4"
+    },
+    {
+      "expense_id": "d6206c64-31ed-4100-af8e-ab9477f88faf",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "3fb77282-08a3-4fb7-bfa6-a0dd019e5b1b"
+    },
+    {
+      "expense_id": "d6206c64-31ed-4100-af8e-ab9477f88faf",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "37058a46-f169-43d9-abd5-51e91ae8ce4c"
+    },
+    {
+      "expense_id": "73de35ec-0a22-47d2-978a-3e34fe17bde8",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "eb27c531-e7b2-41c6-a3dc-00aa6bdf0c3a"
+    },
+    {
+      "expense_id": "73de35ec-0a22-47d2-978a-3e34fe17bde8",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "f47b72dd-e4b9-452b-850a-810a186b070b"
+    },
+    {
+      "expense_id": "73de35ec-0a22-47d2-978a-3e34fe17bde8",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "51cfd30c-5cb4-4915-8ae7-064647ad328b"
+    },
+    {
+      "expense_id": "73de35ec-0a22-47d2-978a-3e34fe17bde8",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "2de4fe7b-2f71-4e7a-845f-826bf12c5c03"
+    },
+    {
+      "expense_id": "1d09036a-b165-4b16-9edc-7cef76b545c4",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "2ec9695e-9826-4d8b-9742-8a4482791dc5"
+    },
+    {
+      "expense_id": "1d09036a-b165-4b16-9edc-7cef76b545c4",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "f82252fe-1477-48be-ac2a-2a7da6515eb5"
+    },
+    {
+      "expense_id": "1d09036a-b165-4b16-9edc-7cef76b545c4",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 399.66,
+      "percentage": null,
+      "share": null,
+      "id": "9280c3e2-ce59-4b17-8d6d-d30d5ea90f33"
+    },
+    {
+      "expense_id": "9bbaac20-d759-46e8-bc78-f9f21dc111d7",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "36edcec0-f069-42f6-ac9e-0cd4853408f3"
+    },
+    {
+      "expense_id": "9bbaac20-d759-46e8-bc78-f9f21dc111d7",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "19074ef7-9679-42a6-9e2e-606017f36735"
+    },
+    {
+      "expense_id": "9bbaac20-d759-46e8-bc78-f9f21dc111d7",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "bb6623ed-e9bd-4f42-bf99-2990a2e54e63"
+    },
+    {
+      "expense_id": "9bbaac20-d759-46e8-bc78-f9f21dc111d7",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "87f3523b-3b07-4f06-8126-b3567590fe58"
+    },
+    {
+      "expense_id": "a8ad3d9b-a86b-450d-a67a-f6c937d58b86",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "795dbf3f-9c5e-45ea-88c3-160166896707"
+    },
+    {
+      "expense_id": "a8ad3d9b-a86b-450d-a67a-f6c937d58b86",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "63076ad1-d70b-4c03-816e-65f409e6cdb6"
+    },
+    {
+      "expense_id": "a8ad3d9b-a86b-450d-a67a-f6c937d58b86",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "cb01d36b-2f77-4449-b518-04235b178c72"
+    },
+    {
+      "expense_id": "a8ad3d9b-a86b-450d-a67a-f6c937d58b86",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "755f9481-9a5d-428d-a709-81bfcc66db0c"
+    },
+    {
+      "expense_id": "78f01ac3-d6b1-48f8-baba-8b8fb146fb3d",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "0b017e9d-d25f-4f5d-8ef8-d15f7b0e094d"
+    },
+    {
+      "expense_id": "78f01ac3-d6b1-48f8-baba-8b8fb146fb3d",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "3995d4ba-fcc0-4cf5-b28b-6b0473383b0f"
+    },
+    {
+      "expense_id": "78f01ac3-d6b1-48f8-baba-8b8fb146fb3d",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "40ec0f46-acec-4785-b2af-bbd29548cf10"
+    },
+    {
+      "expense_id": "78f01ac3-d6b1-48f8-baba-8b8fb146fb3d",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "00c01a2d-8a91-4be2-93c5-69d2f9a040ef"
+    },
+    {
+      "expense_id": "9147f542-67a5-4677-b6fc-bdbd1d62f46a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "f256c490-49cf-4099-aa1b-a7afc8f3f8d2"
+    },
+    {
+      "expense_id": "9147f542-67a5-4677-b6fc-bdbd1d62f46a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "0207848d-8364-442b-854e-77062bdb7cc1"
+    },
+    {
+      "expense_id": "9147f542-67a5-4677-b6fc-bdbd1d62f46a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "2e3fd9b5-fe30-4901-a1b3-763a8b75fbcf"
+    },
+    {
+      "expense_id": "9147f542-67a5-4677-b6fc-bdbd1d62f46a",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "b78c45e3-c265-4ca1-9aa7-ac919c7f60ed"
+    },
+    {
+      "expense_id": "f1ec1483-b52f-4978-88d0-2c6543f099c7",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "fd554178-96ee-4227-bd25-dba91dcadce3"
+    },
+    {
+      "expense_id": "f1ec1483-b52f-4978-88d0-2c6543f099c7",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "cf9a160c-2977-4454-8f28-21fe89a7a2c5"
+    },
+    {
+      "expense_id": "f1ec1483-b52f-4978-88d0-2c6543f099c7",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "cc994a0a-bdac-4c0e-8640-0bc7797d9695"
+    },
+    {
+      "expense_id": "f1ec1483-b52f-4978-88d0-2c6543f099c7",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "04131368-516f-48d8-b5dd-e76d2c6f57f2"
+    },
+    {
+      "expense_id": "3074558c-26eb-4b00-9344-dcbd6203274a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "f95dd83c-98d3-47fa-88c9-6bfa1c3eaff6"
+    },
+    {
+      "expense_id": "3074558c-26eb-4b00-9344-dcbd6203274a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "e9989d78-35fe-474e-b7c7-2c879e07467c"
+    },
+    {
+      "expense_id": "3074558c-26eb-4b00-9344-dcbd6203274a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "d9927554-137c-49cf-abe3-83debf3696db"
+    },
+    {
+      "expense_id": "3074558c-26eb-4b00-9344-dcbd6203274a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "57b8c892-69a5-4570-bc89-174288df1ac5"
+    },
+    {
+      "expense_id": "754eb2ee-554b-4b45-9a31-5187fa618268",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "00436f94-2c29-45af-8617-73d73e2f769e"
+    },
+    {
+      "expense_id": "754eb2ee-554b-4b45-9a31-5187fa618268",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "c8fb10ea-545a-4ae5-8748-3133fb373dc8"
+    },
+    {
+      "expense_id": "754eb2ee-554b-4b45-9a31-5187fa618268",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "7a4c3232-b22a-45ed-9c39-1a059cb220bd"
+    },
+    {
+      "expense_id": "754eb2ee-554b-4b45-9a31-5187fa618268",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "1a352f69-5b6c-4701-aede-1dc4d0fee409"
+    },
+    {
+      "expense_id": "1050305c-d231-4c63-9d39-b002f374122e",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "8905157a-8a3c-4213-beff-69f46af5b3e3"
+    },
+    {
+      "expense_id": "1050305c-d231-4c63-9d39-b002f374122e",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "be41ad8d-fdcd-4cc9-8f19-2933e216b5d4"
+    },
+    {
+      "expense_id": "1050305c-d231-4c63-9d39-b002f374122e",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 213.34,
+      "percentage": null,
+      "share": null,
+      "id": "74a6f6d4-2f95-48b6-9b1f-9ee350c9601a"
+    },
+    {
+      "expense_id": "4a046302-febe-4abb-b4ed-2468765ba713",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "2e64d452-d7db-4873-a81a-7144ecd0bbb8"
+    },
+    {
+      "expense_id": "4a046302-febe-4abb-b4ed-2468765ba713",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "645d10cb-f909-4b31-8d50-6543da13b703"
+    },
+    {
+      "expense_id": "4a046302-febe-4abb-b4ed-2468765ba713",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "0c06e647-081a-4479-aaf8-393aba31a47c"
+    },
+    {
+      "expense_id": "4a046302-febe-4abb-b4ed-2468765ba713",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "d09d1860-786a-41d1-8752-516ab8cb7613"
+    },
+    {
+      "expense_id": "7573a9cc-5836-4be2-990c-b412fe7c036f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "7bf6d00d-cbbc-4c34-b151-af8da5497f48"
+    },
+    {
+      "expense_id": "7573a9cc-5836-4be2-990c-b412fe7c036f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "c443240f-1d81-4b92-9555-c778410e4a53"
+    },
+    {
+      "expense_id": "7573a9cc-5836-4be2-990c-b412fe7c036f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "f4af69ec-c7ac-44dc-b84e-73a1c85d239e"
+    },
+    {
+      "expense_id": "7573a9cc-5836-4be2-990c-b412fe7c036f",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "9df248b6-977f-4695-8565-3472f79da8a0"
+    },
+    {
+      "expense_id": "08bcf2c2-1cde-479b-844b-e8003866ec16",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 700,
+      "percentage": null,
+      "share": null,
+      "id": "5ef01759-c0b3-45b7-ab65-49ce57c55127"
+    },
+    {
+      "expense_id": "08bcf2c2-1cde-479b-844b-e8003866ec16",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "7bfbd580-04a8-4784-8580-602d8bd538df"
+    },
+    {
+      "expense_id": "08bcf2c2-1cde-479b-844b-e8003866ec16",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "895ac5d2-7c8d-41b1-b0c4-57f5feb883ff"
+    },
+    {
+      "expense_id": "d44801b3-1f1c-4cc7-9d7f-eeff7477ec95",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "3a6484c9-e752-46b9-b6c4-9e270d33e451"
+    },
+    {
+      "expense_id": "d44801b3-1f1c-4cc7-9d7f-eeff7477ec95",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "4c2e799e-a36d-44ce-ac7e-eb9f26ad072f"
+    },
+    {
+      "expense_id": "d44801b3-1f1c-4cc7-9d7f-eeff7477ec95",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "5e8a4ada-e46a-47af-a2d7-27d369077c64"
+    },
+    {
+      "expense_id": "d44801b3-1f1c-4cc7-9d7f-eeff7477ec95",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "705fa064-932b-49bc-baf2-603c011afb70"
+    },
+    {
+      "expense_id": "20da21f0-4fe1-4591-bc80-60435e510eae",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "20b3a319-f75a-42c6-8778-1231a320b978"
+    },
+    {
+      "expense_id": "20da21f0-4fe1-4591-bc80-60435e510eae",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "549f70c9-1a2e-42c9-b4d5-e7efb42e1e06"
+    },
+    {
+      "expense_id": "20da21f0-4fe1-4591-bc80-60435e510eae",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "de07faea-a82a-4462-ab20-b222f4b5a9fd"
+    },
+    {
+      "expense_id": "20da21f0-4fe1-4591-bc80-60435e510eae",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 261.81,
+      "percentage": 18.18,
+      "share": null,
+      "id": "5df6e6b7-5a49-46a0-b026-3444316d2dbe"
+    },
+    {
+      "expense_id": "97c9d8d2-59a9-470e-aa1b-d2e6ef9db8ee",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "615f7f8a-24c9-4c7b-a93d-440414ecab3a"
+    },
+    {
+      "expense_id": "97c9d8d2-59a9-470e-aa1b-d2e6ef9db8ee",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "6410097b-0b26-453c-b99c-b9053b7676a8"
+    },
+    {
+      "expense_id": "97c9d8d2-59a9-470e-aa1b-d2e6ef9db8ee",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "1a621d04-c664-4705-9dbd-2119a27a9e29"
+    },
+    {
+      "expense_id": "97c9d8d2-59a9-470e-aa1b-d2e6ef9db8ee",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "2cb7d67e-ac91-450f-8ba6-6135750f96d4"
+    },
+    {
+      "expense_id": "8c88f677-d7ef-42d9-810f-28c9d9c2743e",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "1d053134-95ea-41a1-a66d-96a2971a64db"
+    },
+    {
+      "expense_id": "8c88f677-d7ef-42d9-810f-28c9d9c2743e",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "8ed3ce9c-ff3f-4c45-a3df-fc975b68667b"
+    },
+    {
+      "expense_id": "8c88f677-d7ef-42d9-810f-28c9d9c2743e",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "408531c7-8829-48ae-8579-b24c95f37cf0"
+    },
+    {
+      "expense_id": "8c88f677-d7ef-42d9-810f-28c9d9c2743e",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "d5d200aa-bd9c-44d7-87d2-54aa7e509368"
+    },
+    {
+      "expense_id": "4a7178b2-c7c9-42bc-896f-0d23ce09a17b",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "557bd658-054a-47f2-b8d5-85b37014e255"
+    },
+    {
+      "expense_id": "4a7178b2-c7c9-42bc-896f-0d23ce09a17b",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "9082213f-bfaa-4256-ae4b-bb0f04a78e0e"
+    },
+    {
+      "expense_id": "4a7178b2-c7c9-42bc-896f-0d23ce09a17b",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "c439ec9d-81bc-409c-9692-54e799029358"
+    },
+    {
+      "expense_id": "4a7178b2-c7c9-42bc-896f-0d23ce09a17b",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "8d0df72a-121d-4f8b-9ce2-42a4eb96e131"
+    },
+    {
+      "expense_id": "cd3b22df-a817-4045-b055-df4916526e6f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "07df9103-f98d-4587-97e6-36a0375e9a7c"
+    },
+    {
+      "expense_id": "cd3b22df-a817-4045-b055-df4916526e6f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "8f6b3730-2f40-45a2-a44d-6ce9f5b756d8"
+    },
+    {
+      "expense_id": "cd3b22df-a817-4045-b055-df4916526e6f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "a5b6ed44-3ad1-4a18-968b-edce8dc18642"
+    },
+    {
+      "expense_id": "cd3b22df-a817-4045-b055-df4916526e6f",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "7ce51cef-4f49-4354-82e2-42793da2f8e2"
+    },
+    {
+      "expense_id": "fe446357-d727-425f-8ac9-98a934bc180f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "5e5147f1-3a1a-4a43-a836-e7eacf2fba07"
+    },
+    {
+      "expense_id": "fe446357-d727-425f-8ac9-98a934bc180f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "a2f30535-76a5-4afe-8a0c-7a0c3db0bb9e"
+    },
+    {
+      "expense_id": "fe446357-d727-425f-8ac9-98a934bc180f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "2a5ddfa4-75a9-45f1-afae-d09766a53192"
+    },
+    {
+      "expense_id": "fe446357-d727-425f-8ac9-98a934bc180f",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "bda00a83-bea9-49b5-baca-5830b0bc5a61"
+    },
+    {
+      "expense_id": "76bdd4eb-c642-42e4-85aa-c5ebee29fe1b",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "2c46b0a2-be82-4e62-82d2-fa884d1736b5"
+    },
+    {
+      "expense_id": "76bdd4eb-c642-42e4-85aa-c5ebee29fe1b",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "0f359e43-f4ea-449c-ad6b-2f9b74b174be"
+    },
+    {
+      "expense_id": "76bdd4eb-c642-42e4-85aa-c5ebee29fe1b",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "4bf4aed6-aead-4198-8a1d-c64fa9096fd8"
+    },
+    {
+      "expense_id": "76bdd4eb-c642-42e4-85aa-c5ebee29fe1b",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "b8343139-3aa5-438d-9dcf-1c562cc6a648"
+    },
+    {
+      "expense_id": "f7fb1e83-5da9-4210-9b4a-191249995323",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "75625917-91e2-4646-ab83-46396c6327a6"
+    },
+    {
+      "expense_id": "f7fb1e83-5da9-4210-9b4a-191249995323",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "b3c8ae2e-af9f-40aa-8b69-237b3058a95f"
+    },
+    {
+      "expense_id": "f7fb1e83-5da9-4210-9b4a-191249995323",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "e56a7787-177c-4b65-97e4-714e5540ffab"
+    },
+    {
+      "expense_id": "f7fb1e83-5da9-4210-9b4a-191249995323",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "9e2b364c-315d-488c-b5e8-237aa8d0216c"
+    },
+    {
+      "expense_id": "1c386965-4b6a-44c9-8d83-69165412834c",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "78903b41-c721-4ad3-9a84-59f12239234c"
+    },
+    {
+      "expense_id": "1c386965-4b6a-44c9-8d83-69165412834c",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "666735e9-5102-497b-9f75-31538c79a2e6"
+    },
+    {
+      "expense_id": "1c386965-4b6a-44c9-8d83-69165412834c",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "87fda9b2-69e9-4686-98cf-32cdafaed95d"
+    },
+    {
+      "expense_id": "1c386965-4b6a-44c9-8d83-69165412834c",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "bdac40bc-50dc-4342-a57f-8f67ee2fc8b0"
+    },
+    {
+      "expense_id": "1c386965-4b6a-44c9-8d83-69165412834c",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "bbb5c801-3254-48a4-9b66-d32301631b3f"
+    },
+    {
+      "expense_id": "efa3b114-631a-410a-9332-a80463cc18ab",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "eb7672b6-a71c-4189-ba66-34163b8931a0"
+    },
+    {
+      "expense_id": "efa3b114-631a-410a-9332-a80463cc18ab",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "c59d7957-a60f-4244-93fa-588a35cc979a"
+    },
+    {
+      "expense_id": "efa3b114-631a-410a-9332-a80463cc18ab",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "cf121385-5772-4318-a1f3-8b094b587359"
+    },
+    {
+      "expense_id": "efa3b114-631a-410a-9332-a80463cc18ab",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "10545b4f-5be2-4cda-9fac-16ecca2a8f22"
+    },
+    {
+      "expense_id": "11e7737b-6e06-4e23-a8c0-08078501f609",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "57048fbc-6cd4-409d-b93e-ac55489d009d"
+    },
+    {
+      "expense_id": "11e7737b-6e06-4e23-a8c0-08078501f609",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "cca31005-a94e-4466-82ae-1ab488df253f"
+    },
+    {
+      "expense_id": "11e7737b-6e06-4e23-a8c0-08078501f609",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "a9603249-6d21-4a23-af8b-81ee04595049"
+    },
+    {
+      "expense_id": "11e7737b-6e06-4e23-a8c0-08078501f609",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "a877941d-1044-4d7d-971d-0b30f415c600"
+    },
+    {
+      "expense_id": "0310f53a-3a3b-4118-949e-2f96586e6737",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "d20d768a-e0dc-4ed4-82ed-21c37bc9f96d"
+    },
+    {
+      "expense_id": "0310f53a-3a3b-4118-949e-2f96586e6737",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "6aa2e7fc-e073-4f55-9700-24b5439bab90"
+    },
+    {
+      "expense_id": "0310f53a-3a3b-4118-949e-2f96586e6737",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "75ac9d80-deca-4de1-bbaa-22771543a28b"
+    },
+    {
+      "expense_id": "0310f53a-3a3b-4118-949e-2f96586e6737",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "d9627058-727e-4832-b33c-e88893e31ab5"
+    },
+    {
+      "expense_id": "8e081b75-c234-4a49-919a-a3865a69412e",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "ea65c1f9-ed65-46ed-8e07-e9261dbca8ff"
+    },
+    {
+      "expense_id": "8e081b75-c234-4a49-919a-a3865a69412e",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "942e84ff-2b2e-4bfe-819a-330a720cd68b"
+    },
+    {
+      "expense_id": "8e081b75-c234-4a49-919a-a3865a69412e",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "596c502c-3e24-4b4a-9692-0ff89a39ebfd"
+    },
+    {
+      "expense_id": "8e081b75-c234-4a49-919a-a3865a69412e",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "58d7783c-0336-4d68-bb77-d1e683eb51a6"
+    },
+    {
+      "expense_id": "31a4ab29-61ce-49ce-ae6d-7ce86b165f67",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "dfb3a154-aaef-4b8b-8504-7506ace4008b"
+    },
+    {
+      "expense_id": "31a4ab29-61ce-49ce-ae6d-7ce86b165f67",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "db593f91-0cb8-451c-975b-8bfbb2a369cd"
+    },
+    {
+      "expense_id": "31a4ab29-61ce-49ce-ae6d-7ce86b165f67",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "a647923c-42b2-4184-8a3c-41ef92da419f"
+    },
+    {
+      "expense_id": "31a4ab29-61ce-49ce-ae6d-7ce86b165f67",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "565ae32f-3d22-40a0-934c-c9b92b1a0232"
+    },
+    {
+      "expense_id": "a9240640-ef7a-4d8e-ac95-78ed3d9fbf1a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "02cb2337-69d7-4b64-96a5-9682c8ccbf96"
+    },
+    {
+      "expense_id": "a9240640-ef7a-4d8e-ac95-78ed3d9fbf1a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "545b59c7-8546-4b32-ac02-df56a65307dc"
+    },
+    {
+      "expense_id": "a9240640-ef7a-4d8e-ac95-78ed3d9fbf1a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "364452c1-816c-4194-a082-a9ec7e931427"
+    },
+    {
+      "expense_id": "a9240640-ef7a-4d8e-ac95-78ed3d9fbf1a",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "3a5dc4b3-4033-4c8c-9ee3-ef027e0a5010"
+    },
+    {
+      "expense_id": "c41f79a4-a69f-4028-a2cd-6e1309cfbc5c",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "6c18a3f3-46ec-4c93-98ca-76b550608c69"
+    },
+    {
+      "expense_id": "c41f79a4-a69f-4028-a2cd-6e1309cfbc5c",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "050991ba-f56a-4001-b395-c56899a6c226"
+    },
+    {
+      "expense_id": "c41f79a4-a69f-4028-a2cd-6e1309cfbc5c",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "b1f5ae8f-29b7-44e8-9f87-809a1c5b3c8b"
+    },
+    {
+      "expense_id": "c41f79a4-a69f-4028-a2cd-6e1309cfbc5c",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": 18.18,
+      "share": null,
+      "id": "892c922b-4812-4d33-9056-aae65e44dce3"
+    },
+    {
+      "expense_id": "c2b8e67e-46cf-4156-a996-f07519638f2f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "7c70e868-d25b-427e-a1fa-a32652fd41fe"
+    },
+    {
+      "expense_id": "c2b8e67e-46cf-4156-a996-f07519638f2f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "d364ef3c-6004-492d-95bc-138d8c4e7594"
+    },
+    {
+      "expense_id": "c2b8e67e-46cf-4156-a996-f07519638f2f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "da065e6c-9819-4c56-a024-d23104889551"
+    },
+    {
+      "expense_id": "c2b8e67e-46cf-4156-a996-f07519638f2f",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "50538a36-fa5c-45aa-8cd7-4d75136b9c7c"
+    },
+    {
+      "expense_id": "b92980aa-8bf8-465e-996e-ea65d0cea86d",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "057bf552-99fb-43a0-a457-40cf205cce5a"
+    },
+    {
+      "expense_id": "b92980aa-8bf8-465e-996e-ea65d0cea86d",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "c7ddb5f6-d1dd-47e2-9393-1755d70afefd"
+    },
+    {
+      "expense_id": "b92980aa-8bf8-465e-996e-ea65d0cea86d",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 833.34,
+      "percentage": null,
+      "share": null,
+      "id": "b03e47f0-163d-4586-a028-0d8393466e6e"
+    },
+    {
+      "expense_id": "e1ec7d65-854e-4bcf-89fa-35b8cc8d37c5",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 24000,
+      "percentage": null,
+      "share": 2,
+      "id": "a68c7f37-e579-45d2-9e82-3ad64cbba854"
+    },
+    {
+      "expense_id": "e1ec7d65-854e-4bcf-89fa-35b8cc8d37c5",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "91e06054-84ee-4634-8500-4dfb0e357426"
+    },
+    {
+      "expense_id": "e1ec7d65-854e-4bcf-89fa-35b8cc8d37c5",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "5632800d-b523-4029-8ad5-239f2e5b00fa"
+    },
+    {
+      "expense_id": "1b42959e-3d49-44a0-a0a9-342ae0a7de16",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "1ab971ad-3bdb-4ac1-877b-474133eb0217"
+    },
+    {
+      "expense_id": "1b42959e-3d49-44a0-a0a9-342ae0a7de16",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "0ecdb42c-d5a4-44e6-9fda-7d98b8d76d41"
+    },
+    {
+      "expense_id": "1b42959e-3d49-44a0-a0a9-342ae0a7de16",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "f361008b-0835-4bcd-be36-fcb44e1701fa"
+    },
+    {
+      "expense_id": "1b42959e-3d49-44a0-a0a9-342ae0a7de16",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "ca9b39f4-3f93-418e-9666-4a469dbf704e"
+    },
+    {
+      "expense_id": "06b12400-119b-43f2-9f5c-3e523199172a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "9857fd4c-edb9-4d58-b88c-0b3376bda6f5"
+    },
+    {
+      "expense_id": "06b12400-119b-43f2-9f5c-3e523199172a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "117cd003-7c2d-4abc-b442-8a176154f108"
+    },
+    {
+      "expense_id": "06b12400-119b-43f2-9f5c-3e523199172a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 399.66,
+      "percentage": null,
+      "share": null,
+      "id": "25db17af-4a2f-4ee0-b156-fb58c08bdcc5"
+    },
+    {
+      "expense_id": "e74f589d-f2a1-4b3a-b22f-053835682547",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "0c7fc069-7d76-437d-a162-90e309b23a6a"
+    },
+    {
+      "expense_id": "e74f589d-f2a1-4b3a-b22f-053835682547",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "76448d6a-edde-4632-968f-31de6564c570"
+    },
+    {
+      "expense_id": "e74f589d-f2a1-4b3a-b22f-053835682547",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "29678021-9caf-478e-beea-8f687c573381"
+    },
+    {
+      "expense_id": "e74f589d-f2a1-4b3a-b22f-053835682547",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "50f8d53a-3c04-4560-ba9e-1503d8e24b5b"
+    },
+    {
+      "expense_id": "c01bf4f1-7c93-4683-8505-a680394158bd",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "d1766053-3b4f-4d0c-8a13-cb04e9350996"
+    },
+    {
+      "expense_id": "c01bf4f1-7c93-4683-8505-a680394158bd",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "ca104650-9fc0-4c8d-98fe-bcf197c52428"
+    },
+    {
+      "expense_id": "c01bf4f1-7c93-4683-8505-a680394158bd",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "c4894daa-ce14-4fe4-9584-b804c35023e4"
+    },
+    {
+      "expense_id": "c01bf4f1-7c93-4683-8505-a680394158bd",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 585,
+      "percentage": null,
+      "share": null,
+      "id": "0802fa7e-d959-4411-8930-5480aadd10ee"
+    },
+    {
+      "expense_id": "cd89957c-a922-423a-b90b-c39d1bd4f79f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "5f77e955-8ddb-4d7a-9a8c-e376ac8b6349"
+    },
+    {
+      "expense_id": "cd89957c-a922-423a-b90b-c39d1bd4f79f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "c076cf1b-0a8e-4ad5-95d8-f866d8af7e01"
+    },
+    {
+      "expense_id": "cd89957c-a922-423a-b90b-c39d1bd4f79f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "5767dc15-8dd9-4445-8876-ca996f2d8c02"
+    },
+    {
+      "expense_id": "cd89957c-a922-423a-b90b-c39d1bd4f79f",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "81a728e8-ec23-49b4-ae0b-f9d827ff17bd"
+    },
+    {
+      "expense_id": "77880b94-10cc-424e-bfad-f8b8c23637ba",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "c86ddc64-ae02-432b-bc0b-50b058368bff"
+    },
+    {
+      "expense_id": "77880b94-10cc-424e-bfad-f8b8c23637ba",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "2ea3c172-019b-497e-8438-a2a75e17bad6"
+    },
+    {
+      "expense_id": "77880b94-10cc-424e-bfad-f8b8c23637ba",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "2a9f0138-c30b-437a-b8ef-46e99ec53a24"
+    },
+    {
+      "expense_id": "77880b94-10cc-424e-bfad-f8b8c23637ba",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "976606d3-cd57-4cb4-b8e1-272165a64775"
+    },
+    {
+      "expense_id": "827b90ec-5bb2-48ec-9bec-b50e11158834",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "56f71303-8762-40a7-9b18-cd67270264b4"
+    },
+    {
+      "expense_id": "827b90ec-5bb2-48ec-9bec-b50e11158834",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "bbb90574-4475-459e-bc17-e1045167a7d4"
+    },
+    {
+      "expense_id": "827b90ec-5bb2-48ec-9bec-b50e11158834",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "6747e510-d49c-4beb-a75a-f9c25608e0b7"
+    },
+    {
+      "expense_id": "827b90ec-5bb2-48ec-9bec-b50e11158834",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 800,
+      "percentage": null,
+      "share": null,
+      "id": "cf7801a8-0769-4b50-818d-0e3f80f82db8"
+    },
+    {
+      "expense_id": "062efda9-eccc-435b-a136-b14eaf4593f5",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "cc40d32e-4bd2-4f6b-af2b-7f562664ba36"
+    },
+    {
+      "expense_id": "062efda9-eccc-435b-a136-b14eaf4593f5",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "0d89bf14-85ad-44d0-a002-b619b5a4753e"
+    },
+    {
+      "expense_id": "062efda9-eccc-435b-a136-b14eaf4593f5",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "3908b958-9c09-423f-849f-69695710372e"
+    },
+    {
+      "expense_id": "062efda9-eccc-435b-a136-b14eaf4593f5",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 300,
+      "percentage": null,
+      "share": null,
+      "id": "3ab2a961-c889-4720-91bd-c76ac7d4a2a2"
+    },
+    {
+      "expense_id": "22baf5e9-7ce4-4ba6-ade2-3184c7e1457f",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "a6a081a1-3b8a-4ca5-95c2-963b00402958"
+    },
+    {
+      "expense_id": "22baf5e9-7ce4-4ba6-ade2-3184c7e1457f",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "82e9ce83-0a21-4d10-a50c-1c05b4f8be93"
+    },
+    {
+      "expense_id": "22baf5e9-7ce4-4ba6-ade2-3184c7e1457f",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "a05715bd-5c5c-45d7-9522-b4a9a40af7bd"
+    },
+    {
+      "expense_id": "22baf5e9-7ce4-4ba6-ade2-3184c7e1457f",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "dca850ea-2c32-4d89-8b0a-532fd247f9e6"
+    },
+    {
+      "expense_id": "2d4e9127-2d3d-4056-8364-489f06e492a1",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "6d726585-b31a-4956-96b2-4d6a65de3126"
+    },
+    {
+      "expense_id": "2d4e9127-2d3d-4056-8364-489f06e492a1",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 213.33,
+      "percentage": null,
+      "share": null,
+      "id": "b675cedf-ee13-4c70-84de-471be1bbcee3"
+    },
+    {
+      "expense_id": "2d4e9127-2d3d-4056-8364-489f06e492a1",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 213.34,
+      "percentage": null,
+      "share": null,
+      "id": "b513d868-6d36-41f0-ab5f-0ddb1325a2f4"
+    },
+    {
+      "expense_id": "506124f9-7c91-46f3-82b8-02136e6412f7",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "18d20593-2e00-44df-9594-aabff14ddc37"
+    },
+    {
+      "expense_id": "506124f9-7c91-46f3-82b8-02136e6412f7",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "2cefa276-3137-4068-93c5-85ceab9b8620"
+    },
+    {
+      "expense_id": "506124f9-7c91-46f3-82b8-02136e6412f7",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "dead0739-cd1d-4250-8acf-227bd827b0a7"
+    },
+    {
+      "expense_id": "506124f9-7c91-46f3-82b8-02136e6412f7",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 225,
+      "percentage": null,
+      "share": null,
+      "id": "bb997381-e225-4b87-a727-50b05c70a913"
+    },
+    {
+      "expense_id": "268f2d16-b0c2-4a0b-94c0-d22ba18fd895",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "828c78b0-7800-4ca3-a4df-97a4b19ac0df"
+    },
+    {
+      "expense_id": "268f2d16-b0c2-4a0b-94c0-d22ba18fd895",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "f32a9d73-38c4-4375-828e-4ea69aced173"
+    },
+    {
+      "expense_id": "268f2d16-b0c2-4a0b-94c0-d22ba18fd895",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "3ff0f335-6987-4370-92c0-e214db77a327"
+    },
+    {
+      "expense_id": "268f2d16-b0c2-4a0b-94c0-d22ba18fd895",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 468.75,
+      "percentage": null,
+      "share": null,
+      "id": "a14a8dc1-4ac0-4315-a096-845a68876c52"
+    },
+    {
+      "expense_id": "5cd16f31-b586-4b08-8a76-8295de082c57",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 700,
+      "percentage": null,
+      "share": null,
+      "id": "d282adc7-8381-43fe-b453-246f79314294"
+    },
+    {
+      "expense_id": "5cd16f31-b586-4b08-8a76-8295de082c57",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "a96dc572-df54-42ca-8a14-393627a8a791"
+    },
+    {
+      "expense_id": "5cd16f31-b586-4b08-8a76-8295de082c57",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "e8b4d268-fda5-4da8-94b1-9d7844890a41"
+    },
+    {
+      "expense_id": "7059f52e-7149-4dd5-a828-bce49bd26b80",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "3c0de1df-63a5-4f67-a76d-b9730c43f019"
+    },
+    {
+      "expense_id": "7059f52e-7149-4dd5-a828-bce49bd26b80",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "7877975b-3fcb-4b70-851c-ebcb4bb374a6"
+    },
+    {
+      "expense_id": "7059f52e-7149-4dd5-a828-bce49bd26b80",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "147ed134-e7f1-4e83-b0a2-ee1814ee1ea4"
+    },
+    {
+      "expense_id": "7059f52e-7149-4dd5-a828-bce49bd26b80",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 195,
+      "percentage": null,
+      "share": null,
+      "id": "00d6740c-180e-4ac2-9106-12f185e484e0"
+    },
+    {
+      "expense_id": "d8f6ce97-aa49-4dce-a658-8f889e855670",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "a87f60f1-2eca-43c2-a16e-442845496e67"
+    },
+    {
+      "expense_id": "d8f6ce97-aa49-4dce-a658-8f889e855670",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "2b0820cf-52fa-41b1-aad8-a2f20620238a"
+    },
+    {
+      "expense_id": "d8f6ce97-aa49-4dce-a658-8f889e855670",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 392.73,
+      "percentage": 27.27,
+      "share": null,
+      "id": "a8fca966-a8c3-4873-bdbb-41cea8b7dea0"
+    },
+    {
+      "expense_id": "d8f6ce97-aa49-4dce-a658-8f889e855670",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 261.81,
+      "percentage": 18.18,
+      "share": null,
+      "id": "033a9e41-f92c-4795-aa55-89ce10900d0d"
+    },
+    {
+      "expense_id": "c14428ea-b2e9-4732-870f-8d31aa7c849c",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "aed5cad6-3311-4a8b-b996-725ab7eb37da"
+    },
+    {
+      "expense_id": "c14428ea-b2e9-4732-870f-8d31aa7c849c",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "afb82942-6562-4671-989b-5df424d25f29"
+    },
+    {
+      "expense_id": "c14428ea-b2e9-4732-870f-8d31aa7c849c",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "b21cc691-db8b-45ad-bf83-8a79f443ea95"
+    },
+    {
+      "expense_id": "c14428ea-b2e9-4732-870f-8d31aa7c849c",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 12000,
+      "percentage": null,
+      "share": null,
+      "id": "262445d7-b474-4ce5-93d7-7ee2db459b0f"
+    },
+    {
+      "expense_id": "6b85175b-66f7-410e-b733-17b40ea0d9d9",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "577ca597-de78-4897-8b1f-9fb30e263674"
+    },
+    {
+      "expense_id": "6b85175b-66f7-410e-b733-17b40ea0d9d9",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "e7234e98-8679-459d-869f-b4ae027b814f"
+    },
+    {
+      "expense_id": "6b85175b-66f7-410e-b733-17b40ea0d9d9",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "9fe0c3f6-40ea-4553-9e1f-96b371e900d1"
+    },
+    {
+      "expense_id": "6b85175b-66f7-410e-b733-17b40ea0d9d9",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 702.5,
+      "percentage": null,
+      "share": null,
+      "id": "629bbcde-57f5-46c1-8528-8852de9f3e26"
+    },
+    {
+      "expense_id": "ea4f5bab-3c45-4fb1-87cf-e33fe4cba6df",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "352d7346-dea6-435c-9a2d-c08a796e878e"
+    },
+    {
+      "expense_id": "ea4f5bab-3c45-4fb1-87cf-e33fe4cba6df",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "786b3006-e833-45e2-b528-e7f8757004b7"
+    },
+    {
+      "expense_id": "ea4f5bab-3c45-4fb1-87cf-e33fe4cba6df",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "492f05b1-bea4-40f9-b030-d5a4a6bf502f"
+    },
+    {
+      "expense_id": "ea4f5bab-3c45-4fb1-87cf-e33fe4cba6df",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 299.75,
+      "percentage": null,
+      "share": null,
+      "id": "85a14e30-18d1-429f-a38e-0479109de679"
+    },
+    {
+      "expense_id": "e50cebbb-7250-4616-b9be-2c0131c6d141",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "792655c9-fd95-4870-873c-65a4388a520f"
+    },
+    {
+      "expense_id": "e50cebbb-7250-4616-b9be-2c0131c6d141",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "fae22a08-43bb-44b2-8f65-a0aaf3364338"
+    },
+    {
+      "expense_id": "e50cebbb-7250-4616-b9be-2c0131c6d141",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "6cd14464-9d44-4b70-9660-e84a06aee79f"
+    },
+    {
+      "expense_id": "e50cebbb-7250-4616-b9be-2c0131c6d141",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 8100,
+      "percentage": null,
+      "share": null,
+      "id": "7df94b55-7733-47bf-ac37-4803bc270f4d"
+    },
+    {
+      "expense_id": "32988228-7260-4437-a096-68e3369cde61",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "4247d304-3964-4e91-8090-d96edc6c814e"
+    },
+    {
+      "expense_id": "32988228-7260-4437-a096-68e3369cde61",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "c762d64d-b5d2-4ab1-b7a0-ea2d670724ed"
+    },
+    {
+      "expense_id": "32988228-7260-4437-a096-68e3369cde61",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "b6d27a89-25f6-4b5c-95b8-77b6345dad72"
+    },
+    {
+      "expense_id": "32988228-7260-4437-a096-68e3369cde61",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 135,
+      "percentage": null,
+      "share": null,
+      "id": "fa9f0031-d47f-446a-8afd-5408dc5f171e"
+    },
+    {
+      "expense_id": "23f94348-3f42-4692-a31e-19824aa6061a",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "0d35f5f3-a5ce-4649-82b0-f4bdc88a6b6d"
+    },
+    {
+      "expense_id": "23f94348-3f42-4692-a31e-19824aa6061a",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "c1533667-be7c-4361-a9e2-a22a5c3aaeda"
+    },
+    {
+      "expense_id": "23f94348-3f42-4692-a31e-19824aa6061a",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "62f06f3f-ab7b-400d-996e-f031f485026d"
+    },
+    {
+      "expense_id": "23f94348-3f42-4692-a31e-19824aa6061a",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 21,
+      "percentage": null,
+      "share": null,
+      "id": "4f854fda-c940-4110-8780-e8efad2f0356"
+    },
+    {
+      "expense_id": "7d605b0b-de5a-4761-8806-0d5f15f83835",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "68928f8a-8a89-47bc-b576-b12c550dd15c"
+    },
+    {
+      "expense_id": "7d605b0b-de5a-4761-8806-0d5f15f83835",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "308ff5da-fc70-4b57-b6da-513a55d108c6"
+    },
+    {
+      "expense_id": "7d605b0b-de5a-4761-8806-0d5f15f83835",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": 1,
+      "id": "b1584f3e-a6cb-4264-b585-1561a6900f46"
+    },
+    {
+      "expense_id": "7d605b0b-de5a-4761-8806-0d5f15f83835",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 1200,
+      "percentage": null,
+      "share": 2,
+      "id": "67858fb4-aef2-4910-aaa7-247f55a62f05"
+    },
+    {
+      "expense_id": "80a8c1e2-ca11-4c9e-890e-7a733df8b81e",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "d60502f3-bb3e-4ed6-875e-dc1dbf316f38"
+    },
+    {
+      "expense_id": "80a8c1e2-ca11-4c9e-890e-7a733df8b81e",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "b12b853f-a46a-42e2-a1e1-6e1946867cdd"
+    },
+    {
+      "expense_id": "80a8c1e2-ca11-4c9e-890e-7a733df8b81e",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "b20f4d97-134f-471d-b685-56713cdb9b62"
+    },
+    {
+      "expense_id": "80a8c1e2-ca11-4c9e-890e-7a733df8b81e",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "9b553ca0-c09e-4474-a550-0149cb9eee08"
+    },
+    {
+      "expense_id": "80a8c1e2-ca11-4c9e-890e-7a733df8b81e",
+      "user_id": "411388dc-1b34-4065-a28e-36095ab37f02",
+      "amount": 30,
+      "percentage": null,
+      "share": null,
+      "id": "aa17f148-377e-4082-9db9-3e5f64b3e583"
+    },
+    {
+      "expense_id": "96c5e0a9-7f84-4084-b29f-e4108d073bbd",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "61b5cf5f-6d8b-4ab9-b4b7-caf8ca5e9f3f"
+    },
+    {
+      "expense_id": "96c5e0a9-7f84-4084-b29f-e4108d073bbd",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "0060e0ce-46ef-40da-9b5c-5a3876657813"
+    },
+    {
+      "expense_id": "96c5e0a9-7f84-4084-b29f-e4108d073bbd",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "a96ab18f-f9f1-46ca-b3f8-b4d791681da8"
+    },
+    {
+      "expense_id": "96c5e0a9-7f84-4084-b29f-e4108d073bbd",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 600,
+      "percentage": null,
+      "share": null,
+      "id": "dd038e21-b174-4f2e-9b92-98cf7f86096c"
+    },
+    {
+      "expense_id": "fda9224c-8420-4b87-8cc0-2848a011dde6",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "8d1e0737-612c-434e-82c3-6457147972d9"
+    },
+    {
+      "expense_id": "fda9224c-8420-4b87-8cc0-2848a011dde6",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "7f6658b0-1986-466f-9160-4f622c087181"
+    },
+    {
+      "expense_id": "fda9224c-8420-4b87-8cc0-2848a011dde6",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "6a6fb090-7496-429e-83fe-11a8f1f490fa"
+    },
+    {
+      "expense_id": "fda9224c-8420-4b87-8cc0-2848a011dde6",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 612.5,
+      "percentage": null,
+      "share": null,
+      "id": "013306e5-bc61-4bae-89ee-382ee8bacd42"
+    },
+    {
+      "expense_id": "8a76bc8e-0371-46ca-905b-a36091d7ce21",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "98171c01-d528-4435-902e-758716b96f60"
+    },
+    {
+      "expense_id": "8a76bc8e-0371-46ca-905b-a36091d7ce21",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "9d880182-a8ca-49a0-9f39-1dfeec5e83e8"
+    },
+    {
+      "expense_id": "8a76bc8e-0371-46ca-905b-a36091d7ce21",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "d66cf87a-dd5f-4e26-aff9-e16a49725d9e"
+    },
+    {
+      "expense_id": "8a76bc8e-0371-46ca-905b-a36091d7ce21",
+      "user_id": "a45ca752-ca84-4ca4-9a55-0fd994a04776",
+      "amount": 275,
+      "percentage": null,
+      "share": null,
+      "id": "45206856-6db9-48d1-b9b5-7d09f2749801"
+    },
+    {
+      "expense_id": "5f5becbb-3c94-49e0-aea1-70ffab0d577d",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "5c500c08-5d17-4204-8123-909d1f973168"
+    },
+    {
+      "expense_id": "5f5becbb-3c94-49e0-aea1-70ffab0d577d",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "d1199ec7-d982-464f-b7c8-c19f73544a79"
+    },
+    {
+      "expense_id": "5f5becbb-3c94-49e0-aea1-70ffab0d577d",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "dd853b53-9561-470e-a8af-36561fe31ef8"
+    },
+    {
+      "expense_id": "5f5becbb-3c94-49e0-aea1-70ffab0d577d",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 526.25,
+      "percentage": null,
+      "share": null,
+      "id": "a37bafcd-5b69-4a41-8c19-07546d38c6c5"
+    },
+    {
+      "expense_id": "15a9b01a-f214-437e-9d25-cbce82bc2517",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "9f56ff2f-37ea-43b6-948e-f35b73cb2812"
+    },
+    {
+      "expense_id": "15a9b01a-f214-437e-9d25-cbce82bc2517",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "a344d446-5761-4c3a-a5b5-2a596fff1ac7"
+    },
+    {
+      "expense_id": "15a9b01a-f214-437e-9d25-cbce82bc2517",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "88808ba3-e737-41a7-986b-7ddc1b691408"
+    },
+    {
+      "expense_id": "15a9b01a-f214-437e-9d25-cbce82bc2517",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 362.5,
+      "percentage": null,
+      "share": null,
+      "id": "dd5f344c-3bb4-4525-a66a-503d98ff9bbe"
+    },
+    {
+      "expense_id": "f13c60bf-324d-4040-9788-e364fdcfa21d",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "5b8c0c98-e004-4b66-bc6e-dad21d41cd4c"
+    },
+    {
+      "expense_id": "f13c60bf-324d-4040-9788-e364fdcfa21d",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "342700dc-2bc6-4b7c-b421-0ddfdd710b7a"
+    },
+    {
+      "expense_id": "f13c60bf-324d-4040-9788-e364fdcfa21d",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "56f6e24b-4963-41bc-a2c8-695f91bb53b7"
+    },
+    {
+      "expense_id": "f13c60bf-324d-4040-9788-e364fdcfa21d",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 750,
+      "percentage": null,
+      "share": null,
+      "id": "0b87193f-e590-4359-b942-11f26b5a279d"
+    },
+    {
+      "expense_id": "7ec61cbc-9539-44af-b078-f443c5f857d7",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "5a646694-2896-4275-9700-332c308b04b9"
+    },
+    {
+      "expense_id": "7ec61cbc-9539-44af-b078-f443c5f857d7",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "a9c452cc-2c21-4d92-b844-6d9054c28070"
+    },
+    {
+      "expense_id": "7ec61cbc-9539-44af-b078-f443c5f857d7",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 600,
+      "percentage": 27.27,
+      "share": null,
+      "id": "cfb287ed-228c-4a79-985a-f56f730dbcaf"
+    },
+    {
+      "expense_id": "7ec61cbc-9539-44af-b078-f443c5f857d7",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 400,
+      "percentage": 18.18,
+      "share": null,
+      "id": "1ff8e95e-a67d-40a8-a043-ae2b4c440dd4"
+    },
+    {
+      "expense_id": "de8f6ed4-d166-464e-8d48-f6944c2b8231",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "bef6da8a-9402-4014-804c-74f1c34a2f06"
+    },
+    {
+      "expense_id": "de8f6ed4-d166-464e-8d48-f6944c2b8231",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "05348c7c-396e-406c-a6b4-33329f2474be"
+    },
+    {
+      "expense_id": "de8f6ed4-d166-464e-8d48-f6944c2b8231",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "079be126-7ebd-455e-a716-e446ba71bfd3"
+    },
+    {
+      "expense_id": "de8f6ed4-d166-464e-8d48-f6944c2b8231",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 1200,
+      "percentage": null,
+      "share": null,
+      "id": "366a7a0c-b389-404b-8e0b-cea75170059a"
+    },
+    {
+      "expense_id": "bdd2921c-7c84-4fa2-b70d-87f36bed910e",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "e27dc19a-c497-41cc-87e2-eb4ed56f78a7"
+    },
+    {
+      "expense_id": "bdd2921c-7c84-4fa2-b70d-87f36bed910e",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 833.33,
+      "percentage": null,
+      "share": null,
+      "id": "664fcfa6-2cff-405c-b217-cc704e32bb5a"
+    },
+    {
+      "expense_id": "bdd2921c-7c84-4fa2-b70d-87f36bed910e",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 833.34,
+      "percentage": null,
+      "share": null,
+      "id": "a726b0c6-bbbf-499b-9559-58b88701204e"
+    },
+    {
+      "expense_id": "9c0b4011-c991-4350-8b6c-41c0e5ce8efc",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 24000,
+      "percentage": null,
+      "share": 2,
+      "id": "e89cd601-21ab-40d9-8483-290c8c1061c7"
+    },
+    {
+      "expense_id": "9c0b4011-c991-4350-8b6c-41c0e5ce8efc",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "24276504-7866-4a07-bfca-649c983b841b"
+    },
+    {
+      "expense_id": "9c0b4011-c991-4350-8b6c-41c0e5ce8efc",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 12000,
+      "percentage": null,
+      "share": 1,
+      "id": "4edbcdeb-1aa3-44aa-8861-075ada5aafa5"
+    },
+    {
+      "expense_id": "6e4d3fae-a8ca-4263-93ee-d535dc8e01be",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "399fe0fa-368e-4ea5-9547-43142277e366"
+    },
+    {
+      "expense_id": "6e4d3fae-a8ca-4263-93ee-d535dc8e01be",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "215713fc-5475-4ccc-a749-ca77e0c4e504"
+    },
+    {
+      "expense_id": "6e4d3fae-a8ca-4263-93ee-d535dc8e01be",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "096aa232-1d01-4217-9595-f4cc6e5ef40c"
+    },
+    {
+      "expense_id": "6e4d3fae-a8ca-4263-93ee-d535dc8e01be",
+      "user_id": "51d6f090-b48a-4ef3-a21d-8433a69b4667",
+      "amount": 660,
+      "percentage": null,
+      "share": null,
+      "id": "9e330ca6-a585-40dc-a30f-4e9405f2855f"
+    },
+    {
+      "expense_id": "940a4b0d-f711-476e-ba89-02d29d0aa69c",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "a6d8e4a1-4454-45b2-9c9c-90c9c3e25084"
+    },
+    {
+      "expense_id": "940a4b0d-f711-476e-ba89-02d29d0aa69c",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "amount": 399.67,
+      "percentage": null,
+      "share": null,
+      "id": "bd6dd001-f940-4af5-acad-2ad451827ec7"
+    },
+    {
+      "expense_id": "940a4b0d-f711-476e-ba89-02d29d0aa69c",
+      "user_id": "44444444-4444-4444-4444-444444444444",
+      "amount": 399.66,
+      "percentage": null,
+      "share": null,
+      "id": "0b39dc02-da55-43cd-8982-d52a42a48775"
     }
   ],
-  "settlements": [],
+  "settlements": [
+    {
+      "group_id": "2ddd0789-9d06-4227-a46d-855cf551334a",
+      "payer_id": "33333333-3333-3333-3333-333333333333",
+      "payee_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 5000,
+      "currency": "INR",
+      "payment_method": "cash",
+      "notes": null,
+      "status": "completed",
+      "id": "8b29f40a-d384-4a09-a635-cc770d8065de",
+      "created_at": "2026-08-04T20:12:56.403Z"
+    },
+    {
+      "group_id": "f38abd33-1a69-491e-831a-7ad8422bed90",
+      "payer_id": "33333333-3333-3333-3333-333333333333",
+      "payee_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 5000,
+      "currency": "INR",
+      "payment_method": "cash",
+      "notes": null,
+      "status": "completed",
+      "id": "c461ec3d-ef5b-47fa-be90-940e73c9f204",
+      "created_at": "2026-08-04T20:13:08.363Z"
+    },
+    {
+      "group_id": "afab3a21-f452-4e2a-83dc-badbc3930c7a",
+      "payer_id": "33333333-3333-3333-3333-333333333333",
+      "payee_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 5000,
+      "currency": "INR",
+      "payment_method": "cash",
+      "notes": null,
+      "status": "completed",
+      "id": "f756ae6b-2614-443d-ad6d-e5047fb85963",
+      "created_at": "2026-08-04T20:13:12.251Z"
+    },
+    {
+      "group_id": "a4e6b9ab-4a6b-4709-b70f-163ee108f4d3",
+      "payer_id": "33333333-3333-3333-3333-333333333333",
+      "payee_id": "22222222-2222-2222-2222-222222222222",
+      "amount": 5000,
+      "currency": "INR",
+      "payment_method": "cash",
+      "notes": null,
+      "status": "completed",
+      "id": "e897ce6e-5b1d-44f6-8c6c-a1c081f146ba",
+      "created_at": "2026-08-04T20:13:17.114Z"
+    }
+  ],
   "chat_messages": []
 }

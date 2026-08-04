@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter, useParams, usePathname, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { fetchUserGroups } from '@/lib/api';
-import Avatar from './Avatar';
+import Avatar from './ui/Avatar';
 import CreateGroupModal from './CreateGroupModal';
 import { LayoutGrid, CreditCard, Users, RefreshCw, FileSpreadsheet, Settings, LogOut, Plus, TreePine } from 'lucide-react';
 

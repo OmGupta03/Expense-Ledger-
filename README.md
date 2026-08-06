@@ -1,4 +1,4 @@
-# CSV Ingestion & Multi-Currency Expense Manager
+# SmartCash — Multi-Currency Expense Manager
 
 An aesthetically premium, responsive, and robust Expense Management platform built using **Next.js**, **Express.js**, and **Supabase (PostgreSQL + Auth + Realtime)**. This app supports multi-currency transaction ledgers, currency-specific greedy debt simplifications, and features an interactive CSV uploader that parses, sanitizes, and logs historical data anomalies.
 

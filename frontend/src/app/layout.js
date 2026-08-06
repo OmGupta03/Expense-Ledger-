@@ -9,7 +9,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: "Settle Up | Settle Debts & Track Expenses",
+  title: "SmartCash | Settle Debts & Track Expenses",
   description: "A simplified, modern app that tracks group expenses, balances, settlements, and lets members chat in real-time.",
 };
 

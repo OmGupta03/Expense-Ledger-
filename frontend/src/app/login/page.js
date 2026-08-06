@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import { TreePine } from 'lucide-react';
+import { Wallet } from 'lucide-react';
 
 export default function LoginPage() {
   const { user, signIn, signInWithGoogle, loading } = useAuth();
@@ -76,9 +76,9 @@ export default function LoginPage() {
         {/* Brand Logo Header */}
         <div className="flex flex-col items-center gap-2">
           <div className="h-11 w-11 rounded-full bg-green-bg flex items-center justify-center text-green-pri">
-            <TreePine className="h-5.5 w-5.5" />
+            <Wallet className="h-5.5 w-5.5" />
           </div>
-          <span className="font-extrabold text-green-pri text-lg tracking-tight">Settle Up</span>
+          <span className="font-extrabold text-green-pri text-lg tracking-tight">SmartCash</span>
         </div>
 
         <div className="text-center">

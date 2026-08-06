@@ -5,11 +5,11 @@
    ═══════════════════════════════════════════════════════ */
 
 :root {
-  /* Primary Green Palette (KitchenOwl style) */
-  --green:          #2e7d32;   /* primary – deeper green for production feel */
-  --green-light:    #43a047;   /* hover / light accent */
+  /* Primary Green Palette (matching Landing Page) */
+  --green:          #257b36;   /* primary green matching landing page */
+  --green-light:    #388e3c;   /* hover / light accent */
   --green-bg:       #e8f5e9;   /* light green tint backgrounds */
-  --green-dark:     #1b5e20;   /* pressed / dark accent */
+  --green-dark:     #1e6b2e;   /* pressed / dark accent */
 
   /* Neutral/Background scales - structured for dark mode support */
   --bg-primary:     #f8fafc;   /* light mode primary background (slate-50) */
@@ -28,11 +28,11 @@
   --purple:         #7c3aed;   /* group/trip accents (violet-600) */
 
   /* Sidebar & Dashboard mockup theme colors */
-  --sidebar-bg:     #042318;
-  --sidebar-text:   #c8e6c9;
-  --sidebar-active: #0d5f41;
-  --mint-green:     #86efac;
-  --dark-green-text: #022c22;
+  --sidebar-bg:     #ffffff;
+  --sidebar-text:   #475569;
+  --sidebar-active: #257b36;
+  --mint-green:     #257b36;
+  --dark-green-text: #ffffff;
   
   /* Neutrals for compatibility layer */
   --white:          #ffffff;
@@ -747,7 +747,8 @@
 
 .sidebar {
   width: 240px;
-  background: var(--sidebar-bg);
+  background: #07100b !important;
+  border-right: 1px solid #14261c !important;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -972,3 +973,67 @@
     text-align: center;
   }
 }
+
+/* ═══════════════════════════════════════════════════════
+   STITCH REDESIGN: FORESTLEDGER DARK OBSIDIAN THEME
+   ═══════════════════════════════════════════════════════ */
+
+.stitch-dashboard-dark {
+  background-color: #0b130e;
+  background-image: 
+    radial-gradient(circle at 80% 10%, rgba(34, 197, 94, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 70%);
+  color: #f1f5f9;
+}
+
+.stitch-glass-card {
+  background: rgba(18, 32, 25, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(35, 66, 51, 0.6);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.stitch-glass-card:hover {
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.stitch-ai-button {
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+  transition: all 0.25s ease;
+}
+
+.stitch-ai-button:hover {
+  box-shadow: 0 0 22px rgba(168, 85, 247, 0.6);
+  transform: translateY(-1px);
+}
+
+.stitch-badge-green {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.stitch-badge-red {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.stitch-badge-neutral {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+

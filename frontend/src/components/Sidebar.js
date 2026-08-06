@@ -3,44 +3,35 @@ import Link from 'next/link';
 import { useRouter, useParams, usePathname, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { fetchUserGroups } from '@/lib/api';
-import Avatar from './ui/Avatar';
 import CreateGroupModal from './CreateGroupModal';
-import { LayoutGrid, CreditCard, Users, RefreshCw, FileSpreadsheet, Settings, LogOut, Plus, TreePine } from 'lucide-react';
+import { LayoutGrid, CreditCard, Users, RefreshCw, FileSpreadsheet, Settings, LogOut, Plus, Wallet, Sparkles } from 'lucide-react';
 
 function NavItem({ icon: Icon, label, to, isActive, onClick }) {
+  const classes = `w-[calc(100%-24px)] flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-xs cursor-pointer transition-all duration-150 rounded-full text-left border-none ${
+    isActive
+      ? 'bg-[#143823] text-[#4ade80] shadow-md font-extrabold border border-[#1b4e31]'
+      : 'text-slate-300 hover:bg-[#11241a] hover:text-white'
+  }`;
+
   if (onClick) {
     return (
-      <button
-        onClick={onClick}
-        className={`w-[calc(100%-24px)] flex items-center gap-3 px-4 py-3 mx-3 font-semibold text-sm cursor-pointer transition-all duration-150 rounded-full text-left bg-transparent border-none ${
-          isActive
-            ? 'bg-sidebar-active text-white shadow-xs font-bold'
-            : 'text-sidebar-text/80 hover:bg-white/5 hover:text-white'
-        }`}
-      >
-        {Icon && <Icon className="h-4.5 w-4.5" />}
+      <button onClick={onClick} className={classes}>
+        {Icon && <Icon className="h-4 w-4" />}
         <span>{label}</span>
       </button>
     );
   }
 
   return (
-    <Link
-      href={to}
-      className={`flex items-center gap-3 px-4 py-3 mx-3 font-semibold text-sm cursor-pointer transition-all duration-150 rounded-full text-left ${
-        isActive
-          ? 'bg-sidebar-active text-white shadow-xs font-bold'
-          : 'text-sidebar-text/80 hover:bg-white/5 hover:text-white'
-      }`}
-    >
-      {Icon && <Icon className="h-4.5 w-4.5" />}
+    <Link href={to} className={classes}>
+      {Icon && <Icon className="h-4 w-4" />}
       <span>{label}</span>
     </Link>
   );
 }
 
 function Sidebar() {
-  const { user, profile, signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
@@ -67,7 +58,6 @@ function Sidebar() {
 
   useEffect(() => {
     if (user) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchGroups();
     }
   }, [user, groupId, fetchGroups]);
@@ -89,12 +79,10 @@ function Sidebar() {
 
   const activeGroup = groups.find(g => g.id === groupId);
 
-  // Determine fallback/most recently viewed Group ID
   let resolvedGroupId = null;
   if (groupId) {
     resolvedGroupId = groupId;
   } else {
-    // Try localStorage
     const lastId = typeof window !== 'undefined' ? localStorage.getItem('lastGroupId') : null;
     const isValid = groups.some(g => g.id === lastId);
     if (lastId && isValid) {
@@ -107,22 +95,12 @@ function Sidebar() {
   const hasGroupsTotal = groups.length > 0;
   const isInsideGroup = !!groupId;
 
-  // Active section checkers
   const checkActive = (pathType) => {
     if (!isInsideGroup) return false;
-    
-    if (pathType === 'expenses') {
-      return pathname === `/groups/${groupId}` && tab === 'expenses';
-    }
-    if (pathType === 'members') {
-      return pathname === `/groups/${groupId}` && tab === 'members';
-    }
-    if (pathType === 'settlements') {
-      return pathname === `/groups/${groupId}` && tab === 'settlements';
-    }
-    if (pathType === 'import') {
-      return pathname === `/groups/${groupId}/import`;
-    }
+    if (pathType === 'expenses') return pathname === `/groups/${groupId}` && tab === 'expenses';
+    if (pathType === 'members') return pathname === `/groups/${groupId}` && tab === 'members';
+    if (pathType === 'settlements') return pathname === `/groups/${groupId}` && tab === 'settlements';
+    if (pathType === 'import') return pathname === `/groups/${groupId}/import`;
     return false;
   };
 
@@ -132,7 +110,6 @@ function Sidebar() {
       localStorage.setItem('lastGroupId', selectedId);
     }
     
-    // Maintain sub-view context if switching groups
     if (pathname.includes('/import')) {
       router.push(`/groups/${selectedId}/import`);
     } else if (tab === 'members') {
@@ -145,35 +122,37 @@ function Sidebar() {
   };
 
   return (
-    <aside className="sidebar flex flex-col justify-between select-none relative z-45 bg-sidebar-bg text-sidebar-text h-full">
+    <aside className="sidebar flex flex-col justify-between select-none relative z-45 h-full border-r border-[#14261c] bg-[#07100b] text-slate-200 transition-colors w-64 flex-shrink-0">
       <div className="flex flex-col flex-1 h-full">
-        {/* Logo and Brand */}
-        <div className="flex items-center gap-3 px-6 py-6 text-left border-b border-white/5 bg-slate-950/15">
-          <div className="h-10 w-10 rounded-full bg-sidebar-active flex items-center justify-center text-white flex-shrink-0">
-            <TreePine className="h-6 w-6" />
+        {/* Logo and Brand matching Stitch design */}
+        <div className="flex items-center gap-3 px-6 py-5 text-left border-b border-[#14261c] bg-[#07100b]">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 flex-shrink-0 shadow-lg font-bold">
+            <Wallet className="h-5 w-5 text-slate-950" />
           </div>
           <div>
-            <div className="text-white font-extrabold text-base tracking-tight leading-none">Forest Ledger</div>
-            <div className="text-[10px] text-sidebar-text/70 mt-1 leading-none font-semibold">Student Group</div>
-            <div className="text-[10px] text-sidebar-text/70 mt-0.5 leading-none font-semibold">Finances</div>
+            <div className="font-extrabold text-base tracking-tight leading-none text-white">
+              SmartCash
+            </div>
+            <div className="text-[10px] mt-1 leading-none font-semibold text-slate-400">
+              Student Group Finances
+            </div>
           </div>
         </div>
 
-        {/* Group Context Switcher Dropdown (if inside group) */}
+        {/* Group Context Switcher Dropdown */}
         {isInsideGroup && activeGroup && (
-          <div className="px-5 py-3 border-b border-white/5 relative" ref={dropdownRef}>
+          <div className="px-5 py-3 border-b border-[#14261c] relative" ref={dropdownRef}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full flex items-center justify-between bg-white/10 hover:bg-white/15 text-white font-semibold text-xs px-3 py-2 rounded-lg cursor-pointer transition-all border border-white/10"
+              className="w-full flex items-center justify-between font-semibold text-xs px-3 py-2 rounded-xl cursor-pointer transition-all border bg-slate-900/90 text-slate-200 border-slate-800 hover:bg-slate-800"
             >
               <span className="truncate max-w-[140px] text-left">{activeGroup.name}</span>
-              <span className="text-[10px] text-green-200/80">▼</span>
+              <span className="text-[10px] opacity-60">▼</span>
             </button>
 
-            {/* Dropdown Options overlay */}
             {isDropdownOpen && (
-              <div className="absolute left-5 right-5 top-12 mt-1.5 bg-slate-900 border border-white/10 rounded-lg shadow-xl overflow-hidden z-50 text-xs">
-                <div className="max-h-40 overflow-y-auto divide-y divide-white/5">
+              <div className="absolute left-5 right-5 top-12 mt-1.5 bg-[#0b1810] border border-emerald-900/80 rounded-xl shadow-2xl overflow-hidden z-50 text-xs text-slate-200">
+                <div className="max-h-40 overflow-y-auto divide-y divide-slate-800">
                   {groups.map(g => {
                     const gId = g.id;
                     const isActive = gId === groupId;
@@ -183,8 +162,8 @@ function Sidebar() {
                         onClick={() => handleGroupSelect(gId)}
                         className={`w-full text-left px-3.5 py-2.5 transition-colors cursor-pointer block truncate ${
                           isActive
-                            ? 'bg-green-pri text-white font-bold'
-                            : 'text-slate-200 hover:bg-white/10 hover:text-white'
+                            ? 'bg-[#143823] text-[#4ade80] font-bold'
+                            : 'text-slate-300 hover:bg-slate-800'
                         }`}
                       >
                         {g.name}
@@ -192,13 +171,13 @@ function Sidebar() {
                     );
                   })}
                 </div>
-                <div className="border-t border-white/10 bg-slate-950">
+                <div className="border-t border-slate-800 bg-slate-950">
                   <button
                     onClick={() => {
                       setIsDropdownOpen(false);
                       setShowCreateModal(true);
                     }}
-                    className="w-full text-left px-3.5 py-2.5 text-green-300 hover:text-white font-bold transition-all cursor-pointer"
+                    className="w-full text-left px-3.5 py-2.5 text-[#4ade80] hover:text-emerald-300 font-bold transition-all cursor-pointer"
                   >
                     + Create New Group
                   </button>
@@ -249,28 +228,33 @@ function Sidebar() {
             isActive={checkActive('import')}
           />
 
-          {/* Spacer to push "+ Create New Group" to bottom of Nav area */}
+          <NavItem
+            icon={Sparkles}
+            label="AI Insights"
+            to="/dashboard?ai=open"
+            isActive={searchParams.get('ai') === 'open'}
+          />
+
           <div className="flex-1 min-h-[20px]"></div>
 
-          {/* Bottom create group launcher button styled like in screenshot */}
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center justify-center gap-2.5 px-4 py-3 mx-3 mb-2 bg-mint-green hover:bg-[#72df9b] text-dark-green-text font-bold text-xs rounded-full transition-all cursor-pointer border-none shadow-sm"
+            className="flex items-center justify-center gap-2.5 px-4 py-2.5 mx-3 mb-2 font-extrabold text-xs rounded-full transition-all cursor-pointer border-none shadow-md bg-[#10b981] hover:bg-[#059669] text-slate-950"
           >
-            <Plus className="h-4.5 w-4.5" />
+            <Plus className="h-4 w-4 stroke-[3]" />
             <span>Create New Group</span>
           </button>
         </nav>
       </div>
 
-      {/* User Footer info showing settings and logout as items */}
-      <div className="py-3 flex flex-col gap-0.5 border-t border-white/5 bg-slate-950/15">
+      {/* User Footer */}
+      <div className="py-3 flex flex-col gap-0.5 border-t border-[#14261c] bg-[#07100b]">
         <Link
           href="/settings"
-          className={`flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer rounded-full text-left transition-all duration-150 ${
+          className={`flex items-center gap-3 px-4 py-2 mx-3 font-semibold text-xs cursor-pointer rounded-full text-left transition-all duration-150 ${
             pathname === '/settings'
-              ? 'bg-mint-green text-dark-green-text shadow-xs font-bold'
-              : 'text-sidebar-text/80 hover:bg-white/5 hover:text-white'
+              ? 'bg-[#143823] text-[#4ade80] font-bold'
+              : 'text-slate-300 hover:bg-[#11241a] hover:text-white'
           }`}
         >
           <Settings className="h-4 w-4" />
@@ -278,14 +262,13 @@ function Sidebar() {
         </Link>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-2.5 mx-3 font-semibold text-sm cursor-pointer rounded-full text-sidebar-text/80 hover:bg-white/5 hover:text-white text-left border-none bg-transparent w-[calc(100%-24px)] transition-all duration-150"
+          className="flex items-center gap-3 px-4 py-2 mx-3 font-semibold text-xs cursor-pointer rounded-full text-left border-none bg-transparent text-slate-300 hover:bg-[#11241a] hover:text-white w-[calc(100%-24px)] transition-all duration-150"
         >
           <LogOut className="h-4 w-4" />
           <span>Logout</span>
         </button>
       </div>
 
-      {/* Creation Modal */}
       {showCreateModal && (
         <CreateGroupModal
           isOpen={showCreateModal}

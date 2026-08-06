@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -40,18 +40,7 @@ const features = [
 
 export default function RootLandingPage() {
   const router = useRouter();
-  const { user, loading } = useAuth();
-
-  // Redirect to dashboard if already logged in
-  useEffect(() => {
-    if (user && !loading) {
-      router.push('/dashboard');
-    }
-  }, [user, loading, router]);
-
-  const handleFeatureClick = () => {
-    router.push('/login');
-  };
+  const { user } = useAuth();
 
   return (
     <div className="landing-page text-text-primary">
@@ -59,13 +48,19 @@ export default function RootLandingPage() {
       <nav className="landing-nav">
         <div className="landing-nav-inner">
           <Link href="/" className="landing-logo">
-            <span className="landing-logo-icon">🌲</span>
-            <span className="landing-logo-text">Settle Up</span>
+            <span className="landing-logo-icon">💳</span>
+            <span className="landing-logo-text">SmartCash</span>
           </Link>
 
           <div className="landing-nav-links">
-            <Link href="/login" className="landing-nav-link">Sign In</Link>
-            <Link href="/register" className="landing-btn-primary">Sign Up</Link>
+            {user ? (
+              <Link href="/dashboard" className="landing-btn-primary">Go to Dashboard</Link>
+            ) : (
+              <>
+                <Link href="/login" className="landing-nav-link">Sign In</Link>
+                <Link href="/register" className="landing-btn-primary">Sign Up</Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
@@ -78,17 +73,25 @@ export default function RootLandingPage() {
               The last expense<br />app you&apos;ll ever need!
             </h1>
             <p className="landing-hero-desc">
-              Settle Up is a smart shared expense manager for flatmates and friend groups.
+              SmartCash is a smart shared expense manager for flatmates and friend groups.
               Easily add expenses, import CSVs, split bills with multiple methods, and
               track who owes whom — so you always know the score.
             </p>
             <div className="landing-hero-actions">
-              <Link href="/register" className="landing-btn-primary landing-btn-lg">
-                Get Started Free
-              </Link>
-              <Link href="/login" className="landing-btn-outline landing-btn-lg">
-                Sign In
-              </Link>
+              {user ? (
+                <Link href="/dashboard" className="landing-btn-primary landing-btn-lg">
+                  Go to Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link href="/register" className="landing-btn-primary landing-btn-lg">
+                    Get Started Free
+                  </Link>
+                  <Link href="/login" className="landing-btn-outline landing-btn-lg">
+                    Sign In
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -175,12 +178,20 @@ export default function RootLandingPage() {
                 Create a free account, invite your flatmates, and never argue about bills again. Import existing data via CSV or add expenses manually.
               </p>
               <div className="landing-cta-buttons">
-                <Link href="/register" className="landing-btn-primary landing-btn-lg">
-                  Create Free Account
-                </Link>
-                <Link href="/login" className="landing-btn-outline landing-btn-lg">
-                  Sign In Instead
-                </Link>
+                {user ? (
+                  <Link href="/dashboard" className="landing-btn-primary landing-btn-lg">
+                    Go to Dashboard
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/register" className="landing-btn-primary landing-btn-lg">
+                      Create Free Account
+                    </Link>
+                    <Link href="/login" className="landing-btn-outline landing-btn-lg">
+                      Sign In Instead
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -190,8 +201,8 @@ export default function RootLandingPage() {
       {/* ──────────── FOOTER ──────────── */}
       <footer className="landing-footer">
         <div className="landing-footer-inner">
-          <span className="landing-footer-logo">⬡ Expense Ledger</span>
-          <span className="landing-footer-copy">© 2026 Spreetail Shared Expenses. Built for flatmates.</span>
+          <span className="landing-footer-logo">⬡ SmartCash</span>
+          <span className="landing-footer-copy">© 2026 SmartCash Shared Expenses. Built for flatmates.</span>
         </div>
       </footer>
     </div>

@@ -18,7 +18,7 @@ export default function Button({
   const variants = {
     primary: 'bg-green-pri hover:bg-green-light text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0',
     outline: 'bg-white hover:bg-slate-50 text-text-secondary border border-border-custom hover:border-slate-300 shadow-xs active:scale-[0.98]',
-    mint: 'bg-mint-green hover:bg-[#72df9b] text-dark-green-text shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0',
+    mint: 'bg-green-pri hover:bg-green-light text-white shadow-xs hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0',
     link: 'bg-transparent hover:underline text-green-pri p-0 rounded-none shadow-none',
     danger: 'bg-red-owe hover:bg-red-600 text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0',
     secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 shadow-xs active:scale-[0.98]'

@@ -144,6 +144,32 @@ export async function fetchGroupExpenses(groupId) {
   return data;
 }
 
+export async function fetchUserAllExpenses(userId) {
+  const userGroups = await fetchUserGroups(userId);
+  const groupIds = userGroups.map(g => g.id);
+  if (groupIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from('expenses')
+    .select(`
+      id,
+      description,
+      amount,
+      currency,
+      created_at,
+      group_id,
+      paid_by
+    `)
+    .in('group_id', groupIds)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching user all expenses:', error);
+    return [];
+  }
+  return data || [];
+}
+
 export async function fetchExpenseDetails(expenseId) {
   const { data: expense, error: expenseError } = await supabase
     .from('expenses')

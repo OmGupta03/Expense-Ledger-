@@ -791,7 +791,7 @@ export default function GroupDetailPage() {
                 <button
                   type="submit"
                   disabled={settlementLoading}
-                  className="px-4 py-2 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer border-none disabled:opacity-50 flex items-center gap-1.5"
+                  className="px-4 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer border-none disabled:opacity-50 flex items-center gap-1.5"
                 >
                   {settlementLoading ? 'Saving...' : 'Confirm Payment'}
                 </button>
@@ -902,7 +902,7 @@ export default function GroupDetailPage() {
             </button>
             <button
               onClick={() => setShowMemberForm(true)}
-              className="px-5 py-1.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
+              className="px-5 py-1.5 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
             >
               Invite Member
             </button>
@@ -966,7 +966,7 @@ export default function GroupDetailPage() {
                       <div className="flex items-center justify-between mb-1.5">
                         <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">Date</label>
                         {expDate && !isNaN(new Date(expDate + 'T00:00:00').getTime()) && (
-                          <span className="text-[10px] font-extrabold text-[#0e5c3e] bg-green-50 px-2 py-0.5 rounded-full border border-green-pri/20">
+                          <span className="text-[10px] font-extrabold text-green-pri bg-green-50 px-2 py-0.5 rounded-full border border-green-pri/20">
                             {new Date(expDate + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </span>
                         )}
@@ -1058,7 +1058,7 @@ export default function GroupDetailPage() {
                           onClick={() => setExpSplitType(tab.id)}
                           className={`flex-1 py-1.5 text-xs font-bold rounded-full transition-all cursor-pointer border-none bg-transparent ${
                             isActive
-                              ? 'bg-[#0e5c3e] text-white shadow-xs'
+                              ? 'bg-green-pri text-white shadow-xs'
                               : 'text-gray-500 hover:text-gray-700'
                           }`}
                         >
@@ -1085,9 +1085,9 @@ export default function GroupDetailPage() {
                               members.forEach(m => { updated[m.id] = checked; });
                               setSplitCheckboxes(updated);
                             }}
-                            className="rounded border-gray-300 text-[#0e5c3e] focus:ring-[#0e5c3e] h-4 w-4"
+                            className="rounded border-gray-300 text-green-pri focus:ring-green-pri h-4 w-4"
                           />
-                          <span>Everyone (All {members.length})</span>
+                          <span className="text-xs font-black text-green-pri">Everyone (All {members.length})</span>
                         </label>
                         
                         {/* Calculate equal split amount */}
@@ -1095,7 +1095,7 @@ export default function GroupDetailPage() {
                           const activeCount = Object.values(splitCheckboxes).filter(Boolean).length;
                           const amt = activeCount > 0 ? (parseFloat(expAmount) / activeCount) : 0;
                           return (
-                            <span className="text-xs font-black text-[#0e5c3e]">
+                            <span className="text-xs font-black text-green-pri">
                               {expCurrency === 'USD' ? '$' : '₹'}{amt.toFixed(2)} ea
                             </span>
                           );
@@ -1121,7 +1121,7 @@ export default function GroupDetailPage() {
                                   type="checkbox"
                                   checked={isChecked}
                                   onChange={() => handleCheckboxChange(m.id)}
-                                  className="rounded border-gray-300 text-[#0e5c3e] focus:ring-[#0e5c3e] h-4 w-4"
+                                  className="rounded border-gray-300 text-green-pri focus:ring-green-pri h-4 w-4"
                                 />
                                 <span className="font-semibold">{m.name} {m.id === user.id && '(Primary)'}</span>
                               </label>
@@ -1157,7 +1157,7 @@ export default function GroupDetailPage() {
                 {/* Total to Split box */}
                 <div className="bg-[#e8f5e9]/55 border border-[#c8e6c9]/45 rounded-xl p-4 flex justify-between items-center text-xs">
                   <span className="font-bold text-gray-600">Total to Split</span>
-                  <span className="text-base font-black text-[#2e7d32]">
+                  <span className="text-base font-black text-green-pri">
                     {expCurrency === 'USD' ? '$' : '₹'}{parseFloat(expAmount || 0).toFixed(2)}
                   </span>
                 </div>
@@ -1167,7 +1167,7 @@ export default function GroupDetailPage() {
                   <button
                     type="submit"
                     disabled={expenseLoading}
-                    className="w-full py-3 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white font-bold rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer text-sm flex items-center justify-center gap-2 border-none"
+                    className="w-full py-3 bg-green-pri hover:bg-green-light text-white font-bold rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer text-sm flex items-center justify-center gap-2 border-none"
                   >
                     {expenseLoading ? (
                       <span>Saving...</span>
@@ -1224,9 +1224,9 @@ export default function GroupDetailPage() {
 
             <button
               onClick={() => setIsAddingExpense(true)}
-              className="px-4 py-1.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
+              className="px-4 py-1.5 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
             >
-              Add Entry
+              Back to Overview
             </button>
           </Header>
 
@@ -1236,10 +1236,9 @@ export default function GroupDetailPage() {
             {/* Breadcrumbs and Title row */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <p className="text-[10px] font-semibold text-text-muted">
-                  Groups &gt; <span className="font-bold text-[#0e5c3e] cursor-pointer" onClick={() => router.push(`/groups/${groupId}?tab=expenses`)}>{group.name}</span>
-                </p>
-                <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight mt-1.5">Members Management</h1>
+                <h1 className="text-xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2 mt-1">
+                  Groups &gt; <span className="font-bold text-green-pri cursor-pointer" onClick={() => router.push(`/groups/${groupId}?tab=expenses`)}>{group.name}</span>
+                </h1>
                 <p className="text-xs text-text-muted mt-1 font-semibold">
                   Organize your roommates and manage contribution permissions.
                 </p>
@@ -1247,7 +1246,7 @@ export default function GroupDetailPage() {
 
               <button
                 onClick={() => setShowMemberForm(!showMemberForm)}
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white shadow-sm font-extrabold text-xs rounded-full transition-all cursor-pointer border-none"
+                className="flex items-center gap-2 px-5 py-2.5 bg-green-pri hover:bg-green-light text-white shadow-sm font-extrabold text-xs rounded-full transition-all cursor-pointer border-none"
               >
                 <UserPlus className="h-4 w-4" />
                 <span>Invite Member</span>
@@ -1291,7 +1290,7 @@ export default function GroupDetailPage() {
                     <button
                       type="submit"
                       disabled={memberLoading}
-                      className="px-4 py-2 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer border-none disabled:opacity-50"
+                      className="px-4 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer border-none disabled:opacity-50"
                     >
                       {memberLoading ? 'Sending...' : 'Invite Flatmate'}
                     </button>
@@ -1305,7 +1304,7 @@ export default function GroupDetailPage() {
               
               {/* Total Members Card */}
               <div className="bg-white border border-border-custom rounded-2xl p-5 shadow-xs flex items-center gap-4 text-left max-w-xs">
-                <div className="h-12 w-12 rounded-xl bg-[#e8f5e9] flex items-center justify-center text-[#2e7d32] flex-shrink-0">
+                <div className="h-12 w-12 rounded-xl bg-[#e8f5e9] flex items-center justify-center text-green-pri flex-shrink-0">
                   <Users className="h-6 w-6" />
                 </div>
                 <div>
@@ -1372,7 +1371,7 @@ export default function GroupDetailPage() {
                       } else if (index === 3) {
                         statusText = "Invited";
                         statusDotColor = "bg-mint-green";
-                        statusTextColor = "text-[#2e7d32]";
+                        statusTextColor = "text-green-pri";
                       }
 
                       // Dummy dates to match mockup
@@ -1413,7 +1412,7 @@ export default function GroupDetailPage() {
                           {/* Actions column */}
                           <td className="px-6 py-4 text-right">
                             {statusText === "Invited" && (
-                              <button className="px-3 py-1 bg-white hover:bg-green-50/10 border border-green-pri/30 text-[#0e5c3e] rounded-lg font-bold text-[10px] tracking-wide transition-all cursor-pointer">
+                              <button className="px-3 py-1 bg-white hover:bg-green-50/10 border border-green-pri/30 text-green-pri rounded-lg font-bold text-[10px] tracking-wide transition-all cursor-pointer">
                                 Resend
                               </button>
                             )}
@@ -1490,7 +1489,7 @@ export default function GroupDetailPage() {
                     <div>
                       <div className={`text-2xl font-extrabold tracking-tight ${
                         myNetINR > 0.01 
-                          ? 'text-green-owed' 
+                          ? 'text-green-pri' 
                           : myNetINR < -0.01 
                           ? 'text-red-owe' 
                           : 'text-text-primary'
@@ -1506,7 +1505,7 @@ export default function GroupDetailPage() {
                     <div>
                       <div className={`text-2xl font-extrabold tracking-tight ${
                         myNetUSD > 0.01 
-                          ? 'text-green-owed' 
+                          ? 'text-green-pri' 
                           : myNetUSD < -0.01 
                           ? 'text-red-owe' 
                           : 'text-text-primary'
@@ -1522,7 +1521,7 @@ export default function GroupDetailPage() {
                   
                   <button
                     onClick={openGenericSettlementModal}
-                    className="w-full mt-5 py-2.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white font-extrabold rounded-xl text-xs transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2 border-none"
+                    className="w-full mt-5 py-2.5 bg-green-pri hover:bg-green-light text-white font-extrabold rounded-xl text-xs transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2 border-none"
                   >
                     <Wallet className="h-4 w-4" />
                     <span>Record Settle Up</span>
@@ -1587,7 +1586,7 @@ export default function GroupDetailPage() {
                                         setPayNotes('');
                                         setToast(null);
                                       }}
-                                      className="px-3 py-1.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white text-[10px] font-extrabold rounded-lg transition-all cursor-pointer border-none shadow-xs"
+                                      className="px-3 py-1.5 bg-green-pri hover:bg-green-light text-white text-[10px] font-extrabold rounded-lg transition-all cursor-pointer border-none shadow-xs"
                                     >
                                       Pay Now
                                     </button>
@@ -1620,7 +1619,7 @@ export default function GroupDetailPage() {
                             </div>
 
                             <div>
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-green-50 text-[#2e7d32] border border-[#c8e6c9]/40">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-green-50 text-green-pri border border-green-pri/40">
                                 Settled
                               </span>
                             </div>
@@ -1747,7 +1746,7 @@ export default function GroupDetailPage() {
                   </h2>
                   <button
                     onClick={openGenericExpenseModal}
-                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-[#0e5c3e] hover:bg-[#0b4a32] text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
+                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
                   >
                     <Plus className="h-4 w-4" />
                     <span>Add Expense</span>
@@ -1760,7 +1759,7 @@ export default function GroupDetailPage() {
                   </h2>
                   <button
                     onClick={openGenericSettlementModal}
-                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-[#0e5c3e] hover:bg-[#0b4a32] text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
+                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
                   >
                     <Plus className="h-4 w-4" />
                     <span>Settle Up</span>
@@ -1815,7 +1814,7 @@ export default function GroupDetailPage() {
 
                       <button
                         onClick={openGenericExpenseModal}
-                        className="px-5 py-2.5 bg-[#0e5c3e] hover:bg-[#0b4a32] text-white rounded-full font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:shadow cursor-pointer border-none"
+                        className="px-5 py-2.5 bg-green-pri hover:bg-green-light text-white rounded-full font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:shadow cursor-pointer border-none"
                       >
                         <Plus className="h-4 w-4" />
                         <span>Add Expense</span>

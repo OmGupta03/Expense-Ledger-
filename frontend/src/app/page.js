@@ -79,13 +79,6 @@ const steps = [
 
 export default function PublicLandingPage() {
   const { user, profile, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user && !loading) {
-      router.push('/dashboard');
-    }
-  }, [user, loading, router]);
 
   const handleScrollToFeatures = (e) => {
     e.preventDefault();
@@ -164,10 +157,10 @@ export default function PublicLandingPage() {
 
             <div className="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <Link
-                href="/login"
+                href={user ? "/dashboard" : "/login"}
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all shadow-xl shadow-emerald-500/20 cursor-pointer border-none no-underline transform hover:-translate-y-0.5"
               >
-                <span>Get Started Free</span>
+                <span>{user ? 'Go to Dashboard' : 'Get Started Free'}</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
               

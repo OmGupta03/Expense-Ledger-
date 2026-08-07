@@ -12,7 +12,7 @@ import Dialog from '@/components/ui/Dialog';
 import { ShieldCheck, Trash2, KeyRound, Smartphone, History, Save, ChevronRight, User, Mail, Phone, Globe, Lock } from 'lucide-react';
 
 export default function SettingsPage() {
-  const { user, profile, loading } = useAuth();
+  const { user, profile, loading, fetchProfile } = useAuth();
   const router = useRouter();
 
   // Settings form states
@@ -65,13 +65,19 @@ export default function SettingsPage() {
 
     setSaving(true);
     try {
+      const updates = { name: fullName.trim() };
+      if (email.trim()) updates.email = email.trim();
+
       const { error } = await supabase
         .from('users')
-        .update({ name: fullName.trim() })
+        .update(updates)
         .eq('id', user.id);
 
       if (error) throw error;
       setToast({ message: 'Personal information updated successfully!', type: 'success' });
+      if (fetchProfile) {
+        await fetchProfile(user.id, email.trim() || user.email, fullName.trim());
+      }
     } catch (err) {
       console.error('Update settings profile error:', err);
       setToast({ message: err.message || 'Failed to update profile name', type: 'error' });

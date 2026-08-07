@@ -22,31 +22,54 @@ export function AuthProvider({ children }) {
   // Helper to fetch the profile from public.users with client-side auto-creation and sync fallback
   const fetchProfile = async (userId, userEmail = '', userName = '') => {
     try {
-      const realName = userName || (userEmail ? userEmail.split('@')[0] : 'User');
-      
-      if (userId && (userEmail || userName)) {
-        const { data: upserted } = await supabase.from('users').upsert([{
-          id: userId,
-          email: userEmail || null,
-          name: realName
-        }]).select().maybeSingle();
-
-        if (upserted) {
-          setProfile(upserted);
-          return;
-        }
-      }
-
       let { data } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .maybeSingle();
 
+      if (!data && userEmail) {
+        const { data: emailData } = await supabase
+          .from('users')
+          .select('*')
+          .eq('email', userEmail)
+          .maybeSingle();
+        if (emailData) {
+          data = emailData;
+        }
+      }
+
       if (data) {
+        const updates = {};
+        if (!data.email && userEmail) updates.email = userEmail;
+        if ((!data.name || data.name === 'User') && userName) updates.name = userName;
+
+        if (Object.keys(updates).length > 0) {
+          const { data: updatedData } = await supabase
+            .from('users')
+            .update(updates)
+            .eq('id', data.id)
+            .select()
+            .maybeSingle();
+          if (updatedData) data = updatedData;
+        }
+
         setProfile(data);
       } else {
-        setProfile({ id: userId, email: userEmail, name: realName });
+        const realName = userName || (userEmail ? userEmail.split('@')[0] : 'User');
+        const newProfile = {
+          id: userId,
+          email: userEmail || null,
+          name: realName,
+        };
+
+        const { data: insertedData } = await supabase
+          .from('users')
+          .upsert([newProfile])
+          .select()
+          .maybeSingle();
+
+        setProfile(insertedData || newProfile);
       }
     } catch (err) {
       console.error('Unexpected error fetching profile:', err);
@@ -206,7 +229,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signInWithGoogle, signOut, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );

@@ -172,6 +172,9 @@ export function AuthProvider({ children }) {
       provider: 'google',
       options: {
         redirectTo: `${typeof window !== 'undefined' ? window.location.origin : ''}/dashboard`,
+        queryParams: {
+          prompt: 'select_account',
+        },
       },
     });
 
@@ -191,11 +194,12 @@ export function AuthProvider({ children }) {
 
   const signOut = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      setLoading(false);
-      throw error;
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('supabase_session');
     }
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {}
     setUser(null);
     setProfile(null);
     setLoading(false);

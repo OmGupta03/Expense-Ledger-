@@ -35,7 +35,13 @@ export function AuthProvider({ children }) {
           .eq('email', userEmail)
           .maybeSingle();
         if (emailData) {
-          data = emailData;
+          const { data: updatedEmailData } = await supabase
+            .from('users')
+            .update({ id: userId, name: userName || emailData.name })
+            .eq('email', userEmail)
+            .select()
+            .maybeSingle();
+          data = updatedEmailData || emailData;
         }
       }
       

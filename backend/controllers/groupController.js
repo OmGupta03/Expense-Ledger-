@@ -10,6 +10,16 @@ const createGroup = async (req, res) => {
       return res.status(400).json({ error: 'Group name and creator ID are required' });
     }
 
+    // Ensure user profile exists in public.users to prevent FK constraint errors
+    const { data: existingUser } = await client.from('users').select('id').eq('id', creatorId).maybeSingle();
+    if (!existingUser) {
+      await client.from('users').upsert([{ 
+        id: creatorId, 
+        name: req.user?.email ? req.user.email.split('@')[0] : 'User', 
+        email: req.user?.email || null 
+      }]);
+    }
+
     const { data: group, error: groupError } = await client
       .from('groups')
       .insert([{ name, created_by: creatorId }])

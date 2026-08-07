@@ -81,16 +81,24 @@ export function AuthProvider({ children }) {
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
     fetch(`${backendUrl}/api/health`).catch(() => {});
 
+    const hasOAuthParams = typeof window !== 'undefined' && (
+      window.location.hash.includes('access_token=') ||
+      window.location.search.includes('code=') ||
+      window.location.hash.includes('error=')
+    );
+
     // Fast initial session hydration from localStorage / client cache
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
         const oauthName = session.user.user_metadata?.full_name || session.user.user_metadata?.name;
         fetchProfile(session.user.id, session.user.email, oauthName).catch(() => {});
+        setLoading(false);
+      } else if (!hasOAuthParams) {
+        setLoading(false);
       }
-      setLoading(false);
     }).catch(() => {
-      setLoading(false);
+      if (!hasOAuthParams) setLoading(false);
     });
 
     // Listen for subsequent auth state updates

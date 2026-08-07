@@ -61,7 +61,11 @@ function DashboardContent() {
 
   // Redirect to login if not authenticated
   useEffect(() => {
-    if (!loading && !user) {
+    const hasOAuthParams = typeof window !== 'undefined' && (
+      window.location.hash.includes('access_token=') ||
+      window.location.search.includes('code=')
+    );
+    if (!loading && !user && !hasOAuthParams) {
       router.push('/login');
     }
   }, [user, loading, router]);

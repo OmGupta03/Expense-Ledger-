@@ -18,8 +18,8 @@ export default function SettingsPage() {
   // Settings form states
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('+1 (555) 012-3456');
-  const [country, setCountry] = useState('US');
+  const [phoneNumber, setPhoneNumber] = useState('+91 90453 26920');
+  const [country, setCountry] = useState('IN');
 
   // Toggle states
   const [emailNotif, setEmailNotif] = useState(true);
@@ -40,10 +40,13 @@ export default function SettingsPage() {
 
   useEffect(() => {
     if (profile) {
-      setFullName(profile.name || '');
-      setEmail(profile.email || '');
+      setFullName(profile.name || user?.user_metadata?.full_name || user?.user_metadata?.name || '');
+      setEmail(profile.email || user?.email || '');
+    } else if (user) {
+      setEmail(user.email || '');
+      setFullName(user.user_metadata?.full_name || user.user_metadata?.name || '');
     }
-  }, [profile]);
+  }, [profile, user]);
 
   if (loading || !user) {
     return (
@@ -66,21 +69,21 @@ export default function SettingsPage() {
     setSaving(true);
     try {
       const updates = { name: fullName.trim() };
-      if (email.trim()) updates.email = email.trim();
-
+      
       const { error } = await supabase
         .from('users')
         .update(updates)
         .eq('id', user.id);
 
       if (error) throw error;
+
       setToast({ message: 'Personal information updated successfully!', type: 'success' });
       if (fetchProfile) {
-        await fetchProfile(user.id, email.trim() || user.email, fullName.trim());
+        await fetchProfile(user.id, email || user.email, fullName.trim());
       }
     } catch (err) {
       console.error('Update settings profile error:', err);
-      setToast({ message: err.message || 'Failed to update profile name', type: 'error' });
+      setToast({ message: err.message || 'Failed to update profile details', type: 'error' });
     } finally {
       setSaving(false);
     }

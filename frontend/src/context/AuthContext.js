@@ -22,45 +22,49 @@ export function AuthProvider({ children }) {
   // Helper to fetch the profile from public.users with client-side auto-creation and sync fallback
   const fetchProfile = async (userId, userEmail = '', userName = '') => {
     try {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .maybeSingle();
-      
-      if (error) {
-        console.error('Error fetching user profile:', error.message);
-        return;
-      }
 
+      if (!data && userEmail) {
+        const { data: emailData } = await supabase
+          .from('users')
+          .select('*')
+          .eq('email', userEmail)
+          .maybeSingle();
+        if (emailData) {
+          data = emailData;
+        }
+      }
+      
       const fallbackName = userName || userEmail?.split('@')[0] || 'User';
 
       if (!data) {
-        // Fallback: If no public profile exists, insert it now with latest auth metadata!
         const newProfile = {
           id: userId,
-          email: userEmail || '',
+          email: userEmail || null,
           name: fallbackName,
         };
         
-        const { data: insertedData, error: insertError } = await supabase
+        const { data: upsertedData, error: upsertError } = await supabase
           .from('users')
-          .insert([newProfile])
+          .upsert([newProfile], { onConflict: 'email' })
           .select()
           .maybeSingle();
 
-        if (insertError) {
-          console.error('Failed to auto-create user profile:', insertError.message);
-        } else if (insertedData) {
-          setProfile(insertedData);
+        if (upsertError) {
+          setProfile({ id: userId, email: userEmail, name: fallbackName });
+        } else if (upsertedData) {
+          setProfile(upsertedData);
         }
       } else {
-        // Sync name if OAuth/Auth user metadata provides a name and it differs or updates
         if (userName && userName !== data.name) {
           const { data: updatedData } = await supabase
             .from('users')
             .update({ name: userName })
-            .eq('id', userId)
+            .eq('id', data.id)
             .select()
             .maybeSingle();
 

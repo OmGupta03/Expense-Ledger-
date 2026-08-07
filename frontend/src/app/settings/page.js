@@ -68,12 +68,15 @@ export default function SettingsPage() {
 
     setSaving(true);
     try {
-      const updates = { name: fullName.trim() };
-      
+      const profileData = {
+        id: user.id,
+        name: fullName.trim(),
+        email: email || user.email || null,
+      };
+
       const { error } = await supabase
         .from('users')
-        .update(updates)
-        .eq('id', user.id);
+        .upsert([profileData]);
 
       if (error) throw error;
 

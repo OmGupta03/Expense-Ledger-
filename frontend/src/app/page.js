@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { 
   Wallet, 
@@ -77,7 +78,14 @@ const steps = [
 ];
 
 export default function PublicLandingPage() {
-  const { user, profile } = useAuth();
+  const { user, profile, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user && !loading) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
 
   const handleScrollToFeatures = (e) => {
     e.preventDefault();
@@ -123,10 +131,10 @@ export default function PublicLandingPage() {
           {/* Right Authentication CTA */}
           <div className="flex items-center gap-3">
             <Link
-              href="/login"
+              href={user ? "/dashboard" : "/login"}
               className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 no-underline cursor-pointer border-none"
             >
-              <span>Sign In</span>
+              <span>{user ? 'Go to Dashboard' : 'Sign In'}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>

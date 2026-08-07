@@ -22,72 +22,31 @@ export function AuthProvider({ children }) {
   // Helper to fetch the profile from public.users with client-side auto-creation and sync fallback
   const fetchProfile = async (userId, userEmail = '', userName = '') => {
     try {
-      let { data, error } = await supabase
+      const realName = userName || (userEmail ? userEmail.split('@')[0] : 'User');
+      
+      if (userId && (userEmail || userName)) {
+        const { data: upserted } = await supabase.from('users').upsert([{
+          id: userId,
+          email: userEmail || null,
+          name: realName
+        }]).select().maybeSingle();
+
+        if (upserted) {
+          setProfile(upserted);
+          return;
+        }
+      }
+
+      let { data } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .maybeSingle();
 
-      if (!data && userEmail) {
-        const { data: emailData } = await supabase
-          .from('users')
-          .select('*')
-          .eq('email', userEmail)
-          .maybeSingle();
-        if (emailData) {
-          const { data: updatedEmailData } = await supabase
-            .from('users')
-            .update({ id: userId, name: userName || emailData.name, email: userEmail })
-            .eq('email', userEmail)
-            .select()
-            .maybeSingle();
-          data = updatedEmailData || emailData;
-        }
-      }
-      
-      const realName = userName || (userEmail ? userEmail.split('@')[0] : 'User');
-
-      if (!data) {
-        const newProfile = {
-          id: userId,
-          email: userEmail || null,
-          name: realName,
-        };
-        
-        const { data: upsertedData } = await supabase
-          .from('users')
-          .upsert([newProfile])
-          .select()
-          .maybeSingle();
-
-        if (upsertedData) {
-          setProfile(upsertedData);
-        } else {
-          setProfile(newProfile);
-        }
-      } else {
-        const updates = {};
-        if (userEmail && (!data.email || data.email === 'N/A' || data.email !== userEmail)) {
-          updates.email = userEmail;
-        }
-        if (userName && (data.name === 'User' || data.name !== userName)) {
-          updates.name = userName;
-        }
-
-        if (Object.keys(updates).length > 0) {
-          const { data: updatedData } = await supabase
-            .from('users')
-            .update(updates)
-            .eq('id', data.id)
-            .select()
-            .maybeSingle();
-
-          if (updatedData) {
-            setProfile(updatedData);
-            return;
-          }
-        }
+      if (data) {
         setProfile(data);
+      } else {
+        setProfile({ id: userId, email: userEmail, name: realName });
       }
     } catch (err) {
       console.error('Unexpected error fetching profile:', err);

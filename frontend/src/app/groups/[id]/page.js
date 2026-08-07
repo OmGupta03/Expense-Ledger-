@@ -1485,12 +1485,14 @@ export default function GroupDetailPage() {
                           <td className="px-6 py-4 flex items-center gap-3">
                             <div className="h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold text-white uppercase select-none shadow-sm"
                             style={{
-                              backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][m.name.charCodeAt(0) % 6]
+                              backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][(m.name || 'U').charCodeAt(0) % 6]
                             }}>
-                              {m.name[0]}
+                              {(m.name === 'User' && m.id === user?.id ? (profile?.name || user?.user_metadata?.full_name || 'U') : (m.name || 'U'))[0]}
                             </div>
                             <div>
-                              <p className="font-extrabold text-white text-sm leading-none">{m.name}</p>
+                              <p className="font-extrabold text-white text-sm leading-none">
+                                {m.name === 'User' && m.id === user?.id ? (profile?.name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User') : m.name}
+                              </p>
                               <p className="text-[10px] text-slate-400 mt-1 leading-none font-semibold">
                                 {statusText === "Invited" ? `Sent ${addedDate}` : `Added ${addedDate}`}
                               </p>
@@ -1499,7 +1501,7 @@ export default function GroupDetailPage() {
 
                           {/* Email column */}
                           <td className="px-6 py-4 text-slate-300 font-semibold">
-                            {m.email || 'N/A'}
+                            {m.email || (m.id === user?.id ? user?.email : null) || 'N/A'}
                           </td>
 
                           {/* Status column */}

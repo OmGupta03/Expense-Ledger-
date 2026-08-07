@@ -19,7 +19,8 @@ import {
   sendChatMessage,
   fetchExpenseChat,
   fetchExpenseDetails,
-  deleteGroup
+  deleteGroup,
+  updateGroupName
 } from '@/lib/api';
 
 import Avatar from '@/components/ui/Avatar';
@@ -31,6 +32,7 @@ import {
   ArrowLeft, 
   RefreshCw, 
   Trash2, 
+  Pencil,
   FileSpreadsheet, 
   UserPlus, 
   Info, 
@@ -50,7 +52,8 @@ import {
   Filter,
   Wallet,
   Landmark,
-  UserX
+  UserX,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
@@ -137,6 +140,31 @@ export default function GroupDetailPage() {
   const [settlementLoading, setSettlementLoading] = useState(false);
   const [toast, setToast] = useState(null); // { message, type: 'success' | 'error' }
 
+  // Group name edit state
+  const [isEditingGroupName, setIsEditingGroupName] = useState(false);
+  const [editedGroupName, setEditedGroupName] = useState('');
+  const [groupNameLoading, setGroupNameLoading] = useState(false);
+
+  const handleUpdateGroupName = async (e) => {
+    e?.preventDefault();
+    if (!editedGroupName.trim() || editedGroupName.trim() === group.name) {
+      setIsEditingGroupName(false);
+      return;
+    }
+    setGroupNameLoading(true);
+    try {
+      await updateGroupName(group.id, editedGroupName.trim());
+      setGroup((prev) => ({ ...prev, name: editedGroupName.trim() }));
+      setIsEditingGroupName(false);
+      setToast({ message: 'Group name updated successfully!', type: 'success' });
+    } catch (err) {
+      console.error('Error updating group name:', err);
+      setToast({ message: err.message || 'Failed to update group name', type: 'error' });
+    } finally {
+      setGroupNameLoading(false);
+    }
+  };
+
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
@@ -151,6 +179,14 @@ export default function GroupDetailPage() {
       setIsAddingExpense(true);
     }
   }, [searchParams]);
+
+  // Automatically update expense date to today's current date when form is opened
+  useEffect(() => {
+    if (isAddingExpense || showExpenseModal) {
+      const today = new Date().toISOString().split('T')[0];
+      setExpDate(today);
+    }
+  }, [isAddingExpense, showExpenseModal]);
 
   // Auto-dismiss Toast notifications after 4 seconds
   useEffect(() => {
@@ -174,6 +210,19 @@ export default function GroupDetailPage() {
 
       setGroup(g);
       setMembers(m);
+      if (m && m.length > 0) {
+        setExpPayer((prev) => prev || user?.id || m[0].id);
+        setSettlePayer((prev) => prev || user?.id || m[0].id);
+        setSettlePayee((prev) => prev || m.find((mem) => mem.id !== (user?.id || m[0].id))?.id || m[0].id);
+        setSplitCheckboxes((prev) => {
+          if (Object.keys(prev).length === 0) {
+            const initial = {};
+            m.forEach((mem) => { initial[mem.id] = true; });
+            return initial;
+          }
+          return prev;
+        });
+      }
       setExpenses(expList);
       setSettlements(setList);
       setBalances(balData);
@@ -606,7 +655,13 @@ export default function GroupDetailPage() {
     setExpenseLoading(true);
     try {
       const finalDescription = expDescription.trim();
-      await addExpense(groupId, expPayer, finalDescription, totalAmt, expSplitType, splits, expCurrency, expDate);
+      const actualPayer = expPayer || user?.id || (members[0]?.id || null);
+      if (!actualPayer) {
+        setExpenseError('Please select a valid payer.');
+        setExpenseLoading(false);
+        return;
+      }
+      await addExpense(groupId, actualPayer, finalDescription, totalAmt, expSplitType, splits, expCurrency, expDate);
       setShowExpenseModal(false);
       setIsAddingExpense(false);
       setExpDescription('');
@@ -714,29 +769,50 @@ export default function GroupDetailPage() {
 
   const modalsElement = (
     <>
+      {drilldownMember && (
+        <BalanceDrilldownModal
+          member={drilldownMember.member}
+          balance={drilldownMember.balance}
+          expenses={expenses}
+          settlements={settlements}
+          members={members}
+          currentUserId={user.id}
+          onClose={() => setDrilldownMember(null)}
+        />
+      )}
       {payNowTarget && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-xl text-left relative">
-            <h3 className="text-base font-extrabold text-gray-900 border-b border-border-custom pb-3 mb-4">
-              Record Payment to {payNowTarget.member.name}
-            </h3>
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200 select-none">
+          <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-8 rounded-3xl w-full max-w-md shadow-2xl relative text-left space-y-5">
+            <button
+              onClick={() => setPayNowTarget(null)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="pb-3 border-b border-slate-800">
+              <h3 className="text-xl font-extrabold text-white tracking-tight mb-1">
+                Record Payment to {payNowTarget.member.name}
+              </h3>
+              <p className="text-xs text-slate-400 font-medium">Record a partial or full payment made to clear debt.</p>
+            </div>
             
             <form onSubmit={handlePayNowConfirm} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">
+                <label className="block text-[11px] font-extrabold uppercase text-slate-400 mb-1 tracking-wider">
                   Outstanding Debt
                 </label>
-                <p className="text-lg font-bold text-gray-900">
+                <p className="text-2xl font-black text-emerald-400 tracking-tight">
                   {payNowTarget.currency === 'USD' ? '$' : '₹'}{payNowTarget.debtAmount.toFixed(2)}
                 </p>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
                   Payment Amount (Partial or Full)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-extrabold text-xs">
                     {payNowTarget.currency === 'USD' ? '$' : '₹'}
                   </span>
                   <input
@@ -747,19 +823,19 @@ export default function GroupDetailPage() {
                     value={payAmount}
                     onChange={(e) => setPayAmount(e.target.value)}
                     placeholder="0"
-                    className="w-full bg-[#fafafa] border border-border-custom rounded-xl pl-8 pr-3.5 py-2.5 text-xs text-text-primary placeholder-text-muted focus:outline-none focus:border-green-pri font-bold"
+                    className="w-full bg-[#0f172a] border border-slate-800 rounded-xl pl-9 pr-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-extrabold"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
                   Payment Method
                 </label>
                 <select
                   value={payMethod}
                   onChange={(e) => setPayMethod(e.target.value)}
-                  className="w-full bg-[#fafafa] border border-border-custom rounded-xl px-3.5 py-2.5 text-xs text-text-primary focus:outline-none focus:border-green-pri"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                 >
                   <option value="cash">Cash</option>
                   <option value="upi">UPI</option>
@@ -768,7 +844,7 @@ export default function GroupDetailPage() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
                   Optional Notes
                 </label>
                 <textarea
@@ -776,22 +852,22 @@ export default function GroupDetailPage() {
                   onChange={(e) => setPayNotes(e.target.value)}
                   placeholder="Add payment context (e.g. sent via GPay)"
                   rows={2}
-                  className="w-full bg-[#fafafa] border border-border-custom rounded-xl px-3.5 py-2.5 text-xs text-text-primary placeholder-text-muted focus:outline-none focus:border-green-pri"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-medium"
                 />
               </div>
 
-              <div className="flex justify-end space-x-2 pt-2">
+              <div className="flex justify-end items-center gap-3 pt-3 border-t border-slate-800">
                 <button
                   type="button"
                   onClick={() => setPayNowTarget(null)}
-                  className="px-4 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg text-xs font-semibold transition-all cursor-pointer bg-transparent border-none"
+                  className="px-5 py-2.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-900 text-xs font-bold transition-all cursor-pointer bg-transparent border-none"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={settlementLoading}
-                  className="px-4 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer border-none disabled:opacity-50 flex items-center gap-1.5"
+                  className="px-6 py-2.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full shadow-lg shadow-emerald-500/20 cursor-pointer border-none disabled:opacity-50 flex items-center gap-1.5 transition-all"
                 >
                   {settlementLoading ? 'Saving...' : 'Confirm Payment'}
                 </button>
@@ -802,29 +878,39 @@ export default function GroupDetailPage() {
       )}
 
       {reminderTarget && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-xl text-left relative">
-            <h3 className="text-base font-extrabold text-gray-900 border-b border-border-custom pb-3 mb-4">
-              Send Reminder to {reminderTarget.member.name}
-            </h3>
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200 select-none">
+          <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-8 rounded-3xl w-full max-w-md shadow-2xl relative text-left space-y-5">
+            <button
+              onClick={() => setReminderTarget(null)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="pb-3 border-b border-slate-800">
+              <h3 className="text-xl font-extrabold text-white tracking-tight mb-1">
+                Send Reminder to {reminderTarget.member.name}
+              </h3>
+              <p className="text-xs text-slate-400 font-medium">Send a friendly payment reminder via WhatsApp or Email.</p>
+            </div>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
                   Polite Message
                 </label>
                 <textarea
                   readOnly
                   value={reminderTarget.message}
                   rows={3}
-                  className="w-full bg-[#fafafa] border border-border-custom rounded-xl px-3.5 py-2.5 text-xs text-text-muted focus:outline-none resize-none font-medium leading-relaxed"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl p-4 text-xs text-slate-200 focus:outline-none resize-none font-medium leading-relaxed"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={handleCopyReminder}
-                  className="py-2.5 bg-[#e8f5e9] hover:bg-[#c8e6c9] text-[#2e7d32] font-bold rounded-xl text-xs transition-all cursor-pointer border-none flex items-center justify-center gap-1.5"
+                  className="py-3 bg-emerald-950 text-emerald-400 border border-emerald-800/60 hover:bg-emerald-900/80 font-extrabold rounded-2xl text-xs transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span>📋</span>
                   <span>{copiedText ? 'Copied!' : 'Copy Text'}</span>
@@ -834,27 +920,27 @@ export default function GroupDetailPage() {
                   href={`https://api.whatsapp.com/send?text=${encodeURIComponent(reminderTarget.message)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-2.5 bg-[#25d366] hover:bg-[#20ba5a] text-white font-bold rounded-xl text-xs transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 text-center no-underline"
+                  className="py-3 bg-[#25d366] hover:bg-[#20ba5a] text-slate-950 font-extrabold rounded-2xl text-xs transition-all cursor-pointer border-none flex items-center justify-center gap-2 text-center no-underline"
                 >
                   <span>💬</span>
                   <span>WhatsApp</span>
                 </a>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-1">
                 <a
                   href={`mailto:?subject=${encodeURIComponent('Payment Reminder: ' + group.name)}&body=${encodeURIComponent(reminderTarget.message)}`}
-                  className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-gray-750 font-bold rounded-xl text-xs transition-all cursor-pointer border-none flex items-center justify-center gap-1.5 text-center no-underline"
+                  className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-extrabold rounded-2xl text-xs transition-all border border-slate-700 cursor-pointer flex items-center justify-center gap-2 text-center no-underline"
                 >
                   <span>✉️</span>
                   <span>Share via Email</span>
                 </a>
               </div>
 
-              <div className="flex justify-end pt-2 border-t border-border-custom">
+              <div className="flex justify-end pt-3 border-t border-slate-800">
                 <button
                   onClick={() => setReminderTarget(null)}
-                  className="px-4 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg text-xs font-semibold transition-all cursor-pointer bg-transparent border-none"
+                  className="px-5 py-2.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-900 text-xs font-bold transition-all cursor-pointer bg-transparent border-none"
                 >
                   Close
                 </button>
@@ -872,9 +958,10 @@ export default function GroupDetailPage() {
       <Layout>
         {toastElement}
         {modalsElement}
-        <div className="w-full flex-1 flex flex-col bg-[#f8fafc] overflow-hidden h-full font-sans">
+        <div className="stitch-dashboard-dark w-full flex-1 flex flex-col min-h-screen overflow-x-hidden text-left select-none bg-[#07100b] text-white font-sans">
           {/* Top Header Bar */}
           <Header
+            isDark={true}
             leftSection={
               <div className="flex items-center gap-3 text-left">
                 <button
@@ -884,25 +971,25 @@ export default function GroupDetailPage() {
                       router.push(`/groups/${groupId}?tab=expenses`);
                     }
                   }}
-                  className="p-1.5 rounded-lg text-text-muted hover:text-text-primary hover:bg-gray-100 transition-colors cursor-pointer border-none bg-transparent"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 transition-colors cursor-pointer border-none bg-transparent"
                 >
                   <ArrowLeft className="h-5 w-5" />
                 </button>
-                <h1 className="text-lg font-extrabold text-gray-900 tracking-tight">Add New Expense</h1>
+                <h1 className="text-lg font-extrabold text-white tracking-tight">Add New Expense</h1>
               </div>
             }
           >
             <button
               onClick={loadData}
               disabled={pageLoading}
-              className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer border-none bg-transparent"
+              className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-900 transition-all cursor-pointer border-none bg-transparent"
               title="Refresh balances"
             >
               <RefreshCw className={`h-4.5 w-4.5 ${pageLoading ? 'animate-spin' : ''}`} />
             </button>
             <button
               onClick={() => setShowMemberForm(true)}
-              className="px-5 py-1.5 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
+              className="px-5 py-2 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full transition-all cursor-pointer border-none shadow-md"
             >
               Invite Member
             </button>
@@ -911,7 +998,7 @@ export default function GroupDetailPage() {
           {/* Form Content body container */}
           <div className="page-body flex-1 overflow-y-auto px-8 py-8">
             {expenseError && (
-              <div className="mb-4 bg-red-50 border border-red-200 text-red-owe p-3.5 rounded-2xl text-xs font-semibold text-left max-w-5xl mx-auto">
+              <div className="mb-4 bg-red-950/80 border border-red-900 text-red-300 p-3.5 rounded-2xl text-xs font-semibold text-left max-w-5xl mx-auto">
                 {expenseError}
               </div>
             )}
@@ -922,32 +1009,32 @@ export default function GroupDetailPage() {
               <div className="flex-grow flex flex-col gap-6">
                 
                 {/* Expense Information Box */}
-                <div className="bg-white border border-border-custom rounded-2xl p-6 text-left space-y-4">
-                  <div className="flex items-center gap-2 text-text-muted">
-                    <Info className="h-4.5 w-4.5 text-green-pri" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-text-muted">Expense Information</span>
+                <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left space-y-4">
+                  <div className="flex items-center gap-2 text-slate-300">
+                    <Info className="h-4.5 w-4.5 text-emerald-400" />
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Expense Information</span>
                   </div>
                   
                   {/* Description input */}
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Description</label>
+                    <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1.5">Description</label>
                     <input
                       type="text"
                       required
                       value={expDescription}
                       onChange={(e) => setExpDescription(e.target.value)}
                       placeholder="What was this for? (e.g. Weekly Groceries)"
-                      className="w-full bg-[#fafafa] border border-border-custom rounded-xl px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-green-pri focus:bg-white transition-all text-left"
+                      className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-all text-left font-medium"
                     />
                   </div>
 
                   {/* Amount and Date Input */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Amount</label>
+                      <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1.5">Amount</label>
                       <div className="relative">
-                        <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-text-muted font-semibold text-sm">
-                          {expCurrency === 'USD' ? '$' : '₹'}
+                        <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 font-bold text-xs">
+                          ₹
                         </span>
                         <input
                           type="number"
@@ -957,16 +1044,16 @@ export default function GroupDetailPage() {
                           value={expAmount}
                           onChange={(e) => setExpAmount(e.target.value)}
                           placeholder="0"
-                          className="w-full pl-9 pr-4 py-3 bg-[#fafafa] border border-border-custom rounded-xl text-sm font-semibold text-text-primary focus:outline-none focus:border-green-pri focus:bg-white transition-all text-left"
+                          className="w-full pl-9 pr-4 py-3 bg-[#0f172a] border border-slate-800 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-emerald-500 transition-all text-left"
                         />
                       </div>
                     </div>
                     
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
-                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">Date</label>
+                        <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Date</label>
                         {expDate && !isNaN(new Date(expDate + 'T00:00:00').getTime()) && (
-                          <span className="text-[10px] font-extrabold text-green-pri bg-green-50 px-2 py-0.5 rounded-full border border-green-pri/20">
+                          <span className="text-[10px] font-extrabold text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800/40">
                             {new Date(expDate + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </span>
                         )}
@@ -976,19 +1063,18 @@ export default function GroupDetailPage() {
                         required
                         value={expDate}
                         onChange={(e) => setExpDate(e.target.value)}
-                        className="w-full px-4 py-3 bg-[#fafafa] border border-border-custom rounded-xl text-sm text-text-primary focus:outline-none focus:border-green-pri focus:bg-white transition-all text-left"
+                        className="w-full px-4 py-3 bg-[#0f172a] border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500 transition-all text-left font-medium [color-scheme:dark]"
                       />
                     </div>
                   </div>
 
-
                 </div>
 
                 {/* Who Paid Section */}
-                <div className="bg-white border border-border-custom rounded-2xl p-6 text-left space-y-4">
-                  <div className="flex items-center gap-2 text-text-muted">
-                    <Users className="h-4.5 w-4.5 text-green-pri" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-text-muted">Who paid?</span>
+                <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left space-y-4">
+                  <div className="flex items-center gap-2 text-slate-300">
+                    <Users className="h-4.5 w-4.5 text-emerald-400" />
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Who paid?</span>
                   </div>
                   
                   <div className="flex flex-wrap items-center gap-4">
@@ -1003,15 +1089,15 @@ export default function GroupDetailPage() {
                         >
                           <div className={`h-11 w-11 rounded-full flex items-center justify-center text-xs font-bold text-white transition-all ${
                             isSelected 
-                              ? 'ring-2 ring-[#2e7d32] opacity-100 scale-105 shadow-sm' 
-                              : 'opacity-45 hover:opacity-75'
+                              ? 'ring-2 ring-emerald-400 opacity-100 scale-105 shadow-md shadow-emerald-500/20' 
+                              : 'opacity-50 hover:opacity-80'
                           }`}
                           style={{
                             backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][m.name.charCodeAt(0) % 6]
                           }}>
                             {m.name[0].toUpperCase()}
                           </div>
-                          <span className={`text-[10px] font-bold ${isSelected ? 'text-gray-900 font-extrabold' : 'text-gray-400'}`}>
+                          <span className={`text-[10px] font-extrabold ${isSelected ? 'text-emerald-400' : 'text-slate-400'}`}>
                             {m.id === user.id ? 'You' : m.name.split(' ')[0]}
                           </span>
                         </button>
@@ -1021,7 +1107,7 @@ export default function GroupDetailPage() {
                     <button
                       type="button"
                       onClick={() => setShowMemberForm(true)}
-                      className="h-11 w-11 rounded-full border border-dashed border-gray-300 flex items-center justify-center text-gray-400 hover:border-gray-400 hover:text-gray-600 transition-colors cursor-pointer bg-white"
+                      className="h-11 w-11 rounded-full border border-dashed border-slate-700 flex items-center justify-center text-slate-400 hover:border-emerald-500 hover:text-emerald-400 transition-colors cursor-pointer bg-slate-900/60"
                       title="Add Payer/Member"
                     >
                       <Plus className="h-5 w-5" />
@@ -1035,16 +1121,16 @@ export default function GroupDetailPage() {
               <div className="w-full md:w-96 flex flex-col gap-6 flex-shrink-0">
                 
                 {/* Split Configuration Card */}
-                <div className="bg-white border border-border-custom rounded-2xl p-6 text-left space-y-4">
-                  <div className="flex items-center gap-2 text-text-muted">
-                    <svg className="h-4.5 w-4.5 text-green-pri" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left space-y-4">
+                  <div className="flex items-center gap-2 text-slate-300">
+                    <svg className="h-4.5 w-4.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                     </svg>
-                    <span className="text-xs font-bold uppercase tracking-wider text-text-muted">Split Configuration</span>
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Split Configuration</span>
                   </div>
 
                   {/* Split Method Selector Tabs */}
-                  <div className="flex bg-gray-100 p-1 rounded-full border border-gray-200">
+                  <div className="flex bg-slate-900/90 p-1 rounded-full border border-slate-800">
                     {[
                       { id: 'equal', label: 'Equally' },
                       { id: 'unequal', label: 'Exact' },
@@ -1056,10 +1142,10 @@ export default function GroupDetailPage() {
                           key={tab.id}
                           type="button"
                           onClick={() => setExpSplitType(tab.id)}
-                          className={`flex-1 py-1.5 text-xs font-bold rounded-full transition-all cursor-pointer border-none bg-transparent ${
+                          className={`flex-1 py-1.5 text-xs font-extrabold rounded-full transition-all cursor-pointer border-none ${
                             isActive
-                              ? 'bg-green-pri text-white shadow-xs'
-                              : 'text-gray-500 hover:text-gray-700'
+                              ? 'bg-[#10b981] text-slate-950 shadow-sm'
+                              : 'text-slate-400 hover:text-white bg-transparent'
                           }`}
                         >
                           {tab.label}
@@ -1070,12 +1156,12 @@ export default function GroupDetailPage() {
 
                   {/* Split members checklist */}
                   <div className="space-y-3 pt-2">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Select members to split with:</p>
+                    <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Select members to split with:</p>
                     
                     {/* Master Checkbox */}
                     {expSplitType === 'equal' && (
-                      <div className="flex items-center justify-between bg-gray-50 border border-gray-200 p-3 rounded-xl">
-                        <label className="flex items-center gap-2.5 text-xs font-bold text-gray-800 cursor-pointer">
+                      <div className="flex items-center justify-between bg-emerald-950/40 border border-emerald-800/50 p-3 rounded-2xl">
+                        <label className="flex items-center gap-2.5 text-xs font-extrabold text-white cursor-pointer">
                           <input
                             type="checkbox"
                             checked={members.every(m => splitCheckboxes[m.id])}
@@ -1085,9 +1171,9 @@ export default function GroupDetailPage() {
                               members.forEach(m => { updated[m.id] = checked; });
                               setSplitCheckboxes(updated);
                             }}
-                            className="rounded border-gray-300 text-green-pri focus:ring-green-pri h-4 w-4"
+                            className="rounded accent-emerald-500 h-4 w-4"
                           />
-                          <span className="text-xs font-black text-green-pri">Everyone (All {members.length})</span>
+                          <span className="text-xs font-extrabold text-emerald-400">Everyone (All {members.length})</span>
                         </label>
                         
                         {/* Calculate equal split amount */}
@@ -1095,8 +1181,8 @@ export default function GroupDetailPage() {
                           const activeCount = Object.values(splitCheckboxes).filter(Boolean).length;
                           const amt = activeCount > 0 ? (parseFloat(expAmount) / activeCount) : 0;
                           return (
-                            <span className="text-xs font-black text-green-pri">
-                              {expCurrency === 'USD' ? '$' : '₹'}{amt.toFixed(2)} ea
+                            <span className="text-xs font-extrabold text-emerald-400">
+                              ₹{amt.toFixed(2)} ea
                             </span>
                           );
                         })()}
@@ -1112,29 +1198,29 @@ export default function GroupDetailPage() {
                         if (expSplitType === 'equal') {
                           if (isChecked && parseFloat(expAmount) > 0) {
                             const activeCount = Object.values(splitCheckboxes).filter(Boolean).length;
-                            valText = `${expCurrency === 'USD' ? '$' : '₹'}${(parseFloat(expAmount) / activeCount).toFixed(2)}`;
+                            valText = `₹${(parseFloat(expAmount) / activeCount).toFixed(2)}`;
                           }
                           return (
                             <div key={m.id} className="flex items-center justify-between text-xs py-1">
-                              <label className="flex items-center gap-2.5 text-gray-700 cursor-pointer">
+                              <label className="flex items-center gap-2.5 text-white cursor-pointer">
                                 <input
                                   type="checkbox"
                                   checked={isChecked}
                                   onChange={() => handleCheckboxChange(m.id)}
-                                  className="rounded border-gray-300 text-green-pri focus:ring-green-pri h-4 w-4"
+                                  className="rounded accent-emerald-500 h-4 w-4"
                                 />
-                                <span className="font-semibold">{m.name} {m.id === user.id && '(Primary)'}</span>
+                                <span className="font-extrabold">{m.name} {m.id === user.id && '(Primary)'}</span>
                               </label>
-                              <span className="text-gray-500 font-semibold">{valText}</span>
+                              <span className="text-emerald-400 font-extrabold">{valText}</span>
                             </div>
                           );
                         }
 
                         // For exact and percentages, show input fields
-                        let prefixSuffix = expSplitType === 'percentage' ? '%' : (expCurrency === 'USD' ? '$' : '₹');
+                        let prefixSuffix = expSplitType === 'percentage' ? '%' : '₹';
                         return (
                           <div key={m.id} className="flex items-center justify-between text-xs py-0.5">
-                            <span className="font-semibold text-gray-700">{m.name} {m.id === user.id && '(Primary)'}</span>
+                            <span className="font-extrabold text-white">{m.name} {m.id === user.id && '(Primary)'}</span>
                             <div className="flex items-center gap-1.5">
                               <input
                                 type="number"
@@ -1143,9 +1229,9 @@ export default function GroupDetailPage() {
                                 value={splitInputs[m.id] || ''}
                                 onChange={(e) => handleSplitInputsChange(m.id, e.target.value)}
                                 placeholder="0"
-                                className="bg-[#fafafa] border border-border-custom rounded-lg px-2 py-1 text-xs text-right w-20 text-text-primary focus:outline-none focus:border-green-pri"
+                                className="bg-[#0f172a] border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-right w-20 text-white focus:outline-none focus:border-emerald-500 font-medium"
                               />
-                              <span className="text-[10px] font-bold text-gray-400">{prefixSuffix}</span>
+                              <span className="text-[10px] font-extrabold text-slate-400">{prefixSuffix}</span>
                             </div>
                           </div>
                         );
@@ -1155,10 +1241,10 @@ export default function GroupDetailPage() {
                 </div>
 
                 {/* Total to Split box */}
-                <div className="bg-[#e8f5e9]/55 border border-[#c8e6c9]/45 rounded-xl p-4 flex justify-between items-center text-xs">
-                  <span className="font-bold text-gray-600">Total to Split</span>
-                  <span className="text-base font-black text-green-pri">
-                    {expCurrency === 'USD' ? '$' : '₹'}{parseFloat(expAmount || 0).toFixed(2)}
+                <div className="bg-emerald-950/50 border border-emerald-800/60 rounded-2xl p-4 flex justify-between items-center text-xs">
+                  <span className="font-extrabold text-slate-300">Total to Split</span>
+                  <span className="text-lg font-black text-emerald-400">
+                    ₹{parseFloat(expAmount || 0).toFixed(2)}
                   </span>
                 </div>
 
@@ -1167,13 +1253,13 @@ export default function GroupDetailPage() {
                   <button
                     type="submit"
                     disabled={expenseLoading}
-                    className="w-full py-3 bg-green-pri hover:bg-green-light text-white font-bold rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer text-sm flex items-center justify-center gap-2 border-none"
+                    className="w-full py-3.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold rounded-full shadow-lg shadow-emerald-500/20 transition-all cursor-pointer text-xs flex items-center justify-center gap-2 border-none disabled:opacity-50"
                   >
                     {expenseLoading ? (
                       <span>Saving...</span>
                     ) : (
                       <>
-                        <Check className="h-4.5 w-4.5" />
+                        <Check className="h-4.5 w-4.5 text-slate-950" />
                         <span>Save Expense</span>
                       </>
                     )}
@@ -1187,7 +1273,7 @@ export default function GroupDetailPage() {
                         router.push(`/groups/${groupId}?tab=expenses`);
                       }
                     }}
-                    className="text-gray-500 hover:text-gray-700 text-xs font-semibold py-1 bg-transparent border-none cursor-pointer"
+                    className="text-slate-400 hover:text-white text-xs font-semibold py-1 bg-transparent border-none cursor-pointer transition-colors"
                   >
                     Cancel Entry
                   </button>
@@ -1208,15 +1294,16 @@ export default function GroupDetailPage() {
       <Layout>
         {toastElement}
         {modalsElement}
-        <div className="w-full flex-1 flex flex-col bg-[#f8fafc] overflow-hidden h-full font-sans">
+        <div className="stitch-dashboard-dark w-full flex-1 flex flex-col min-h-screen overflow-x-hidden text-left select-none bg-[#07100b] text-white font-sans">
           {/* Top Header Bar */}
           <Header
+            isDark={true}
             placeholder="Search members or activity..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           >
             <button
-              className="p-1.5 rounded-full text-text-muted hover:text-text-primary hover:bg-gray-100 transition-all cursor-pointer border-none bg-transparent"
+              className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-900 transition-all cursor-pointer border-none bg-transparent"
               title="Help"
             >
               <HelpCircle className="h-4.5 w-4.5" />
@@ -1224,7 +1311,7 @@ export default function GroupDetailPage() {
 
             <button
               onClick={() => setIsAddingExpense(true)}
-              className="px-4 py-1.5 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-full transition-all cursor-pointer border-none shadow-xs"
+              className="px-5 py-2 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full transition-all cursor-pointer border-none shadow-md"
             >
               Back to Overview
             </button>
@@ -1236,66 +1323,94 @@ export default function GroupDetailPage() {
             {/* Breadcrumbs and Title row */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2 mt-1">
-                  Groups &gt; <span className="font-bold text-green-pri cursor-pointer" onClick={() => router.push(`/groups/${groupId}?tab=expenses`)}>{group.name}</span>
+                <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2 mt-1">
+                  Groups &gt; <span className="font-extrabold text-emerald-400 cursor-pointer hover:underline" onClick={() => router.push(`/groups/${groupId}?tab=expenses`)}>{group.name}</span>
                 </h1>
-                <p className="text-xs text-text-muted mt-1 font-semibold">
+                <p className="text-xs text-slate-400 mt-1 font-medium">
                   Organize your roommates and manage contribution permissions.
                 </p>
               </div>
 
               <button
                 onClick={() => setShowMemberForm(!showMemberForm)}
-                className="flex items-center gap-2 px-5 py-2.5 bg-green-pri hover:bg-green-light text-white shadow-sm font-extrabold text-xs rounded-full transition-all cursor-pointer border-none"
+                className="flex items-center gap-2 px-6 py-2.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs rounded-full transition-all cursor-pointer border-none shadow-lg shadow-emerald-500/20 transform hover:-translate-y-0.5"
               >
                 <UserPlus className="h-4 w-4" />
                 <span>Invite Member</span>
               </button>
             </div>
 
-            {/* Invite Form (inline dropdown) */}
+            {/* Invite Form (Centered Popup Modal with Blurred Background) */}
             {showMemberForm && (
-              <div className="bg-white border border-border-custom rounded-2xl p-5 shadow-xs text-left max-w-md">
-                <h3 className="font-bold text-sm text-text-primary mb-1">Invite New Flatmate</h3>
-                <p className="text-xs text-text-muted mb-4">Send an invitation to join this shared ledger.</p>
-                {memberError && (
-                  <div className="mb-4 bg-red-50 border border-red-200 text-red-owe p-3 rounded-lg text-xs font-semibold">
-                    {memberError}
-                  </div>
-                )}
-                <form onSubmit={handleInviteMember} className="space-y-4">
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Email Address</label>
-                    <input
-                      type="email"
-                      required
-                      value={newMemberEmail}
-                      onChange={(e) => setNewMemberEmail(e.target.value)}
-                      placeholder="e.g. flatmate@example.com"
-                      className="w-full bg-[#fafafa] border border-border-custom rounded-xl px-3.5 py-2.5 text-xs text-text-primary placeholder-text-muted focus:outline-none focus:border-green-pri"
-                    />
-                  </div>
-                  <div className="flex justify-end space-x-2">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-in fade-in duration-200 select-none">
+                <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 rounded-3xl p-8 shadow-2xl text-left max-w-md w-full relative overflow-hidden space-y-5 border-emerald-500/20">
+                  
+                  {/* Modal Header */}
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-2xl bg-emerald-950/80 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+                        <UserPlus className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-extrabold text-lg text-white tracking-tight">Invite New Flatmate</h3>
+                        <p className="text-xs text-slate-400 font-medium">Send an invitation to join this shared ledger.</p>
+                      </div>
+                    </div>
                     <button
-                      type="button"
                       onClick={() => {
                         setShowMemberForm(false);
                         setNewMemberEmail('');
                         setMemberError('');
                       }}
-                      className="px-4 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg text-xs font-semibold transition-all cursor-pointer bg-transparent border-none"
+                      className="text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-900 transition-colors bg-transparent border-none cursor-pointer"
                     >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={memberLoading}
-                      className="px-4 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer border-none disabled:opacity-50"
-                    >
-                      {memberLoading ? 'Sending...' : 'Invite Flatmate'}
+                      <X className="h-5 w-5" />
                     </button>
                   </div>
-                </form>
+
+                  {memberError && (
+                    <div className="bg-red-950/80 border border-red-900 text-red-300 p-3.5 rounded-2xl text-xs font-semibold">
+                      {memberError}
+                    </div>
+                  )}
+
+                  <form onSubmit={handleInviteMember} className="space-y-5">
+                    <div>
+                      <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={newMemberEmail}
+                        onChange={(e) => setNewMemberEmail(e.target.value)}
+                        placeholder="Enter flatmate email address"
+                        className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-medium"
+                      />
+                    </div>
+
+                    <div className="flex justify-end items-center gap-3 pt-3 border-t border-slate-800">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowMemberForm(false);
+                          setNewMemberEmail('');
+                          setMemberError('');
+                        }}
+                        className="px-5 py-2.5 text-slate-300 hover:text-white text-xs font-extrabold transition-all cursor-pointer bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-full"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={memberLoading}
+                        className="px-6 py-2.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full transition-all cursor-pointer border-none shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+                      >
+                        {memberLoading ? 'Sending...' : 'Send Invitation'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             )}
 
@@ -1303,13 +1418,13 @@ export default function GroupDetailPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               
               {/* Total Members Card */}
-              <div className="bg-white border border-border-custom rounded-2xl p-5 shadow-xs flex items-center gap-4 text-left max-w-xs">
-                <div className="h-12 w-12 rounded-xl bg-[#e8f5e9] flex items-center justify-center text-green-pri flex-shrink-0">
+              <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl flex items-center gap-4 text-left max-w-xs">
+                <div className="h-12 w-12 rounded-2xl bg-emerald-950/80 border border-emerald-800/60 flex items-center justify-center text-emerald-400 flex-shrink-0 shadow-inner">
                   <Users className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Total Members</p>
-                  <p className="text-3xl font-extrabold text-gray-900 mt-1">
+                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Total Members</p>
+                  <p className="text-3xl font-black text-white mt-1 tracking-tight">
                     {members.length < 10 ? `0${members.length}` : members.length}
                   </p>
                 </div>
@@ -1318,30 +1433,19 @@ export default function GroupDetailPage() {
             </div>
 
             {/* Filter and Table container */}
-            <div className="bg-white border border-border-custom rounded-2xl overflow-hidden shadow-xs">
+            <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 rounded-3xl overflow-hidden shadow-xl">
               
-              {/* Table search & action filters bar */}
-              <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              {/* Table search filter bar */}
+              <div className="p-4 border-b border-slate-800 flex items-center justify-between">
                 <div className="relative w-80 text-left">
-                  <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+                  <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-400">
                     <Search className="h-4 w-4" />
                   </span>
                   <input
                     type="text"
                     placeholder="Filter by name, email, or role..."
-                    className="w-full pl-9 pr-4 py-1.5 bg-[#f1f5f9] border border-transparent rounded-full text-xs text-text-primary placeholder-gray-400 focus:outline-none focus:bg-white focus:border-gray-300 transition-all text-left"
+                    className="w-full pl-9 pr-4 py-2 bg-slate-900/90 border border-slate-800 rounded-full text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/60 transition-all text-left font-medium"
                   />
-                </div>
-
-                <div className="flex gap-2">
-                  <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-white">
-                    <Filter className="h-3.5 w-3.5 text-gray-400" />
-                    <span>Filter</span>
-                  </button>
-                  <button className="flex items-center gap-1.5 px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-white">
-                    <Download className="h-3.5 w-3.5 text-gray-400" />
-                    <span>Export</span>
-                  </button>
                 </div>
               </div>
 
@@ -1349,62 +1453,59 @@ export default function GroupDetailPage() {
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
-                    <tr className="bg-gray-50/50 border-b border-gray-100 text-left text-[10px] font-bold uppercase text-gray-400 tracking-wider">
-                      <th className="px-6 py-3.5">Member</th>
-                      <th className="px-6 py-3.5">Email Address</th>
-                      <th className="px-6 py-3.5">Status</th>
-                      <th className="px-6 py-3.5 text-right">Actions</th>
+                    <tr className="bg-slate-900/80 border-b border-slate-800 text-left text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">
+                      <th className="px-6 py-4">Member</th>
+                      <th className="px-6 py-4">Email Address</th>
+                      <th className="px-6 py-4">Status</th>
+                      <th className="px-6 py-4 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100 text-left text-xs">
+                  <tbody className="divide-y divide-slate-800/60 text-left text-xs">
                     {members.map((m, index) => {
-                      // Determine status and avatar
                       let statusText = "Active";
-                      let statusDotColor = "bg-[#15803d]";
-                      let statusTextColor = "text-[#15803d]";
+                      let statusDotColor = "bg-emerald-400 shadow-emerald-500/50 shadow-xs";
+                      let statusTextColor = "text-emerald-400";
                       
-                      // Mock some offline/invited states to make it match mockup visually
                       if (index === 2) {
                         statusText = "Offline";
-                        statusDotColor = "bg-gray-400";
-                        statusTextColor = "text-gray-500";
+                        statusDotColor = "bg-slate-500";
+                        statusTextColor = "text-slate-400";
                       } else if (index === 3) {
                         statusText = "Invited";
-                        statusDotColor = "bg-mint-green";
-                        statusTextColor = "text-green-pri";
+                        statusDotColor = "bg-teal-400";
+                        statusTextColor = "text-teal-400";
                       }
 
-                      // Dummy dates to match mockup
                       const addedDates = ["12 Jan 2024", "15 Jan 2024", "02 Feb 2024", "Sent 2 hours ago"];
                       const addedDate = addedDates[index % addedDates.length];
 
                       return (
-                        <tr key={m.id} className="hover:bg-gray-50/40 transition-colors">
+                        <tr key={m.id} className="hover:bg-slate-900/50 transition-colors">
                           {/* Member column */}
                           <td className="px-6 py-4 flex items-center gap-3">
-                            <div className="h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold text-white uppercase select-none"
+                            <div className="h-9 w-9 rounded-full flex items-center justify-center text-xs font-bold text-white uppercase select-none shadow-sm"
                             style={{
                               backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][m.name.charCodeAt(0) % 6]
                             }}>
                               {m.name[0]}
                             </div>
                             <div>
-                              <p className="font-extrabold text-gray-900 text-sm leading-none">{m.name}</p>
-                              <p className="text-[10px] text-gray-400 mt-1 leading-none">
+                              <p className="font-extrabold text-white text-sm leading-none">{m.name}</p>
+                              <p className="text-[10px] text-slate-400 mt-1 leading-none font-semibold">
                                 {statusText === "Invited" ? `Sent ${addedDate}` : `Added ${addedDate}`}
                               </p>
                             </div>
                           </td>
 
                           {/* Email column */}
-                          <td className="px-6 py-4 text-gray-600 font-semibold">
+                          <td className="px-6 py-4 text-slate-300 font-semibold">
                             {m.email || 'N/A'}
                           </td>
 
                           {/* Status column */}
                           <td className="px-6 py-4">
-                            <span className={`inline-flex items-center gap-1.5 font-bold ${statusTextColor}`}>
-                              <span className={`h-1.5 w-1.5 rounded-full ${statusDotColor}`}></span>
+                            <span className={`inline-flex items-center gap-2 font-extrabold ${statusTextColor}`}>
+                              <span className={`h-2 w-2 rounded-full ${statusDotColor}`}></span>
                               <span>{statusText}</span>
                             </span>
                           </td>
@@ -1412,7 +1513,7 @@ export default function GroupDetailPage() {
                           {/* Actions column */}
                           <td className="px-6 py-4 text-right">
                             {statusText === "Invited" && (
-                              <button className="px-3 py-1 bg-white hover:bg-green-50/10 border border-green-pri/30 text-green-pri rounded-lg font-bold text-[10px] tracking-wide transition-all cursor-pointer">
+                              <button className="px-3.5 py-1.5 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-800/60 text-emerald-400 rounded-full font-extrabold text-[10px] tracking-wide transition-all cursor-pointer">
                                 Resend
                               </button>
                             )}
@@ -1431,18 +1532,57 @@ export default function GroupDetailPage() {
       </Layout>
     );
   }
-
   return (
     <Layout>
       {toastElement}
       {modalsElement}
-      <div className="w-full flex-1 flex flex-col bg-[#f8fafc] overflow-hidden h-full">
+      <div className="stitch-dashboard-dark w-full flex-1 flex flex-col min-h-screen overflow-x-hidden text-left select-none bg-[#07100b] text-white font-sans">
         <Header
+          isDark={true}
           leftSection={
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 text-left">
+              <div className="h-9.5 w-9.5 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-lg shadow-emerald-500/20">
+                <Users className="h-5 w-5 text-slate-950" />
+              </div>
               <div className="text-left">
-                <h1 className="text-xl font-extrabold text-gray-900 tracking-tight leading-none">{group.name}</h1>
-                <p className="text-[10px] text-text-muted mt-1 leading-none font-semibold">Ledger details and balances</p>
+                {isEditingGroupName ? (
+                  <form onSubmit={handleUpdateGroupName} className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={editedGroupName}
+                      onChange={(e) => setEditedGroupName(e.target.value)}
+                      autoFocus
+                      placeholder="Group Name"
+                      className="bg-[#0f172a] border border-emerald-500 rounded-lg px-2.5 py-1 text-sm text-white font-extrabold focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      disabled={groupNameLoading}
+                      className="px-3 py-1 bg-[#10b981] hover:bg-emerald-400 text-slate-950 rounded-lg font-extrabold text-xs cursor-pointer border-none shadow-sm"
+                    >
+                      {groupNameLoading ? 'Saving...' : 'Save'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingGroupName(false)}
+                      className="px-2 py-1 text-slate-400 hover:text-white text-xs font-bold bg-transparent border-none cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                ) : (
+                  <div className="flex items-center gap-2 group cursor-pointer" onClick={() => { setEditedGroupName(group.name); setIsEditingGroupName(true); }}>
+                    <h1 className="text-xl font-extrabold text-white tracking-tight leading-none group-hover:text-emerald-300 transition-colors">{group.name}</h1>
+                    <button
+                      type="button"
+                      title="Click to rename group"
+                      className="p-1 text-slate-400 hover:text-emerald-400 rounded-md hover:bg-slate-900 transition-colors border-none bg-transparent cursor-pointer"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                )}
+                <p className="text-[10px] text-emerald-400 mt-1 leading-none font-bold">Ledger details and balances</p>
               </div>
             </div>
           }
@@ -1452,13 +1592,14 @@ export default function GroupDetailPage() {
               onChange={setSearchQuery} 
               placeholder="Search expenses..." 
               className="w-full"
+              isDark={true}
             />
           }
         >
 
           <button
             onClick={handleDeleteGroup}
-            className="flex items-center gap-1.5 px-4 py-2 border border-red-200 hover:border-red-400 hover:bg-red-50/50 text-red-500 rounded-lg text-xs font-bold transition-all cursor-pointer bg-white"
+            className="flex items-center gap-1.5 px-4 py-2 border border-red-900/60 bg-red-950/60 hover:bg-red-900/80 text-red-300 rounded-full text-xs font-bold transition-all cursor-pointer shadow-sm"
             title="Delete this group"
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -1467,299 +1608,179 @@ export default function GroupDetailPage() {
         </Header>
 
         {/* Main Body Grid */}
-        <div className="page-body overflow-y-auto flex-1">
+        <div className="page-body overflow-y-auto flex-1 px-6 md:px-10 py-8">
         
-        {/* Two column layout */}
-        <div className="flex flex-col md:flex-row gap-8">
+        {/* Two column layout for expenses, centered layout for settlements */}
+        <div className={`w-full ${activeView === 'settlements' ? 'max-w-3xl mx-auto' : 'max-w-7xl mx-auto flex flex-col md:flex-row gap-8'}`}>
           
-          {/* Left Column (w-full md:w-80 or centered max-w-xl based on activeView) */}
-          <aside className={(activeView === 'expenses' || activeView === 'settlements') ? "w-full md:w-80 flex-shrink-0 flex flex-col gap-6" : "w-full max-w-xl mx-auto flex flex-col gap-6"}>
-            
-            {/* 1. MY GROUP BALANCE card */}
-            {activeView === 'expenses' && (
-              <>
-                <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left relative overflow-hidden">
-                  <div className="absolute top-[-25px] right-[-25px] w-20 h-20 rounded-full bg-gradient-to-br from-green-50/50 to-green-100/30 border border-green-100/20 pointer-events-none"></div>
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold text-text-muted uppercase tracking-wider">
-                    <Landmark className="h-3.5 w-3.5 text-gray-400" />
-                    <span>My Group Balance</span>
-                  </div>
-                  
-                  <div className="flex flex-col gap-4 mt-4">
-                    <div>
-                      <div className={`text-2xl font-extrabold tracking-tight ${
-                        myNetINR > 0.01 
-                          ? 'text-green-pri' 
-                          : myNetINR < -0.01 
-                          ? 'text-red-owe' 
-                          : 'text-text-primary'
-                      }`}>
-                        {myNetINR > 0.01 ? '+' : ''}
-                        ₹{myNetINR.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </div>
-                      <div className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">
-                        Indian Rupee (INR)
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className={`text-2xl font-extrabold tracking-tight ${
-                        myNetUSD > 0.01 
-                          ? 'text-green-pri' 
-                          : myNetUSD < -0.01 
-                          ? 'text-red-owe' 
-                          : 'text-text-primary'
-                      }`}>
-                        {myNetUSD > 0.01 ? '+' : ''}
-                        ${myNetUSD.toFixed(2)}
-                      </div>
-                      <div className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mt-0.5">
-                        US Dollar (USD)
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={openGenericSettlementModal}
-                    className="w-full mt-5 py-2.5 bg-green-pri hover:bg-green-light text-white font-extrabold rounded-xl text-xs transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2 border-none"
-                  >
-                    <Wallet className="h-4 w-4" />
-                    <span>Record Settle Up</span>
-                  </button>
+          {/* Left Column (Only for Expenses View) */}
+          {activeView === 'expenses' && (
+            <aside className="w-full md:w-80 flex-shrink-0 flex flex-col gap-6">
+              
+              {/* 1. MY GROUP BALANCE card */}
+              <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left relative overflow-hidden space-y-4">
+                <div className="absolute top-[-25px] right-[-25px] w-24 h-24 rounded-full bg-emerald-500/10 pointer-events-none blur-xl"></div>
+                <div className="flex items-center gap-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                  <Landmark className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>My Group Balance</span>
                 </div>
-
-                {/* Pending Balances Card */}
-                <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left mt-6">
-                  <div className="flex items-center gap-1.5 pb-3 border-b border-border-custom mb-4">
-                    <Users className="h-4 w-4 text-gray-400" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted">Pending Balances</h3>
-                  </div>
-                  <div className="space-y-4">
-                    {members.filter(m => m.id !== user?.id).length === 0 ? (
-                      <div className="flex flex-col items-center justify-center py-6 text-center">
-                        <div className="h-12 w-12 rounded-full bg-slate-100/80 flex items-center justify-center text-gray-400 mb-2.5 border border-dashed border-gray-300">
-                          <UserX className="h-5 w-5" />
-                        </div>
-                        <p className="text-xs text-gray-500 font-semibold">No flatmates added yet.</p>
-                        <button 
-                          onClick={() => setShowMemberForm(true)} 
-                          className="text-xs font-bold text-green-pri hover:text-green-light mt-1.5 bg-transparent border-none cursor-pointer hover:underline"
-                        >
-                          Invite Friends
-                        </button>
-                      </div>
-                    ) : (
-                      members.filter(m => m.id !== user?.id).map(m => {
-                        // Find active simplified debts for this member with user
-                        const activeDebts = balances.simplifiedDebts.filter(d => 
-                          (d.from === user?.id && d.to === m.id) || (d.from === m.id && d.to === user?.id)
-                        );
-
-                        if (activeDebts.length > 0) {
-                          return activeDebts.map((debt, idx) => {
-                            const isMePayer = debt.from === user?.id;
-                            const symbol = debt.currency === 'USD' ? '$' : '₹';
-                            const amountText = `${symbol}${debt.amount.toFixed(2)}`;
-
-                            return (
-                              <div key={`${m.id}-${debt.currency}-${idx}`} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0 pb-3 last:pb-0 gap-3">
-                                <div className="flex items-center gap-2.5">
-                                  <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-white select-none uppercase"
-                                       style={{ backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][m.name.charCodeAt(0) % 6] }}>
-                                    {m.name[0]}
-                                  </div>
-                                  <div className="text-left leading-tight">
-                                    <h4 className="text-xs font-extrabold text-gray-900">{m.name}</h4>
-                                    <p className="text-[10px] text-text-muted mt-0.5 font-semibold">
-                                      {isMePayer ? `You owe ${amountText}` : `${m.name.split(' ')[0]} owes you ${amountText}`}
-                                    </p>
-                                  </div>
-                                </div>
-
-                                <div>
-                                  {isMePayer ? (
-                                    <button
-                                      onClick={() => {
-                                        setPayNowTarget({ member: m, debtAmount: debt.amount, currency: debt.currency, isMePayer: true });
-                                        setPayAmount(debt.amount.toString());
-                                        setPayMethod('cash');
-                                        setPayNotes('');
-                                        setToast(null);
-                                      }}
-                                      className="px-3 py-1.5 bg-green-pri hover:bg-green-light text-white text-[10px] font-extrabold rounded-lg transition-all cursor-pointer border-none shadow-xs"
-                                    >
-                                      Pay Now
-                                    </button>
-                                  ) : (
-                                    <button
-                                      onClick={() => handleOpenReminder(m, debt.amount, debt.currency)}
-                                      className="px-3 py-1.5 bg-white hover:bg-slate-50 border border-gray-300 text-gray-750 text-[10px] font-extrabold rounded-lg transition-all cursor-pointer shadow-xs"
-                                    >
-                                      Send Reminder
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          });
-                        }
-
-                        // Render settled state row
-                        return (
-                          <div key={m.id} className="flex items-center justify-between py-1 border-b border-gray-50 last:border-0 pb-3 last:pb-0 gap-3">
-                            <div className="flex items-center gap-2.5">
-                              <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-white select-none uppercase"
-                                   style={{ backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][m.name.charCodeAt(0) % 6] }}>
-                                {m.name[0]}
-                              </div>
-                              <div className="text-left leading-tight">
-                                <h4 className="text-xs font-extrabold text-gray-900">{m.name}</h4>
-                                <p className="text-[10px] text-text-muted mt-0.5 font-semibold">Flatmate is settled</p>
-                              </div>
-                            </div>
-
-                            <div>
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-green-50 text-green-pri border border-green-pri/40">
-                                Settled
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })
-                    )}
-                  </div>
-                </div>
-              </>
-            )}
-
-            {/* 2. Group Members card */}
-            {activeView === 'members' && (
-              <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left">
-                <div className="flex justify-between items-center pb-3 border-b border-border-custom">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted">Group Members</h3>
-                  <span className="text-[10px] bg-grey-bg text-text-muted border border-border-custom px-2 py-0.5 rounded-full font-bold">
-                    {members.length}
-                  </span>
-                </div>
-
-                <div className="space-y-3.5 mt-4">
-                  {members.map(m => {
-                    const isCurrentUser = m.id === user.id;
-
-                    return (
-                      <div key={m.id} className="flex justify-between items-center py-0.5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-grey-bg border border-border-custom flex items-center justify-center text-text-primary text-xs font-bold font-sans">
-                            {m.name[0].toUpperCase()}
-                          </div>
-                          <div className="text-left">
-                            <h4 className="text-base font-bold text-text-primary leading-tight">
-                              {m.name} {isCurrentUser && <span className="text-[9px] text-text-muted font-normal">(you)</span>}
-                            </h4>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* 3. Simplified Debts card */}
-            {activeView === 'settlements' && (
-              <div className="bg-white border border-border-custom rounded-3xl p-6 shadow-sm text-left">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted pb-3 border-b border-border-custom">Simplified Debts</h3>
                 
-                <div className="space-y-4 mt-4">
-                  {/* INR Debts */}
-                  {balances.simplifiedDebtsByCurrency?.INR?.length > 0 && (
-                    <div>
-                      <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">INR Debts</p>
-                      <div className="space-y-2">
-                        {balances.simplifiedDebtsByCurrency.INR.map((debt, idx) => (
-                          <div key={idx} className="bg-grey-bg/50 border border-border-custom p-3 rounded-xl flex items-center justify-between text-sm">
-                            <div className="text-left pr-2 leading-tight">
-                              <span className="font-bold text-text-primary">{debt.fromUser?.name}</span>
-                              <span className="text-text-muted"> owes </span>
-                              <span className="font-bold text-text-primary">{debt.toUser?.name}</span>
+                <div className="flex flex-col gap-4 mt-2">
+                  <div>
+                    <div className={`text-3xl font-black tracking-tight ${
+                      myNetINR > 0.01 
+                        ? 'text-emerald-400' 
+                        : myNetINR < -0.01 
+                        ? 'text-red-400' 
+                        : 'text-white'
+                    }`}>
+                      {myNetINR > 0.01 ? '+' : ''}
+                      ₹{myNetINR.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </div>
+                    <div className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
+                      Indian Rupee (INR)
+                    </div>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={openGenericSettlementModal}
+                  className="w-full mt-4 py-3 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold rounded-full text-xs transition-all shadow-lg shadow-emerald-500/20 cursor-pointer flex items-center justify-center gap-2 border-none transform hover:-translate-y-0.5"
+                >
+                  <Wallet className="h-4 w-4" />
+                  <span>Record Settle Up</span>
+                </button>
+              </div>
+
+              {/* Pending Balances Card */}
+              <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left space-y-4">
+                <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
+                  <Users className="h-4 w-4 text-emerald-400" />
+                  <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Pending Balances</h3>
+                </div>
+                <div className="space-y-4">
+                  {members.filter(m => m.id !== user?.id).length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-6 text-center space-y-2">
+                      <div className="h-12 w-12 rounded-full bg-emerald-950/80 border border-emerald-800/50 flex items-center justify-center text-emerald-400 mb-1">
+                        <UserX className="h-5 w-5" />
+                      </div>
+                      <p className="text-xs text-slate-400 font-semibold">No flatmates added yet.</p>
+                      <button 
+                        onClick={() => setShowMemberForm(true)} 
+                        className="text-xs font-extrabold text-emerald-400 hover:text-emerald-300 bg-transparent border-none cursor-pointer hover:underline"
+                      >
+                        Invite Friends
+                      </button>
+                    </div>
+                  ) : (
+                    members.filter(m => m.id !== user?.id).map(m => {
+                      const debtsList = balances?.pairwiseDebts || balances?.simplifiedDebts || [];
+                      const activeDebts = debtsList.filter(d => 
+                        (d.from === user?.id && d.to === m.id) || (d.from === m.id && d.to === user?.id)
+                      );
+
+                      if (activeDebts.length > 0) {
+                        return activeDebts.map((debt, idx) => {
+                          const isMePayer = debt.from === user?.id;
+                          const symbol = debt.currency === 'USD' ? '$' : '₹';
+                          const amountText = `${symbol}${debt.amount.toFixed(2)}`;
+
+                          return (
+                            <div key={`${m.id}-${debt.currency}-${idx}`} className="flex items-center justify-between py-2 border-b border-slate-800/60 last:border-0 gap-3">
+                              <div className="flex items-center gap-2.5">
+                                <div className="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold text-white select-none uppercase"
+                                     style={{ backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][m.name.charCodeAt(0) % 6] }}>
+                                  {m.name[0]}
+                                </div>
+                                <div className="text-left leading-tight">
+                                  <h4 className="text-xs font-extrabold text-white">{m.name}</h4>
+                                  <p className={`text-[10px] mt-0.5 font-bold ${isMePayer ? 'text-red-400' : 'text-emerald-400'}`}>
+                                    {isMePayer ? `You owe ${amountText}` : `${m.name.split(' ')[0]} owes you ${amountText}`}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div>
+                                {isMePayer ? (
+                                  <button
+                                    onClick={() => {
+                                      setPayNowTarget({ member: m, debtAmount: debt.amount, currency: debt.currency, isMePayer: true });
+                                      setPayAmount(debt.amount.toString());
+                                      setPayMethod('cash');
+                                      setPayNotes('');
+                                      setToast(null);
+                                    }}
+                                    className="px-3.5 py-1.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-[10px] font-extrabold rounded-full transition-all cursor-pointer border-none shadow-sm"
+                                  >
+                                    Pay Now
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => handleOpenReminder(m, debt.amount, debt.currency)}
+                                    className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-[10px] font-extrabold rounded-full transition-all cursor-pointer"
+                                  >
+                                    Remind
+                                  </button>
+                                )}
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-black text-text-primary text-sm">₹{debt.amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
-                              <button
-                                onClick={() => handleQuickSettlement(debt.from, debt.to, debt.amount, 'INR')}
-                                className="text-xs bg-green-pri hover:bg-green-light text-white px-2.5 py-1 rounded font-bold cursor-pointer border-none"
-                              >
-                                Settle
-                              </button>
+                          );
+                        });
+                      }
+
+                      return (
+                        <div key={m.id} className="flex items-center justify-between py-2 border-b border-slate-800/60 last:border-0 gap-3">
+                          <div className="flex items-center gap-2.5">
+                            <div className="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold text-white select-none uppercase"
+                                 style={{ backgroundColor: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c'][m.name.charCodeAt(0) % 6] }}>
+                              {m.name[0]}
+                            </div>
+                            <div className="text-left leading-tight">
+                              <h4 className="text-xs font-extrabold text-white">{m.name}</h4>
+                              <p className="text-[10px] text-slate-400 mt-0.5 font-semibold">Flatmate is settled</p>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
 
-                  {/* USD Debts */}
-                  {balances.simplifiedDebtsByCurrency?.USD?.length > 0 && (
-                    <div>
-                      <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">USD Debts</p>
-                      <div className="space-y-2">
-                        {balances.simplifiedDebtsByCurrency.USD.map((debt, idx) => (
-                          <div key={idx} className="bg-grey-bg/50 border border-border-custom p-3 rounded-xl flex items-center justify-between text-sm">
-                            <div className="text-left pr-2 leading-tight">
-                              <span className="font-bold text-text-primary">{debt.fromUser?.name}</span>
-                              <span className="text-text-muted"> owes </span>
-                              <span className="font-bold text-text-primary">{debt.toUser?.name}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-black text-text-primary text-sm">${debt.amount.toFixed(2)}</span>
-                              <button
-                                onClick={() => handleQuickSettlement(debt.from, debt.to, debt.amount, 'USD')}
-                                className="text-xs bg-green-pri hover:bg-green-light text-white px-2.5 py-1 rounded font-bold cursor-pointer border-none"
-                              >
-                                Settle
-                              </button>
-                            </div>
+                          <div>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800/60">
+                              Settled
+                            </span>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {(!balances.simplifiedDebtsByCurrency?.INR?.length && !balances.simplifiedDebtsByCurrency?.USD?.length) && (
-                    <p className="text-sm text-text-muted text-left">No outstanding debts in this group! 🥳</p>
+                        </div>
+                      );
+                    })
                   )}
                 </div>
               </div>
-            )}
+            </aside>
+          )}
 
-          </aside>
-
-          {/* Right Column (Timeline & Expense Details) */}
+          {/* Main Column */}
           {activeView !== 'members' && (
-            <section className="flex-1 flex flex-col gap-6">
+            <section className={`flex-col gap-6 ${activeView === 'settlements' ? 'w-full flex' : 'flex-1 flex'}`}>
               
               {/* Action Header block */}
               {activeView === 'expenses' ? (
-                <div className="flex items-center justify-between pb-3 border-b border-border-custom text-left">
-                  <h2 className="text-xl font-bold text-text-primary">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-left">
+                  <h2 className="text-2xl font-extrabold text-white tracking-tight">
                     Expense History
                   </h2>
                   <button
                     onClick={openGenericExpenseModal}
-                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 cursor-pointer border-none transform hover:-translate-y-0.5"
                   >
                     <Plus className="h-4 w-4" />
                     <span>Add Expense</span>
                   </button>
                 </div>
               ) : activeView === 'settlements' ? (
-                <div className="flex items-center justify-between pb-3 border-b border-border-custom text-left">
-                  <h2 className="text-xl font-bold text-text-primary">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-left">
+                  <h2 className="text-2xl font-extrabold text-white tracking-tight">
                     Settlements History
                   </h2>
                   <button
                     onClick={openGenericSettlementModal}
-                    className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white shadow-xs font-bold text-sm transition-all cursor-pointer border-none"
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 cursor-pointer border-none transform hover:-translate-y-0.5"
                   >
                     <Plus className="h-4 w-4" />
                     <span>Settle Up</span>
@@ -1767,54 +1788,28 @@ export default function GroupDetailPage() {
                 </div>
               ) : null}
 
-              {/* Expandable row details card inside drawer overlay */}
-              {selectedExpense && (
-                <ExpenseDetail
-                  expense={selectedExpense}
-                  splits={selectedExpense.splits || []}
-                  group={group}
-                  currentUser={user}
-                  onClose={() => setSelectedExpense(null)}
-                  onDelete={() => handleDeleteExpense(selectedExpense.id)}
-                  chatMessages={chatMessages}
-                  newMessage={newMessage}
-                  setNewMessage={setNewMessage}
-                  onSendMessage={handleSendChatMessage}
-                  chatLoading={chatLoading}
-                  chatBottomRef={chatBottomRef}
-                />
-              )}
-
               {/* Month Timeline / Settlements List */}
               {activeView === 'expenses' ? (
                 expenses.length === 0 ? (
                   <div className="flex flex-col">
-                    <div className="bg-white border border-border-custom rounded-3xl p-16 text-center shadow-sm relative overflow-hidden flex flex-col items-center justify-center">
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(14,92,62,0.04)_0%,transparent_70%)] pointer-events-none"></div>
+                    <div className="stitch-glass-card rounded-3xl p-14 text-center border border-emerald-900/60 bg-[#0b1610]/95 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none"></div>
                       
-                      {/* Floating notes and coins graphic */}
-                      <div className="relative w-28 h-28 mb-6 bg-gradient-to-b from-green-50/50 to-green-100/30 rounded-full border border-green-150/40 flex items-center justify-center shadow-inner">
-                        <div className="absolute animate-bounce" style={{ animationDuration: '3.5s' }}>
-                          <svg className="w-14 h-14 text-green-700" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="14" y="24" width="30" height="18" rx="2" transform="rotate(-15 14 24)" fill="#22c55e" stroke="#15803d" strokeWidth="1.5" />
-                            <circle cx="26" cy="30" r="3.5" transform="rotate(-15 26 30)" fill="#86efac" />
-                            <rect x="22" y="18" width="30" height="18" rx="2" transform="rotate(10 22 18)" fill="#15803d" stroke="#14532d" strokeWidth="1.5" />
-                            <circle cx="36" cy="27" r="3.5" transform="rotate(10 36 27)" fill="#4ade80" />
-                            <circle cx="10" cy="16" r="3.5" fill="#fbbf24" stroke="#d97706" strokeWidth="1.2" />
-                            <circle cx="48" cy="42" r="4.5" fill="#fbbf24" stroke="#d97706" strokeWidth="1.2" />
-                            <circle cx="54" cy="20" r="3" fill="#fbbf24" stroke="#d97706" strokeWidth="1.2" />
-                          </svg>
+                      {/* Floating notes graphic */}
+                      <div className="relative w-24 h-24 mb-6 bg-emerald-950/80 rounded-full border border-emerald-800/60 flex items-center justify-center shadow-lg shadow-emerald-500/10">
+                        <div className="animate-bounce" style={{ animationDuration: '3.5s' }}>
+                          <Wallet className="h-10 w-10 text-emerald-400" />
                         </div>
                       </div>
 
-                      <h3 className="text-lg font-extrabold text-gray-900 mb-2 leading-tight">This group has no expenses yet</h3>
-                      <p className="text-xs text-gray-500 max-w-sm mx-auto mb-8 leading-relaxed">
+                      <h3 className="text-xl font-extrabold text-white mb-2 tracking-tight">This group has no expenses yet</h3>
+                      <p className="text-xs text-slate-400 max-w-sm mx-auto mb-8 leading-relaxed font-medium">
                         Start tracking shared expenses with your flatmates by adding an expense manually or importing a statement.
                       </p>
 
                       <button
                         onClick={openGenericExpenseModal}
-                        className="px-5 py-2.5 bg-green-pri hover:bg-green-light text-white rounded-full font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:shadow cursor-pointer border-none"
+                        className="px-7 py-3 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 transition-all shadow-xl shadow-emerald-500/20 cursor-pointer border-none transform hover:-translate-y-0.5"
                       >
                         <Plus className="h-4 w-4" />
                         <span>Add Expense</span>
@@ -1822,15 +1817,15 @@ export default function GroupDetailPage() {
                     </div>
                   </div>
                 ) : filteredExpenses.length === 0 ? (
-                  <div className="bg-white rounded-3xl border border-border-custom p-12 text-center shadow-sm max-w-xl mx-auto my-12 text-left flex flex-col items-center justify-center">
+                  <div className="stitch-glass-card rounded-3xl border border-slate-800 p-12 text-center shadow-md max-w-xl mx-auto my-8 flex flex-col items-center justify-center">
                     <span className="text-4xl block mb-4 select-none">🔍</span>
-                    <h3 className="text-base font-extrabold text-text-primary mb-2">No matching expenses found</h3>
-                    <p className="text-xs text-text-muted max-w-sm mx-auto mb-5">
+                    <h3 className="text-base font-extrabold text-white mb-2">No matching expenses found</h3>
+                    <p className="text-xs text-slate-400 max-w-sm mx-auto mb-5">
                       Try adjusting your keywords or clearing the search query to view all expenses.
                     </p>
                     <button
                       onClick={() => setSearchQuery('')}
-                      className="px-4 py-2 bg-green-pri hover:bg-green-light text-white rounded-xl font-bold text-xs transition-all shadow-sm cursor-pointer border-none"
+                      className="px-5 py-2.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 rounded-full font-extrabold text-xs transition-all shadow-sm cursor-pointer border-none"
                     >
                       Clear Search
                     </button>
@@ -1839,62 +1834,20 @@ export default function GroupDetailPage() {
                   <div className="space-y-6">
                     {Object.keys(groupedExpenses).map((monthLabel) => (
                       <div key={monthLabel} className="month-group">
-                        <h4 className="month-label uppercase font-bold tracking-wider text-text-muted text-sm pb-2 border-b border-border-custom mb-3 text-left">
+                        <h4 className="month-label uppercase font-extrabold tracking-wider text-emerald-400 text-xs pb-2 border-b border-slate-800 mb-3 text-left">
                           {monthLabel}
                         </h4>
                         <div className="space-y-3">
-                          {groupedExpenses[monthLabel].map((exp) => {
-                            const amount = parseFloat(exp.amount || 0);
-                            const currencySym = exp.currency === 'USD' ? '$' : '₹';
-                            const payerId = exp.paid_by?.id || exp.paid_by;
-                            const isMePayer = String(payerId) === String(user.id);
-                            const payerName = isMePayer ? 'You' : exp.payer?.name || 'Someone';
-                            const parts = exp.description.split(':');
-                            const category = parts.length > 1 ? parts[0] : 'Other';
-                            const displayDescription = parts.length > 1 ? parts.slice(1).join(':') : exp.description;
-
-                            let categoryIcon = <Info className="h-5 w-5" />;
-                            if (category === 'Food') categoryIcon = <Utensils className="h-5 w-5" />;
-                            else if (category === 'Rent') categoryIcon = <Home className="h-5 w-5" />;
-                            else if (category === 'Travel') categoryIcon = <Plane className="h-5 w-5" />;
-                            else if (category === 'Fun') categoryIcon = <Clapperboard className="h-5 w-5" />;
-                            else if (category === 'Other') categoryIcon = <MoreHorizontal className="h-5 w-5" />;
-
-                            return (
-                              <div
-                                key={exp.id}
-                                onClick={() => handleOpenExpenseDetails(exp)}
-                                className="group flex items-center justify-between p-5 bg-white hover:bg-grey-light/50 border border-border-custom hover:border-green-pri/30 rounded-2xl transition-all cursor-pointer shadow-sm"
-                              >
-                                <div className="flex items-center gap-3.5">
-                                  <div className="h-10 w-10 rounded-full bg-grey-bg border border-border-custom flex items-center justify-center text-text-muted">
-                                    {categoryIcon}
-                                  </div>
-                                  <div className="text-left">
-                                    <h4 className="font-bold text-text-primary text-base group-hover:text-green-pri transition-colors">
-                                      {displayDescription}
-                                    </h4>
-                                    <p className="text-sm text-text-muted mt-0.5">
-                                      Paid by {payerName} · {new Date(exp.created_at || exp.date).toLocaleDateString('en-US')}
-                                    </p>
-                                  </div>
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                  <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded bg-green-bg text-green-pri border border-green-pri/5">
-                                    {exp.currency}
-                                  </span>
-                                  <div className="text-right">
-                                    <p className="text-[10px] uppercase font-semibold text-text-muted tracking-wider">total</p>
-                                    <p className="font-extrabold text-text-primary text-base mt-0.5">
-                                      {currencySym}{amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                    </p>
-                                  </div>
-                                  <ChevronRight className="h-4 w-4 text-text-muted" />
-                                </div>
-                              </div>
-                            );
-                          })}
+                          {groupedExpenses[monthLabel].map((exp) => (
+                            <ExpenseRow 
+                              key={exp.id}
+                              expense={exp}
+                              currentUserId={user.id}
+                              membersCount={members.length}
+                              onClick={() => handleOpenExpenseDetails(exp)}
+                              isDark={true}
+                            />
+                          ))}
                         </div>
                       </div>
                     ))}
@@ -1902,15 +1855,15 @@ export default function GroupDetailPage() {
                 )
               ) : (
                 settlements.length === 0 ? (
-                  <div className="bg-white rounded-3xl border border-border-custom p-16 text-center shadow-sm max-w-xl mx-auto my-12 text-left">
+                  <div className="stitch-glass-card rounded-3xl border border-emerald-900/60 bg-[#0b1610]/95 p-14 text-center shadow-xl max-w-xl mx-auto my-8">
                     <span className="text-5xl block mb-4 select-none">🤝</span>
-                    <h3 className="text-lg font-extrabold text-text-primary mb-2">This group has no settlements yet</h3>
-                    <p className="text-xs text-text-muted max-w-sm mx-auto">
+                    <h3 className="text-lg font-extrabold text-white mb-2">This group has no settlements yet</h3>
+                    <p className="text-xs text-slate-400 max-w-sm mx-auto font-medium">
                       Record a settle up transaction between group members to clear off outstanding balances.
                     </p>
                   </div>
                 ) : (
-                  <div className="bg-white border border-border-custom px-6 py-5 rounded-3xl shadow-sm">
+                  <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 px-6 py-5 rounded-3xl shadow-xl">
                     <div className="space-y-4">
                       {settlements.map((set) => {
                         const currencySymString = set.currency === 'USD' ? '$' : '₹';
@@ -1928,39 +1881,29 @@ export default function GroupDetailPage() {
                           : 'CASH';
 
                         const statusLabel = set.status || 'completed';
-                        const statusColor = statusLabel === 'completed'
-                          ? 'bg-green-50 text-[#2e7d32] border-[#c8e6c9]/40'
-                          : statusLabel === 'partial'
-                          ? 'bg-blue-50 text-blue-600 border-blue-100'
-                          : 'bg-red-50 text-red-500 border-red-100';
 
                         return (
                           <div
                             key={set.id}
-                            className="bg-white border border-border-custom px-5 py-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-text-primary text-left shadow-sm hover:bg-grey-light/50 transition-colors"
+                            className="bg-slate-900/80 border border-slate-800 px-5 py-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-white text-left shadow-sm hover:bg-slate-800/80 transition-colors"
                           >
                             <div className="flex items-start gap-3">
                               <span className="text-xl select-none mt-0.5">🤝</span>
                               <div className="leading-tight text-left">
-                                <p className="font-bold text-text-primary text-sm">
-                                  <strong>{set.payer?.name || 'Someone'}</strong> paid <strong>{set.payee?.name || 'Someone'}</strong>
+                                <p className="font-bold text-white text-sm">
+                                  <strong className="text-emerald-400">{set.payer?.name || 'Someone'}</strong> paid <strong className="text-white">{set.payee?.name || 'Someone'}</strong>
                                 </p>
-                                <p className="text-[10px] text-text-muted mt-1.5 font-semibold">
-                                  {formattedDate} · <span className="uppercase text-green-pri font-bold">{paymentMethodLabel}</span>
+                                <p className="text-[10px] text-slate-400 mt-1.5 font-semibold">
+                                  {formattedDate} · <span className="uppercase text-emerald-400 font-bold">{paymentMethodLabel}</span>
                                 </p>
-                                {set.notes && (
-                                  <p className="text-xs text-text-muted bg-slate-50 border border-slate-100 rounded-lg px-2.5 py-1.5 mt-2 italic max-w-sm">
-                                    &ldquo;{set.notes}&rdquo;
-                                  </p>
-                                )}
                               </div>
                             </div>
                             
                             <div className="flex items-center gap-3.5 sm:self-center self-end">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider border ${statusColor}`}>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider border bg-emerald-950 text-emerald-400 border-emerald-800/60">
                                 {statusLabel}
                               </span>
-                              <span className="font-extrabold text-green-owed text-base bg-green-bg border border-green-pri/10 px-3.5 py-1 rounded-xl">
+                              <span className="font-black text-emerald-400 text-base bg-emerald-950/60 border border-emerald-800/40 px-3.5 py-1 rounded-xl">
                                 {currencySymString}{parseFloat(set.amount).toFixed(2)}
                               </span>
                             </div>
@@ -1975,56 +1918,59 @@ export default function GroupDetailPage() {
           )}
         </div>
         </div>
-
-      {/* BALANCE DRILLDOWN MODAL */}
-      {drilldownMember && (
-        <BalanceDrilldownModal
-          member={drilldownMember.member}
-          balance={drilldownMember.balance}
-          expenses={expenses}
-          settlements={settlements}
-          members={members}
-          onClose={() => setDrilldownMember(null)}
-          onSettleUp={(amount) => {
-            const payerId = drilldownMember.balance < 0 ? user.id : drilldownMember.member.id;
-            const payeeId = drilldownMember.balance < 0 ? drilldownMember.member.id : user.id;
-            setSettlePayer(payerId);
-            setSettlePayee(payeeId);
-            setSettleAmount(Math.abs(amount));
-            setSettleCurrency('INR');
-            setSettleError('');
-            setShowSettlementModal(true);
-          }}
-        />
-      )}
+        </div>
+        {/* BALANCE DRILLDOWN MODAL */}
+        {drilldownMember && (
+          <BalanceDrilldownModal
+            member={drilldownMember.member}
+            balance={drilldownMember.balance}
+            expenses={expenses}
+            settlements={settlements}
+            members={members}
+            currentUserId={user.id}
+            onClose={() => setDrilldownMember(null)}
+            onSettleUp={(amount) => {
+              const payerId = drilldownMember.balance < 0 ? user.id : drilldownMember.member.id;
+              const payeeId = drilldownMember.balance < 0 ? drilldownMember.member.id : user.id;
+              setSettlePayer(payerId);
+              setSettlePayee(payeeId);
+              setSettleAmount(Math.abs(amount));
+              setSettleCurrency('INR');
+              setSettleError('');
+              setShowSettlementModal(true);
+            }}
+          />
+        )}
 
       {/* RECORD SETTLEMENT MODAL */}
       {showSettlementModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-border-custom p-6 rounded-2xl w-full max-w-md shadow-2xl relative text-left">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200 select-none">
+          <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-8 rounded-3xl w-full max-w-md shadow-2xl relative text-left space-y-5">
             <button
               onClick={() => setShowSettlementModal(false)}
-              className="absolute top-4 right-4 text-text-muted hover:text-text-primary font-bold text-sm cursor-pointer"
+              className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-900 transition-colors bg-transparent border-none cursor-pointer"
             >
-              ✕
+              <X className="h-5 w-5" />
             </button>
 
-            <h3 className="text-lg font-extrabold text-text-primary mb-1">Record Settle Up</h3>
-            <p className="text-xs text-text-muted mb-4">Record a direct cash/UPI payment made between friends.</p>
+            <div>
+              <h3 className="text-xl font-extrabold text-white tracking-tight mb-1">Record Settle Up</h3>
+              <p className="text-xs text-slate-400 font-medium">Record a direct cash/UPI payment made between friends.</p>
+            </div>
 
             {settleError && (
-              <div className="mb-4 bg-red-50 text-red-owe p-3 rounded-lg border border-red-200 text-xs font-semibold">
+              <div className="bg-red-950/80 border border-red-900 text-red-300 p-3.5 rounded-2xl text-xs font-semibold">
                 {settleError}
               </div>
             )}
 
             <form onSubmit={handleRecordSettlement} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Sender (Paid By)</label>
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Sender (Paid By)</label>
                 <select
                   value={settlePayer}
                   onChange={(e) => setSettlePayer(e.target.value)}
-                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2.5 text-text-primary focus:outline-none text-xs"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                 >
                   {members.map(m => (
                     <option key={m.id} value={m.id}>{m.name}</option>
@@ -2033,11 +1979,11 @@ export default function GroupDetailPage() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Recipient (Paid To)</label>
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Recipient (Paid To)</label>
                 <select
                   value={settlePayee}
                   onChange={(e) => setSettlePayee(e.target.value)}
-                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2.5 text-text-primary focus:outline-none text-xs"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                 >
                   {members.map(m => (
                     <option key={m.id} value={m.id}>{m.name}</option>
@@ -2045,9 +1991,9 @@ export default function GroupDetailPage() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
-                  <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Amount</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Amount</label>
                   <input
                     type="number"
                     step="1"
@@ -2056,30 +2002,29 @@ export default function GroupDetailPage() {
                     value={settleAmount}
                     onChange={(e) => setSettleAmount(e.target.value)}
                     placeholder="0"
-                    className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2.5 text-text-primary focus:outline-none text-xs"
+                    className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Currency</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Currency</label>
                   <select
                     value={settleCurrency}
                     onChange={(e) => setSettleCurrency(e.target.value)}
-                    className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2.5 text-text-primary focus:outline-none text-xs"
+                    className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                   >
                     <option value="INR">INR (₹)</option>
-                    <option value="USD">USD ($)</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
                   Payment Method
                 </label>
                 <select
                   value={settlePaymentMethod}
                   onChange={(e) => setSettlePaymentMethod(e.target.value)}
-                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2.5 text-text-primary focus:outline-none text-xs"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                 >
                   <option value="cash">Cash</option>
                   <option value="upi">UPI</option>
@@ -2088,7 +2033,7 @@ export default function GroupDetailPage() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
                   Optional Notes
                 </label>
                 <textarea
@@ -2096,14 +2041,14 @@ export default function GroupDetailPage() {
                   onChange={(e) => setSettleNotes(e.target.value)}
                   placeholder="Add payment context (e.g. sent via GPay)"
                   rows={2}
-                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2.5 text-xs text-text-primary placeholder-text-muted focus:outline-none focus:border-green-pri"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-medium"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={settleLoading}
-                className="w-full mt-4 py-3 bg-green-pri hover:bg-green-light text-white font-bold rounded-xl shadow-md transition-all cursor-pointer text-xs disabled:opacity-50 border-none"
+                className="w-full mt-4 py-3.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold rounded-full shadow-lg shadow-emerald-500/20 transition-all cursor-pointer text-xs disabled:opacity-50 border-none"
               >
                 {settleLoading ? 'Recording...' : 'Save Settlement'}
               </button>
@@ -2114,53 +2059,54 @@ export default function GroupDetailPage() {
 
       {/* ADD EXPENSE MODAL */}
       {showExpenseModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-border-custom p-6 rounded-2xl w-full max-w-lg shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200 select-none">
+          <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-8 rounded-3xl w-full max-w-lg shadow-2xl relative text-left max-h-[90vh] overflow-y-auto space-y-5">
             <button
               onClick={() => setShowExpenseModal(false)}
-              className="absolute top-4 right-4 text-text-muted hover:text-text-primary font-bold text-sm cursor-pointer"
+              className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-900 transition-colors bg-transparent border-none cursor-pointer"
             >
-              ✕
+              <X className="h-5 w-5" />
             </button>
 
-            <h3 className="text-lg font-extrabold text-text-primary mb-1">Add Shared Expense</h3>
-            <p className="text-xs text-text-muted mb-4">Enter a bill or shared transaction to split among flatmates.</p>
+            <div>
+              <h3 className="text-xl font-extrabold text-white tracking-tight mb-1">Add Shared Expense</h3>
+              <p className="text-xs text-slate-400 font-medium">Enter a bill or shared transaction to split among flatmates.</p>
+            </div>
 
             {expenseError && (
-              <div className="mb-4 bg-red-50 text-red-owe p-3 rounded-lg border border-red-200 text-xs font-semibold">
+              <div className="bg-red-950/80 border border-red-900 text-red-300 p-3.5 rounded-2xl text-xs font-semibold">
                 {expenseError}
               </div>
             )}
 
             <form onSubmit={handleAddExpense} className="space-y-4">
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
-                  <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Description</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Description</label>
                   <input
                     type="text"
                     required
                     value={expDescription}
                     onChange={(e) => setExpDescription(e.target.value)}
                     placeholder="e.g. Groceries BigBasket"
-                    className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2 text-text-primary focus:outline-none text-xs"
+                    className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Currency</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Currency</label>
                   <select
                     value={expCurrency}
                     onChange={(e) => setExpCurrency(e.target.value)}
-                    className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2 text-text-primary focus:outline-none text-xs"
+                    className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                   >
                     <option value="INR">INR (₹)</option>
-                    <option value="USD">USD ($)</option>
                   </select>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Total Cost ({currencySymbol})</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Total Cost ({currencySymbol})</label>
                   <input
                     type="number"
                     step="1"
@@ -2169,15 +2115,15 @@ export default function GroupDetailPage() {
                     value={expAmount}
                     onChange={(e) => setExpAmount(e.target.value)}
                     placeholder="0"
-                    className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2 text-text-primary focus:outline-none text-xs"
+                    className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Paid By</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Paid By</label>
                   <select
                     value={expPayer}
                     onChange={(e) => setExpPayer(e.target.value)}
-                    className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2 text-text-primary focus:outline-none text-xs"
+                    className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                   >
                     {members.map(m => (
                       <option key={m.id} value={m.id}>{m.name}</option>
@@ -2187,11 +2133,11 @@ export default function GroupDetailPage() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1">Split Method</label>
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Split Method</label>
                 <select
                   value={expSplitType}
                   onChange={(e) => setExpSplitType(e.target.value)}
-                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3 py-2 text-text-primary focus:outline-none text-xs"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
                 >
                   <option value="equal">Split Equally</option>
                   <option value="unequal">Unequally (exact values)</option>
@@ -2201,9 +2147,9 @@ export default function GroupDetailPage() {
               </div>
 
               {/* Dynamic split input tables depending on split type */}
-              <div className="border-t border-slate-100 pt-3">
-                <p className="text-[10px] font-bold uppercase text-text-muted mb-2">Split Participants Details</p>
-                <div className="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+              <div className="border-t border-slate-800 pt-4">
+                <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2.5">Split Participants Details</p>
+                <div className="space-y-3 bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
                   {members.map(m => {
                     if (expSplitType === 'equal') {
                       return (
@@ -2212,9 +2158,9 @@ export default function GroupDetailPage() {
                             type="checkbox"
                             checked={!!splitCheckboxes[m.id]}
                             onChange={() => handleCheckboxChange(m.id)}
-                            className="rounded text-green-pri focus:ring-green-pri"
+                            className="rounded accent-emerald-500 h-4 w-4"
                           />
-                          <span className="font-semibold text-text-primary">{m.name}</span>
+                          <span className="font-bold text-white">{m.name}</span>
                         </div>
                       );
                     }
@@ -2227,18 +2173,18 @@ export default function GroupDetailPage() {
 
                     return (
                       <div key={m.id} className="flex items-center justify-between text-xs">
-                        <span className="font-semibold text-text-primary">{m.name}</span>
-                        <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-white">{m.name}</span>
+                        <div className="flex items-center gap-2">
                           <input
                             type="number"
-                            step="1"
+                            step="any"
                             min="0"
-                            placeholder="0"
-                            value={splitInputs[m.id] || ''}
-                            onChange={(e) => handleSplitInputsChange(m.id, e.target.value)}
-                            className="bg-white border border-border-custom rounded px-2.5 py-1 text-xs text-right w-24 text-text-primary focus:outline-none"
+                            placeholder={placeholder}
+                            value={customSplitInputs[m.id] || ''}
+                            onChange={(e) => handleCustomSplitInputChange(m.id, e.target.value)}
+                            className="w-24 bg-[#0f172a] border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-right font-medium"
                           />
-                          <span className="text-[10px] font-bold text-text-muted">{suffix}</span>
+                          <span className="text-[10px] font-extrabold text-slate-400 w-8">{suffix}</span>
                         </div>
                       </div>
                     );
@@ -2249,9 +2195,9 @@ export default function GroupDetailPage() {
               <button
                 type="submit"
                 disabled={expenseLoading}
-                className="w-full mt-4 py-3 bg-green-pri hover:bg-green-light text-white font-bold rounded-xl shadow-md transition-all cursor-pointer text-xs disabled:opacity-50 border-none"
+                className="w-full mt-4 py-3.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs rounded-full shadow-lg shadow-emerald-500/20 transition-all cursor-pointer disabled:opacity-50 border-none"
               >
-                {expenseLoading ? 'Adding...' : 'Save Expense'}
+                {expenseLoading ? 'Saving Expense...' : 'Save Expense'}
               </button>
             </form>
           </div>
@@ -2260,30 +2206,46 @@ export default function GroupDetailPage() {
 
       {/* Invite Member modal block */}
       {showMemberForm && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-          <div className="bg-white border border-border-custom rounded-3xl p-6 max-w-md w-full shadow-xl text-left relative">
-            <h3 className="text-base font-extrabold text-gray-900 border-b border-border-custom pb-3 mb-4">
-              Invite New Flatmate
-            </h3>
-            <p className="text-xs text-text-muted mb-4">Send an invitation to join this shared ledger.</p>
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200 select-none">
+          <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-8 rounded-3xl w-full max-w-md shadow-2xl relative text-left space-y-5">
+            <button
+              onClick={() => {
+                setShowMemberForm(false);
+                setNewMemberEmail('');
+                setMemberError('');
+              }}
+              className="absolute top-5 right-5 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="pb-3 border-b border-slate-800">
+              <h3 className="text-xl font-extrabold text-white tracking-tight mb-1">
+                Invite New Flatmate
+              </h3>
+              <p className="text-xs text-slate-400 font-medium">Send an invitation to join this shared ledger.</p>
+            </div>
+
             {memberError && (
-              <div className="mb-4 bg-red-50 border border-red-200 text-red-owe p-3 rounded-lg text-xs font-semibold">
+              <div className="bg-red-950/80 border border-red-900 text-red-300 p-3.5 rounded-2xl text-xs font-semibold">
                 {memberError}
               </div>
             )}
+
             <form onSubmit={handleInviteMember} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase text-text-muted mb-1.5">Email Address</label>
+                <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Email Address</label>
                 <input
                   type="email"
                   required
                   value={newMemberEmail}
                   onChange={(e) => setNewMemberEmail(e.target.value)}
                   placeholder="e.g. flatmate@example.com"
-                  className="w-full bg-grey-bg border border-border-custom rounded-xl px-3.5 py-2.5 text-text-primary placeholder-text-muted focus:outline-none focus:border-green-pri text-xs"
+                  className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-medium"
                 />
               </div>
-              <div className="flex justify-end space-x-2 pt-2 border-t border-border-custom mt-4">
+
+              <div className="flex justify-end items-center gap-3 pt-3 border-t border-slate-800">
                 <button
                   type="button"
                   onClick={() => {
@@ -2291,14 +2253,14 @@ export default function GroupDetailPage() {
                     setNewMemberEmail('');
                     setMemberError('');
                   }}
-                  className="px-4 py-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-grey-bg text-xs font-semibold transition-all cursor-pointer bg-transparent border-none"
+                  className="px-5 py-2.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-900 text-xs font-bold transition-all cursor-pointer bg-transparent border-none"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={memberLoading}
-                  className="px-4 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer disabled:opacity-50 border-none"
+                  className="px-6 py-2.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full shadow-lg shadow-emerald-500/20 cursor-pointer border-none disabled:opacity-50 transition-all"
                 >
                   {memberLoading ? 'Sending...' : 'Invite Flatmate'}
                 </button>
@@ -2307,7 +2269,6 @@ export default function GroupDetailPage() {
           </div>
         </div>
       )}
-      </div>
     </Layout>
   );
 }

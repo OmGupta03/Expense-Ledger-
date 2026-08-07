@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import Avatar from './ui/Avatar';
 import { Search } from 'lucide-react';
 
-function Header({ placeholder = "Search...", value, onChange, leftSection, centerSection, isDark = false, children }) {
+function Header({ placeholder = "Search...", value, onChange, leftSection, centerSection, isDark = true, children }) {
   const { user, profile } = useAuth();
 
   return (

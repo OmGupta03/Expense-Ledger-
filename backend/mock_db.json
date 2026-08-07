@@ -106,6 +106,20 @@
       "name": "Om Gupta Google",
       "avatar_url": "https://lh3.googleusercontent.com/a/default-user",
       "created_at": "2026-08-04T20:29:14.340Z"
+    },
+    {
+      "id": "916dfb8e-7aad-4b7a-b198-b575f1e0aed8",
+      "email": "yash231@gmail.com",
+      "name": "yash ",
+      "password": "12345678",
+      "created_at": "2026-08-07T09:07:06.080Z"
+    },
+    {
+      "id": "83a9790a-db05-48a0-afe8-207d7bde41e9",
+      "email": "dev231@gmail.com",
+      "name": "Dev",
+      "password": "12345678",
+      "created_at": "2026-08-07T09:07:31.544Z"
     }
   ],
   "groups": [
@@ -133,10 +147,16 @@
       "created_at": "2026-08-04T20:13:15.732Z"
     },
     {
-      "name": "Room",
+      "name": "Trip",
       "created_by": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
       "id": "048a2551-b807-4e83-8874-30f750d8e8c4",
       "created_at": "2026-08-04T20:33:38.044Z"
+    },
+    {
+      "name": "Room",
+      "created_by": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "id": "06b619ce-8e0b-4d0e-b278-46a737a8e958",
+      "created_at": "2026-08-07T09:41:57.218Z"
     }
   ],
   "group_members": [
@@ -339,6 +359,21 @@
       "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
       "user_id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
       "id": "154faef6-bdc2-4172-b1df-e2a4a976da8c"
+    },
+    {
+      "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "user_id": "83a9790a-db05-48a0-afe8-207d7bde41e9",
+      "id": "fb0a0e9a-c02a-4fa8-88bc-166c20710ba5"
+    },
+    {
+      "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "user_id": "916dfb8e-7aad-4b7a-b198-b575f1e0aed8",
+      "id": "6a0cabe2-2dc1-4553-bd98-649a6bbef261"
+    },
+    {
+      "group_id": "06b619ce-8e0b-4d0e-b278-46a737a8e958",
+      "user_id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "id": "95934c9d-f18c-4400-a885-2bf744ac0f0a"
     }
   ],
   "expenses": [
@@ -1671,6 +1706,46 @@
       "currency": "INR",
       "id": "940a4b0d-f711-476e-ba89-02d29d0aa69c",
       "created_at": "2026-08-04T20:13:18.040Z"
+    },
+    {
+      "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "paid_by": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "description": "Food",
+      "amount": 320,
+      "split_type": "equal",
+      "currency": "INR",
+      "created_at": "2026-08-07T00:00:00.000Z",
+      "id": "b442d95e-5c8d-4c33-9637-ef252a751503"
+    },
+    {
+      "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "paid_by": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "description": "Travel",
+      "amount": 860,
+      "split_type": "equal",
+      "currency": "INR",
+      "created_at": "2026-08-07T00:00:00.000Z",
+      "id": "dd097dc9-7860-4ac7-b9f2-9efcbe02ae1d"
+    },
+    {
+      "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "paid_by": "83a9790a-db05-48a0-afe8-207d7bde41e9",
+      "description": "Stay",
+      "amount": 1200,
+      "split_type": "equal",
+      "currency": "INR",
+      "created_at": "2026-08-07T00:00:00.000Z",
+      "id": "3e3ed8b3-94f0-42c2-ada5-9d9d65e0c1d6"
+    },
+    {
+      "group_id": "048a2551-b807-4e83-8874-30f750d8e8c4",
+      "paid_by": "916dfb8e-7aad-4b7a-b198-b575f1e0aed8",
+      "description": "Rafting",
+      "amount": 1600,
+      "split_type": "equal",
+      "currency": "INR",
+      "created_at": "2026-08-07T00:00:00.000Z",
+      "id": "055b839f-5eed-4d77-863e-9cf36b22cb60"
     }
   ],
   "expense_splits": [
@@ -5777,6 +5852,102 @@
       "percentage": null,
       "share": null,
       "id": "0b39dc02-da55-43cd-8982-d52a42a48775"
+    },
+    {
+      "expense_id": "b442d95e-5c8d-4c33-9637-ef252a751503",
+      "user_id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "amount": 106.67,
+      "percentage": null,
+      "share": null,
+      "id": "c9d12917-6860-4ecd-9919-ed5d7f305e99"
+    },
+    {
+      "expense_id": "b442d95e-5c8d-4c33-9637-ef252a751503",
+      "user_id": "83a9790a-db05-48a0-afe8-207d7bde41e9",
+      "amount": 106.67,
+      "percentage": null,
+      "share": null,
+      "id": "a21dacf1-0ad6-4384-9a65-cc09a6bc1831"
+    },
+    {
+      "expense_id": "b442d95e-5c8d-4c33-9637-ef252a751503",
+      "user_id": "916dfb8e-7aad-4b7a-b198-b575f1e0aed8",
+      "amount": 106.66,
+      "percentage": null,
+      "share": null,
+      "id": "31e7203b-335f-47c4-a5be-db0d1e4b72da"
+    },
+    {
+      "expense_id": "dd097dc9-7860-4ac7-b9f2-9efcbe02ae1d",
+      "user_id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "amount": 286.67,
+      "percentage": null,
+      "share": null,
+      "id": "ec0930be-66a3-408d-8335-283e3c044d74"
+    },
+    {
+      "expense_id": "dd097dc9-7860-4ac7-b9f2-9efcbe02ae1d",
+      "user_id": "83a9790a-db05-48a0-afe8-207d7bde41e9",
+      "amount": 286.67,
+      "percentage": null,
+      "share": null,
+      "id": "418a4a4a-8835-4ab0-8024-ba33b788b4c4"
+    },
+    {
+      "expense_id": "dd097dc9-7860-4ac7-b9f2-9efcbe02ae1d",
+      "user_id": "916dfb8e-7aad-4b7a-b198-b575f1e0aed8",
+      "amount": 286.66,
+      "percentage": null,
+      "share": null,
+      "id": "a4cad64b-c31a-439b-84df-6ea2861d8c78"
+    },
+    {
+      "expense_id": "3e3ed8b3-94f0-42c2-ada5-9d9d65e0c1d6",
+      "user_id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "bcb60df1-3723-496f-a214-4eda58144da6"
+    },
+    {
+      "expense_id": "3e3ed8b3-94f0-42c2-ada5-9d9d65e0c1d6",
+      "user_id": "83a9790a-db05-48a0-afe8-207d7bde41e9",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "37f13e93-271f-431d-9b2e-10f862f421bc"
+    },
+    {
+      "expense_id": "3e3ed8b3-94f0-42c2-ada5-9d9d65e0c1d6",
+      "user_id": "916dfb8e-7aad-4b7a-b198-b575f1e0aed8",
+      "amount": 400,
+      "percentage": null,
+      "share": null,
+      "id": "1c76fe5a-f1ae-4975-82d8-cf98de580146"
+    },
+    {
+      "expense_id": "055b839f-5eed-4d77-863e-9cf36b22cb60",
+      "user_id": "c5afaa54-3a18-4b8b-bcfb-2cb0b03f07b6",
+      "amount": 533.33,
+      "percentage": null,
+      "share": null,
+      "id": "12ec653e-2f3b-4282-ae65-2e8a001d1463"
+    },
+    {
+      "expense_id": "055b839f-5eed-4d77-863e-9cf36b22cb60",
+      "user_id": "83a9790a-db05-48a0-afe8-207d7bde41e9",
+      "amount": 533.33,
+      "percentage": null,
+      "share": null,
+      "id": "b22c0164-45db-4aab-b4f4-6831b214fa42"
+    },
+    {
+      "expense_id": "055b839f-5eed-4d77-863e-9cf36b22cb60",
+      "user_id": "916dfb8e-7aad-4b7a-b198-b575f1e0aed8",
+      "amount": 533.34,
+      "percentage": null,
+      "share": null,
+      "id": "4b455d49-09ac-4a2c-bd5b-297a5df3cf25"
     }
   ],
   "settlements": [

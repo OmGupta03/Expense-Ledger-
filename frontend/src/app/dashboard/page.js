@@ -10,6 +10,7 @@ import CsvImporter from '@/components/CsvImporter';
 import Layout from '@/components/Layout';
 import Header from '@/components/Header';
 import FinancialPulseChart from '@/components/FinancialPulseChart';
+import Avatar from '@/components/ui/Avatar';
 
 function formatTimestamp(dateStr) {
   if (!dateStr) return 'Recently';
@@ -187,10 +188,28 @@ function DashboardContent() {
 
   const overallBalanceINR = totalOwedINR - totalOweINR;
 
-  // Calculate actual total spent in INR across all user expenses
+  // Helper to extract logged-in user's personal calculated expense share
+  const getUserExpenseShare = (e) => {
+    if (!e || !user) return 0;
+    const splits = e.expense_splits || e.splits || [];
+    if (splits.length > 0) {
+      const userSplit = splits.find((s) => String(s.user_id || s.userId) === String(user.id));
+      if (userSplit) {
+        return parseFloat(userSplit.amount || 0);
+      }
+      return 0;
+    }
+    const payerId = e.paid_by?.id || e.paid_by;
+    if (String(payerId) === String(user.id)) {
+      return parseFloat(e.amount || 0);
+    }
+    return 0;
+  };
+
+  // Calculate actual total spent by the logged-in user in INR across all user expenses
   const totalSpentINR = allExpenses.reduce((sum, e) => {
-    const amt = parseFloat(e.amount || 0);
-    return sum + amt * (e.currency === 'USD' ? 83 : 1);
+    const share = getUserExpenseShare(e);
+    return sum + share * (e.currency === 'USD' ? 83 : 1);
   }, 0);
 
   const monthlyLimit = 20000;
@@ -260,7 +279,7 @@ function DashboardContent() {
           </div>
 
           {/* Financial Pulse Chart Card Component (Connected to Real Expenses) */}
-          <FinancialPulseChart expenses={allExpenses} monthlyLimit={monthlyLimit} />
+          <FinancialPulseChart expenses={allExpenses} currentUserId={user?.id} monthlyLimit={monthlyLimit} />
 
           {/* 5 Metrics Summary Cards Row (Driven by Real Ledger Data) */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -443,15 +462,24 @@ function DashboardContent() {
                       <div className="md:col-span-3 w-full text-left flex flex-col justify-center">
                         <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Member Stack</p>
                         <div className="flex items-center -space-x-2">
-                          {(balance.members.length > 0 ? balance.members.slice(0, 4) : [1]).map((m, mIdx) => (
-                            <div
-                              key={mIdx}
-                              className="inline-block h-7 w-7 rounded-full bg-slate-800 border-2 border-[#0e1b14] text-[10px] font-bold text-slate-200 flex items-center justify-center overflow-hidden shadow-xs"
-                              title={typeof m === 'object' ? (m.name || m.email) : 'User'}
-                            >
-                              {typeof m === 'object' ? (m.name?.[0]?.toUpperCase() || m.email?.[0]?.toUpperCase() || 'U') : 'U'}
+                          {(balance.members && balance.members.length > 0 ? balance.members.slice(0, 4) : [{ name: user?.email?.split('@')[0] || 'User' }]).map((m, mIdx) => {
+                            const memberName = typeof m === 'object' ? (m.name || m.email || 'User') : String(m);
+                            const memberAvatar = typeof m === 'object' ? (m.avatar_url || m.picture) : null;
+                            return (
+                              <Avatar
+                                key={mIdx}
+                                name={memberName}
+                                src={memberAvatar}
+                                size={28}
+                                className="border-2 border-[#0b1610] shadow-xs group-hover:border-emerald-950 transition-colors"
+                              />
+                            );
+                          })}
+                          {balance.members && balance.members.length > 4 && (
+                            <div className="h-7 w-7 rounded-full bg-slate-800 border-2 border-[#0b1610] text-[10px] font-extrabold text-slate-300 flex items-center justify-center flex-shrink-0">
+                              +{balance.members.length - 4}
                             </div>
-                          ))}
+                          )}
                         </div>
                       </div>
 

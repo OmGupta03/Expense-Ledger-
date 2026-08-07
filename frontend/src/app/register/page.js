@@ -1,13 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
-import { Wallet } from 'lucide-react';
+import { Wallet, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export default function RegisterPage() {
   const { user, signUp, loading } = useAuth();
@@ -18,13 +15,6 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // If user is already logged in, redirect to dashboard
-  useEffect(() => {
-    if (user && !loading) {
-      router.push('/dashboard');
-    }
-  }, [user, loading, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,82 +46,137 @@ export default function RegisterPage() {
 
   if (loading) {
     return (
-      <div className="loading-screen">
-        <div className="loading-spinner"></div>
-        <p className="loading-text">Loading session...</p>
+      <div className="min-h-screen bg-[#07100b] flex flex-col items-center justify-center text-slate-300">
+        <div className="h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-3 text-xs font-semibold text-emerald-400">Loading session...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg-primary p-4">
-      <Card className="w-full max-w-sm flex flex-col gap-6 text-center select-none shadow-md">
+    <div className="bg-[#07100b] text-white min-h-screen flex flex-col items-center justify-center p-4 font-sans relative overflow-hidden select-none">
+      
+      {/* Background Ambient Glow & Tech Grid Overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-950/50 via-[#07100b] to-[#07100b] pointer-events-none" />
+      <div 
+        className="absolute inset-0 opacity-[0.035] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(#10b981 1px, transparent 1px), linear-gradient(90deg, #10b981 1px, transparent 1px)`,
+          backgroundSize: '48px 48px'
+        }}
+      />
+
+      {/* Top Header Navigation Back Link */}
+      <div className="absolute top-6 left-6 z-20">
+        <Link 
+          href="/" 
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-emerald-400 transition-colors no-underline px-3.5 py-2 rounded-full bg-slate-900/80 border border-slate-800 backdrop-blur-md shadow-lg"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>Back to Home</span>
+        </Link>
+      </div>
+
+      {/* Central Glassmorphic Register Card */}
+      <div className="w-full max-w-md stitch-glass-card rounded-3xl p-8 md:p-10 shadow-2xl border border-emerald-900/60 bg-[#0b1610]/95 backdrop-blur-xl relative z-10 space-y-6 text-left">
         
-        {/* Brand Logo Header */}
-        <div className="flex flex-col items-center gap-2">
-          <div className="h-11 w-11 rounded-full bg-green-bg flex items-center justify-center text-green-pri">
-            <Wallet className="h-5.5 w-5.5" />
+        {/* Brand Header */}
+        <div className="flex flex-col items-center text-center space-y-2">
+          <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-lg shadow-emerald-500/20 mb-1">
+            <Wallet className="h-6 w-6 text-slate-950" />
           </div>
-          <span className="font-extrabold text-green-pri text-lg tracking-tight">SmartCash</span>
+          <div>
+            <h1 className="font-extrabold text-2xl tracking-tight text-white">SmartCash</h1>
+            <p className="text-[11px] font-extrabold text-emerald-400 mt-0.5">Student Group Finances</p>
+          </div>
         </div>
 
-        <div className="text-center">
-          <h2 className="text-lg font-extrabold text-text-primary">Create Account</h2>
-          <p className="text-xs text-text-muted mt-1 font-semibold">Join a group of flatmates to track expenses</p>
+        {/* Title & Subtitle */}
+        <div className="text-center space-y-1">
+          <h2 className="text-xl font-extrabold text-white tracking-tight">Create Account</h2>
+          <p className="text-xs text-slate-400 font-medium">Join flatmates and friend groups to manage expenses</p>
         </div>
 
+        {/* Error Alert */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-owe px-4 py-2.5 rounded-xl text-left text-[11px] font-bold">
-            <strong>Error:</strong> {error}
+          <div className="bg-red-950/80 border border-red-800/80 text-red-300 px-4 py-3 rounded-2xl text-left text-xs font-semibold flex items-center gap-2.5">
+            <div className="h-2 w-2 rounded-full bg-red-400 shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <Input
-            label="Full Name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Aisha"
-            required
-          />
+        {/* Form */}
+        <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
+              Full Name
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your full name"
+              autoComplete="off"
+              required
+              className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
+            />
+          </div>
 
-          <Input
-            label="Email Address"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="e.g. aisha@example.com"
-            required
-          />
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
+              autoComplete="off"
+              required
+              className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
+            />
+          </div>
 
-          <Input
-            label="Password (min 6 chars)"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            required
-          />
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
+              Password (min 6 chars)
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Create a password"
+              autoComplete="new-password"
+              required
+              className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
+            />
+          </div>
 
-          <Button
+          <button
             type="submit"
-            variant="primary"
-            size="md"
-            loading={isSubmitting}
-            className="w-full mt-2"
+            disabled={isSubmitting}
+            className="w-full py-3.5 px-6 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg shadow-emerald-500/20 cursor-pointer border-none flex items-center justify-center gap-2 transform hover:-translate-y-0.5 disabled:opacity-50 mt-2"
           >
-            Create Account
-          </Button>
+            {isSubmitting ? (
+              <span className="inline-block animate-spin h-4 w-4 border-2 border-slate-950 border-t-transparent rounded-full" />
+            ) : (
+              <>
+                <span>Get Started Free</span>
+                <ArrowRight className="h-4 w-4" />
+              </>
+            )}
+          </button>
         </form>
 
-        <p className="text-[11px] font-bold text-text-muted">
+        {/* Footer Link */}
+        <p className="text-center text-xs text-slate-400 font-medium">
           Already have an account?{' '}
-          <Link href="/login" className="text-green-pri hover:underline ml-1">
+          <Link href="/login" className="text-emerald-400 hover:text-emerald-300 font-extrabold ml-1 no-underline">
             Sign In
           </Link>
         </p>
-      </Card>
+
+      </div>
     </div>
   );
 }

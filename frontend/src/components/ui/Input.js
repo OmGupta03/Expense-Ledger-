@@ -11,20 +11,20 @@ export default function Input({
   return (
     <div className="w-full text-left">
       {label && (
-        <label className="block text-[10px] font-bold uppercase text-text-muted mb-1.5 tracking-wider">
-          {label} {required && <span className="text-red-owe">*</span>}
+        <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
+          {label} {required && <span className="text-red-400">*</span>}
         </label>
       )}
       <input
         type={type}
         required={required}
-        className={`w-full bg-bg-primary border border-border-custom hover:border-slate-350 focus:border-green-pri rounded-xl px-4 py-2.5 text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-green-pri/5 transition-all text-xs font-semibold ${
-          error ? 'border-red-owe focus:border-red-owe focus:ring-red-owe/5' : ''
+        className={`w-full bg-[#0f172a] border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none transition-all font-medium ${
+          error ? 'border-red-900 focus:border-red-500' : ''
         } ${className}`}
         {...props}
       />
       {error && (
-        <p className="mt-1 text-[10px] font-bold text-red-owe">{error}</p>
+        <p className="mt-1 text-[10px] font-bold text-red-400">{error}</p>
       )}
     </div>
   );

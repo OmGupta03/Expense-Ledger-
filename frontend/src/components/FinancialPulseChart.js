@@ -3,15 +3,32 @@
 import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-export default function FinancialPulseChart({ expenses = [], monthlyLimit = 20000 }) {
+export default function FinancialPulseChart({ expenses = [], currentUserId = null, monthlyLimit = 20000 }) {
   const [timeframe, setTimeframe] = useState('Last 30 Days');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  // Process real expenses into daily data points
+  // Calculate the user's specific expense share for an expense item
+  const getUserExpenseShare = (e) => {
+    if (!e || !currentUserId) return parseFloat(e?.amount || 0);
+    const splits = e.expense_splits || e.splits || [];
+    if (splits.length > 0) {
+      const userSplit = splits.find((s) => String(s.user_id || s.userId) === String(currentUserId));
+      if (userSplit) {
+        return parseFloat(userSplit.amount || 0);
+      }
+      return 0;
+    }
+    const payerId = e.paid_by?.id || e.paid_by;
+    if (String(payerId) === String(currentUserId)) {
+      return parseFloat(e.amount || 0);
+    }
+    return 0;
+  };
+
+  // Process user's actual calculated expenses into daily data points
   const chartData = useMemo(() => {
     if (!expenses || expenses.length === 0) {
-      // Generate clean 10 timeline date slots with 0 spending for display
       const dates = [];
       const now = new Date();
       for (let i = 9; i >= 0; i--) {
@@ -23,35 +40,43 @@ export default function FinancialPulseChart({ expenses = [], monthlyLimit = 2000
       return dates;
     }
 
-    // Group actual expenses by date
+    // Group logged-in user's expense shares by date
     const dateMap = {};
     expenses.forEach((e) => {
+      const share = getUserExpenseShare(e);
+      if (share <= 0) return;
+
       const d = new Date(e.created_at || Date.now());
       const label = d.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
-      const amt = parseFloat(e.amount || 0) * (e.currency === 'USD' ? 83 : 1);
-      dateMap[label] = (dateMap[label] || 0) + amt;
+      dateMap[label] = (dateMap[label] || 0) + share;
     });
 
     const entries = Object.entries(dateMap).map(([date, daily]) => ({ date, daily }));
     
+    if (entries.length === 0) {
+      const now = new Date();
+      const label = now.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
+      return [{ date: label, daily: 0, cumulative: 0 }];
+    }
+
     let runningTotal = 0;
     return entries.map((item) => {
       runningTotal += item.daily;
       return {
         date: item.date,
-        daily: Math.round(item.daily),
-        cumulative: Math.round(runningTotal),
+        daily: Number(item.daily.toFixed(2)),
+        cumulative: Number(runningTotal.toFixed(2)),
       };
     });
-  }, [expenses]);
+  }, [expenses, currentUserId]);
 
   const totalSpent = useMemo(() => {
     if (!expenses || expenses.length === 0) return 0;
     return expenses.reduce((sum, e) => {
-      const amt = parseFloat(e.amount || 0);
-      return sum + amt * (e.currency === 'USD' ? 83 : 1);
+      const share = getUserExpenseShare(e);
+      return sum + share;
     }, 0);
-  }, [expenses]);
+  }, [expenses, currentUserId]);
 
   const maxDaily = useMemo(() => {
     const maxVal = Math.max(...chartData.map((d) => d.daily), 0);
@@ -63,17 +88,20 @@ export default function FinancialPulseChart({ expenses = [], monthlyLimit = 2000
     return maxVal > 0 ? maxVal * 1.2 : 20000;
   }, [chartData]);
 
-  // Chart dimensions
+  // Chart layout dimensions with generous left spacing for Y-axis numbers
   const chartHeight = 125;
   const chartWidth = 900;
-  const paddingX = 50;
+  const paddingLeft = 85; // Increased left padding to create clear separation between scale & bars
+  const paddingRight = 40;
   const paddingY = 15;
-  const innerWidth = chartWidth - paddingX * 2;
+  const innerWidth = chartWidth - paddingLeft - paddingRight;
   const innerHeight = chartHeight - paddingY * 2;
 
   // Generate path points for glowing line
   const points = chartData.map((d, index) => {
-    const x = paddingX + (index / (chartData.length - 1 || 1)) * innerWidth;
+    const x = chartData.length === 1
+      ? paddingLeft + 50
+      : paddingLeft + (index / (chartData.length - 1 || 1)) * innerWidth;
     const y = chartHeight - paddingY - (d.cumulative / (maxCumulative || 1)) * innerHeight;
     return { x, y, data: d };
   });
@@ -95,16 +123,13 @@ export default function FinancialPulseChart({ expenses = [], monthlyLimit = 2000
       {/* Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
         <div>
-          <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded-full">
-              {timeframe}
-            </span>
-            {expenses.length === 0 && (
+          {expenses.length === 0 && (
+            <div className="mb-0.5">
               <span className="text-[10px] text-slate-400 italic">
                 (No expenses recorded yet)
               </span>
-            )}
-          </div>
+            </div>
+          )}
           <div className="flex items-baseline gap-2.5">
             <h2 className="text-xl font-extrabold text-white tracking-tight">
               ₹{totalSpent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-[11px] font-medium text-slate-400">spent</span>
@@ -178,26 +203,22 @@ export default function FinancialPulseChart({ expenses = [], monthlyLimit = 2000
             </filter>
           </defs>
 
-          {/* Horizontal Grid lines */}
+          {/* Horizontal Grid lines with Left Scaling (with 18px gap to bars) */}
           {[0, 0.33, 0.66, 1].map((ratio, idx) => {
             const y = paddingY + ratio * innerHeight;
-            const valLeft = Math.round((1 - ratio) * (maxDaily / 1.2));
-            const valRight = Math.round((1 - ratio) * (maxCumulative / 1.2));
+            const valLeft = Number(((1 - ratio) * (maxDaily / 1.2)).toFixed(2));
             return (
               <g key={idx}>
                 <line
-                  x1={paddingX}
+                  x1={paddingLeft}
                   y1={y}
-                  x2={chartWidth - paddingX}
+                  x2={chartWidth - paddingRight}
                   y2={y}
                   stroke="rgba(255,255,255,0.06)"
                   strokeDasharray="3 3"
                 />
-                <text x={paddingX - 8} y={y + 3} fill="#64748b" fontSize="9" textAnchor="end">
+                <text x={paddingLeft - 18} y={y + 3} fill="#64748b" fontSize="9" textAnchor="end">
                   ₹{valLeft.toLocaleString()}
-                </text>
-                <text x={chartWidth - paddingX + 8} y={y + 3} fill="#64748b" fontSize="9" textAnchor="start">
-                  ₹{valRight.toLocaleString()}
                 </text>
               </g>
             );
@@ -209,7 +230,9 @@ export default function FinancialPulseChart({ expenses = [], monthlyLimit = 2000
           {/* Blue Spending Bars */}
           {chartData.map((d, index) => {
             const barWidth = 14;
-            const x = paddingX + (index / (chartData.length - 1 || 1)) * innerWidth - barWidth / 2;
+            const x = chartData.length === 1
+              ? paddingLeft + 50 - barWidth / 2
+              : paddingLeft + (index / (chartData.length - 1 || 1)) * innerWidth - barWidth / 2;
             const barH = (d.daily / maxDaily) * innerHeight;
             const y = chartHeight - paddingY - barH;
             const isHovered = hoveredIndex === index;
@@ -266,7 +289,9 @@ export default function FinancialPulseChart({ expenses = [], monthlyLimit = 2000
           {/* X-Axis Date Labels */}
           {chartData.map((d, index) => {
             if (chartData.length > 8 && index % 2 !== 0 && index !== chartData.length - 1) return null;
-            const x = paddingX + (index / (chartData.length - 1 || 1)) * innerWidth;
+            const x = chartData.length === 1
+              ? paddingLeft + 50
+              : paddingLeft + (index / (chartData.length - 1 || 1)) * innerWidth;
             return (
               <text key={index} x={x} y={chartHeight - 2} fill="#94a3b8" fontSize="9" textAnchor="middle">
                 {d.date}
@@ -280,7 +305,7 @@ export default function FinancialPulseChart({ expenses = [], monthlyLimit = 2000
           <div
             className="absolute top-1 bg-slate-900/95 border border-emerald-500/40 rounded-xl px-2.5 py-1.5 text-xs shadow-2xl z-20 pointer-events-none transition-all transform -translate-x-1/2"
             style={{
-              left: `${((paddingX + (hoveredIndex / (chartData.length - 1 || 1)) * innerWidth) / chartWidth) * 100}%`,
+              left: `${(((chartData.length === 1 ? paddingLeft + 50 : paddingLeft + (hoveredIndex / (chartData.length - 1 || 1)) * innerWidth)) / chartWidth) * 100}%`,
             }}
           >
             <p className="font-bold text-white mb-0.5">{chartData[hoveredIndex].date}</p>

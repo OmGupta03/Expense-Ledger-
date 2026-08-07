@@ -6,16 +6,10 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import Layout from '@/components/Layout';
 import Header from '@/components/Header';
-import PageHeader from '@/components/ui/PageHeader';
-import Card from '@/components/ui/Card';
-import Input from '@/components/ui/Input';
-import Select from '@/components/ui/Select';
-import Button from '@/components/ui/Button';
-import Switch from '@/components/ui/Switch';
 import Avatar from '@/components/ui/Avatar';
 import Toast from '@/components/ui/Toast';
 import Dialog from '@/components/ui/Dialog';
-import { ShieldCheck, Trash2, KeyRound, Smartphone, History, Save, Sparkles, User, Mail, Phone, Globe } from 'lucide-react';
+import { ShieldCheck, Trash2, KeyRound, Smartphone, History, Save, ChevronRight, User, Mail, Phone, Globe, Lock } from 'lucide-react';
 
 export default function SettingsPage() {
   const { user, profile, loading } = useAuth();
@@ -54,9 +48,9 @@ export default function SettingsPage() {
   if (loading || !user) {
     return (
       <Layout>
-        <div className="flex-1 flex flex-col items-center justify-center p-12 bg-bg-primary text-text-muted gap-3">
-          <div className="h-7 w-7 border-2 border-border-custom border-t-green-pri rounded-full animate-spin"></div>
-          <p className="text-xs font-bold">Loading account settings...</p>
+        <div className="flex-1 flex flex-col items-center justify-center p-12 bg-[#07100b] text-slate-400 gap-3 min-h-screen">
+          <div className="h-8 w-8 border-2 border-slate-800 border-t-emerald-400 rounded-full animate-spin"></div>
+          <p className="text-xs font-extrabold tracking-wider uppercase text-slate-400">Loading account settings...</p>
         </div>
       </Layout>
     );
@@ -89,14 +83,12 @@ export default function SettingsPage() {
   const handleDeleteAccount = async () => {
     setDialogLoading(true);
     try {
-      // 1. Delete user record in public.users (cascades or drops reference)
       const { error: userErr } = await supabase
         .from('users')
         .delete()
         .eq('id', user.id);
       if (userErr) throw userErr;
 
-      // 2. Sign out auth user
       await supabase.auth.signOut();
       router.push('/login');
     } catch (err) {
@@ -147,202 +139,232 @@ export default function SettingsPage() {
         onConfirm={() => setDialogTarget(null)}
       />
 
-      <div className="w-full flex-1 flex flex-col bg-bg-primary overflow-hidden h-full text-left">
-        <Header placeholder="Search settings..." />
+      <div className="stitch-dashboard-dark w-full flex-1 flex flex-col min-h-screen overflow-x-hidden text-left select-none bg-[#07100b] text-white font-sans">
+        <Header isDark={true} placeholder="Search settings..." />
 
-        <div className="flex-1 overflow-y-auto">
-          <div className="max-w-4xl mx-auto px-6 py-8 w-full flex flex-col gap-6">
-            <PageHeader
-            title="Account Settings"
-            subtitle="Manage your profile, notification preferences, and security settings to keep your finances secure."
-            breadcrumbs={[
-              { label: 'Dashboard', href: '/dashboard' },
-              { label: 'Settings' }
-            ]}
-          />
-
-          <form onSubmit={handleSaveChanges} className="space-y-6">
-            {/* 1. PERSONAL INFORMATION CARD */}
-            <Card className="flex flex-col gap-5 text-left relative overflow-hidden">
-              <div className="flex justify-between items-center pb-3.5 border-b border-border-custom/50">
-                <div>
-                  <h3 className="text-sm font-extrabold text-text-primary">Personal Information</h3>
-                  <p className="text-[10px] text-text-muted font-semibold mt-0.5">Update your details and how we should address you.</p>
-                </div>
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="sm"
-                  loading={saving}
-                  icon={Save}
-                >
-                  Save Changes
-                </Button>
-              </div>
-
-              {/* Avatar Selector Block */}
-              <div className="flex items-center gap-4">
-                <Avatar name={fullName} src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture} size="xl" />
-                <div className="text-left space-y-1.5">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setToast({ message: 'Avatar image storage requires storage integration hooks', type: 'info' })}
-                  >
-                    Change Avatar
-                  </Button>
-                  <p className="text-[9px] text-text-muted font-bold uppercase tracking-wider">JPG or PNG. Max size of 800K.</p>
-                </div>
-              </div>
-
-              {/* Personal Info Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  label="Full Name *"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="e.g. Om Gupta"
-                  required
-                />
-                <Input
-                  label="Email Address"
-                  type="email"
-                  value={email}
-                  disabled
-                  placeholder="e.g. user@example.com"
-                  title="Email cannot be modified directly"
-                  className="bg-slate-50 cursor-not-allowed border-slate-200"
-                />
-                <Input
-                  label="Phone Number"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="+1 (555) 012-3456"
-                />
-                <Select
-                  label="Country/Region"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  options={[
-                    { value: 'US', label: 'United States' },
-                    { value: 'IN', label: 'India' },
-                    { value: 'GB', label: 'United Kingdom' },
-                    { value: 'CA', label: 'Canada' },
-                    { value: 'DE', label: 'Germany' }
-                  ]}
-                />
-              </div>
-            </Card>
-
-            {/* 2. NOTIFICATIONS & SECURITY DUAL CONTAINER */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* Notification Toggles Card */}
-              <Card className="flex flex-col gap-4">
-                <div className="pb-3 border-b border-border-custom/50">
-                  <h3 className="text-sm font-extrabold text-text-primary flex items-center gap-1.5">
-                    <span>🔔</span> Notifications
-                  </h3>
-                  <p className="text-[10px] text-text-muted font-semibold mt-0.5">Control which updates you receive and how they are delivered.</p>
-                </div>
-
-                <div className="space-y-4 pt-1">
-                  <div className="flex items-center justify-between">
-                    <div className="text-left max-w-[70%]">
-                      <h4 className="text-xs font-bold text-text-primary">Email Notifications</h4>
-                      <p className="text-[10px] text-text-muted font-semibold mt-0.5 leading-tight">Daily summary of group expenses and settlements.</p>
-                    </div>
-                    <Switch checked={emailNotif} onChange={setEmailNotif} />
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="text-left max-w-[70%]">
-                      <h4 className="text-xs font-bold text-text-primary">Push Notifications</h4>
-                      <p className="text-[10px] text-text-muted font-semibold mt-0.5 leading-tight">Instant alerts for new transactions and mentions.</p>
-                    </div>
-                    <Switch checked={pushNotif} onChange={setPushNotif} />
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="text-left max-w-[70%]">
-                      <h4 className="text-xs font-bold text-text-primary">Financial Insights</h4>
-                      <p className="text-[10px] text-text-muted font-semibold mt-0.5 leading-tight">Weekly trends and personalized budgeting tips.</p>
-                    </div>
-                    <Switch checked={insightsNotif} onChange={setInsightsNotif} />
-                  </div>
-                </div>
-              </Card>
-
-              {/* Security Audit Controls Card */}
-              <Card className="flex flex-col gap-4">
-                <div className="pb-3 border-b border-border-custom/50">
-                  <h3 className="text-sm font-extrabold text-text-primary flex items-center gap-1.5">
-                    <span>🛡️</span> Security
-                  </h3>
-                  <p className="text-[10px] text-text-muted font-semibold mt-0.5">Maintain the integrity of your financial data with advanced protection.</p>
-                </div>
-
-                <div className="flex flex-col gap-2 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => setDialogTarget('password')}
-                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 hover:bg-slate-100/70 border border-border-custom rounded-2xl transition-colors cursor-pointer text-xs font-bold text-text-primary text-left"
-                  >
-                    <span className="flex items-center gap-2">
-                      <KeyRound className="h-4 w-4 text-text-muted" /> Change Password
-                    </span>
-                    <span className="text-text-muted text-lg">→</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setDialogTarget('mfa')}
-                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 hover:bg-slate-100/70 border border-border-custom rounded-2xl transition-colors cursor-pointer text-xs font-bold text-text-primary text-left"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Smartphone className="h-4 w-4 text-text-muted" /> Two-Factor Authentication
-                      <span className="text-[9px] px-2 py-0.5 rounded-full bg-green-50 text-green-pri border border-green-200">ENABLED</span>
-                    </span>
-                    <span className="text-text-muted text-lg">→</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setDialogTarget('history')}
-                    className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 hover:bg-slate-100/70 border border-border-custom rounded-2xl transition-colors cursor-pointer text-xs font-bold text-text-primary text-left"
-                  >
-                    <span className="flex items-center gap-2">
-                      <History className="h-4 w-4 text-text-muted" /> Login History
-                    </span>
-                    <span className="text-text-muted text-lg">→</span>
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2 px-3 py-2 bg-green-50/50 border border-green-pri/10 rounded-xl text-[10px] text-green-pri font-bold">
-                  <ShieldCheck className="h-4 w-4 flex-shrink-0" />
-                  <span>Your account is protected by 256-bit encryption.</span>
-                </div>
-              </Card>
+        <div className="flex-1 overflow-y-auto px-6 md:px-10 py-8">
+          <div className="max-w-4xl mx-auto flex flex-col gap-6">
+            
+            {/* Header Title */}
+            <div className="pb-4 border-b border-slate-800 text-left">
+              <h1 className="text-2xl font-extrabold text-white tracking-tight">Account Settings</h1>
+              <p className="text-xs text-slate-400 font-medium mt-1">
+                Manage your profile, notification preferences, and security settings to keep your finances secure.
+              </p>
             </div>
 
-            {/* 3. DANGER ZONE CARD */}
-            <Card className="border border-red-200 bg-red-50/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="text-left">
-                <h3 className="text-sm font-extrabold text-red-owe">Danger Zone</h3>
-                <p className="text-[10px] text-text-muted font-semibold mt-0.5 leading-tight">Permanently delete your account and all associated financial data.</p>
+            <form onSubmit={handleSaveChanges} className="space-y-6">
+              
+              {/* 1. PERSONAL INFORMATION CARD */}
+              <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left space-y-5">
+                <div className="flex justify-between items-center pb-4 border-b border-slate-800">
+                  <div>
+                    <h3 className="text-lg font-extrabold text-white tracking-tight">Personal Information</h3>
+                    <p className="text-xs text-slate-400 font-medium mt-0.5">Update your details and how flatmates address you.</p>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="px-6 py-2.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold rounded-full transition-all shadow-lg shadow-emerald-500/20 text-xs border-none cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                  >
+                    <Save className="h-4 w-4" />
+                    <span>{saving ? 'Saving...' : 'Save Changes'}</span>
+                  </button>
+                </div>
+
+                {/* Avatar Selector Block */}
+                <div className="flex items-center gap-4 py-2">
+                  <Avatar name={fullName} src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture} size={56} />
+                  <div className="text-left space-y-1">
+                    <button
+                      type="button"
+                      onClick={() => setToast({ message: 'Avatar image storage requires storage integration hooks', type: 'info' })}
+                      className="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-extrabold rounded-full transition-all cursor-pointer"
+                    >
+                      Change Avatar
+                    </button>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">JPG or PNG. Max size of 800K.</p>
+                  </div>
+                </div>
+
+                {/* Personal Info Fields */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                  <div>
+                    <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      placeholder="e.g. Om Gupta"
+                      className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Email Address</label>
+                    <input
+                      type="email"
+                      value={email}
+                      disabled
+                      placeholder="user@example.com"
+                      className="w-full bg-[#090d16] border border-slate-800/80 rounded-xl px-4 py-3 text-xs text-slate-400 cursor-not-allowed font-medium opacity-70"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Phone Number</label>
+                    <input
+                      type="text"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      placeholder="+1 (555) 012-3456"
+                      className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 font-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">Country/Region</label>
+                    <select
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      className="w-full bg-[#0f172a] border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
+                    >
+                      <option value="IN">India (₹)</option>
+                      <option value="US">United States ($)</option>
+                      <option value="GB">United Kingdom (£)</option>
+                      <option value="CA">Canada ($)</option>
+                      <option value="DE">Germany (€)</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => setDialogTarget('delete')}
-                icon={Trash2}
-              >
-                Delete Account
-              </Button>
-            </Card>
-          </form>
+
+              {/* 2. NOTIFICATIONS & SECURITY DUAL CONTAINER */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Notification Toggles Card */}
+                <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left space-y-4">
+                  <div className="pb-3 border-b border-slate-800">
+                    <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+                      <span>🔔</span> Notifications
+                    </h3>
+                    <p className="text-xs text-slate-400 font-medium mt-0.5">Control which updates you receive.</p>
+                  </div>
+
+                  <div className="space-y-4 pt-1">
+                    <div className="flex items-center justify-between">
+                      <div className="text-left max-w-[75%]">
+                        <h4 className="text-xs font-bold text-white">Email Notifications</h4>
+                        <p className="text-[10px] text-slate-400 font-medium mt-0.5 leading-tight">Daily summary of group expenses and settlements.</p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={emailNotif}
+                        onChange={(e) => setEmailNotif(e.target.checked)}
+                        className="rounded accent-emerald-500 h-4 w-4 cursor-pointer"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="text-left max-w-[75%]">
+                        <h4 className="text-xs font-bold text-white">Push Notifications</h4>
+                        <p className="text-[10px] text-slate-400 font-medium mt-0.5 leading-tight">Instant alerts for new transactions and mentions.</p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={pushNotif}
+                        onChange={(e) => setPushNotif(e.target.checked)}
+                        className="rounded accent-emerald-500 h-4 w-4 cursor-pointer"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="text-left max-w-[75%]">
+                        <h4 className="text-xs font-bold text-white">Financial Insights</h4>
+                        <p className="text-[10px] text-slate-400 font-medium mt-0.5 leading-tight">Weekly trends and personalized budgeting tips.</p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={insightsNotif}
+                        onChange={(e) => setInsightsNotif(e.target.checked)}
+                        className="rounded accent-emerald-500 h-4 w-4 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Security Audit Controls Card */}
+                <div className="stitch-glass-card rounded-3xl p-6 border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl text-left space-y-4">
+                  <div className="pb-3 border-b border-slate-800">
+                    <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+                      <span>🛡️</span> Security
+                    </h3>
+                    <p className="text-xs text-slate-400 font-medium mt-0.5">Maintain the integrity of your financial data.</p>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => setDialogTarget('password')}
+                      className="w-full flex items-center justify-between px-4 py-3 bg-[#0f172a] hover:bg-slate-900 border border-slate-800 rounded-2xl transition-colors cursor-pointer text-xs font-bold text-white text-left"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <KeyRound className="h-4 w-4 text-emerald-400" /> Change Password
+                      </span>
+                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setDialogTarget('mfa')}
+                      className="w-full flex items-center justify-between px-4 py-3 bg-[#0f172a] hover:bg-slate-900 border border-slate-800 rounded-2xl transition-colors cursor-pointer text-xs font-bold text-white text-left"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <Smartphone className="h-4 w-4 text-emerald-400" /> Two-Factor Authentication
+                        <span className="text-[9px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-extrabold">ENABLED</span>
+                      </span>
+                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setDialogTarget('history')}
+                      className="w-full flex items-center justify-between px-4 py-3 bg-[#0f172a] hover:bg-slate-900 border border-slate-800 rounded-2xl transition-colors cursor-pointer text-xs font-bold text-white text-left"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <History className="h-4 w-4 text-emerald-400" /> Login History
+                      </span>
+                      <ChevronRight className="h-4 w-4 text-slate-400" />
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3.5 py-2.5 bg-emerald-950/40 border border-emerald-800/50 rounded-2xl text-[10px] text-emerald-400 font-extrabold">
+                    <ShieldCheck className="h-4 w-4 flex-shrink-0" />
+                    <span>Your account is protected by 256-bit encryption.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. DANGER ZONE CARD */}
+              <div className="stitch-glass-card rounded-3xl p-6 border border-red-900/60 bg-red-950/20 text-left flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+                <div className="text-left">
+                  <h3 className="text-base font-extrabold text-red-400">Danger Zone</h3>
+                  <p className="text-xs text-slate-400 font-medium mt-0.5 leading-tight">Permanently delete your account and all associated financial data.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setDialogTarget('delete')}
+                  className="px-5 py-2.5 bg-red-950/80 hover:bg-red-900 border border-red-800/80 text-red-300 rounded-full font-extrabold text-xs transition-all cursor-pointer flex items-center gap-2 border-none"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span>Delete Account</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
         </div>
-      </div>
       </div>
     </Layout>
   );

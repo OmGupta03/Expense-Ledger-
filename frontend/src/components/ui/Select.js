@@ -11,15 +11,15 @@ export default function Select({
   return (
     <div className="w-full text-left">
       {label && (
-        <label className="block text-[10px] font-bold uppercase text-text-muted mb-1.5 tracking-wider">
-          {label} {required && <span className="text-red-owe">*</span>}
+        <label className="block text-[11px] font-extrabold uppercase text-slate-300 mb-1.5 tracking-wider">
+          {label} {required && <span className="text-red-400">*</span>}
         </label>
       )}
       <div className="relative">
         <select
           required={required}
-          className={`w-full bg-bg-primary border border-border-custom hover:border-slate-350 focus:border-green-pri rounded-xl px-4 py-2.5 text-text-primary focus:outline-none focus:ring-2 focus:ring-green-pri/5 transition-all text-xs font-semibold appearance-none ${
-            error ? 'border-red-owe focus:border-red-owe focus:ring-red-owe/5' : ''
+          className={`w-full bg-[#0f172a] border border-slate-800 focus:border-emerald-500 rounded-xl px-4 py-3 text-xs font-medium text-white focus:outline-none transition-all appearance-none ${
+            error ? 'border-red-900 focus:border-red-500' : ''
           } ${className}`}
           {...props}
         >
@@ -29,14 +29,14 @@ export default function Select({
             </option>
           ))}
         </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-muted">
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
           <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
           </svg>
         </div>
       </div>
       {error && (
-        <p className="mt-1 text-[10px] font-bold text-red-owe">{error}</p>
+        <p className="mt-1 text-[10px] font-bold text-red-400">{error}</p>
       )}
     </div>
   );

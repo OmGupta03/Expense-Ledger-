@@ -937,13 +937,14 @@ export default function ImportPage() {
 
   return (
     <Layout>
-      <div className="w-full flex-1 flex flex-col bg-grey-bg overflow-hidden h-full">
+      <div className="stitch-dashboard-dark w-full flex-1 flex flex-col min-h-screen overflow-x-hidden text-left select-none bg-[#07100b] text-white font-sans">
         {/* Top Header Bar */}
         <Header
+          isDark={true}
           leftSection={
             <div>
-              <h1 className="text-xl font-bold text-text-primary tracking-tight">CSV Importer</h1>
-              <p className="text-xs text-text-muted mt-0.5">
+              <h1 className="text-xl font-extrabold text-white tracking-tight">CSV Importer</h1>
+              <p className="text-xs text-emerald-400 font-bold mt-0.5">
                 {phase === 'upload' && 'Upload & validate your CSV flatmate logs'}
                 {phase === 'preview' && `Preview Report — ${stats?.total} rows, ${stats?.anomalyCount} anomalies detected`}
                 {phase === 'complete' && 'Import completed successfully'}
@@ -953,7 +954,7 @@ export default function ImportPage() {
         >
           <Link
             href={`/groups/${groupId}`}
-            className="border border-border-custom px-4 py-2 hover:bg-slate-50 transition-colors text-xs font-semibold rounded-lg text-text-primary no-underline flex items-center justify-center h-8"
+            className="border border-slate-800 bg-slate-900 hover:bg-slate-800 transition-all text-xs font-extrabold rounded-full px-5 py-2 text-slate-200 no-underline flex items-center justify-center shadow-sm"
           >
             ← Back to Group
           </Link>
@@ -961,14 +962,14 @@ export default function ImportPage() {
             <>
               <button
                 onClick={handleApproveAll}
-                className="px-4 py-2 bg-white border border-green-pri text-green-pri text-xs font-semibold rounded-lg hover:bg-emerald-50 cursor-pointer transition-all h-8 flex items-center justify-center"
+                className="px-5 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-emerald-400 text-xs font-extrabold rounded-full cursor-pointer transition-all flex items-center justify-center"
               >
                 Approve All
               </button>
               <button
                 onClick={handleImportConfirmed}
                 disabled={importing}
-                className="px-5 py-2 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-lg shadow-sm transition-all disabled:opacity-50 cursor-pointer h-8 flex items-center justify-center border-none"
+                className="px-6 py-2 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full shadow-lg shadow-emerald-500/20 transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center border-none"
               >
                 {importing ? '⏳ Importing...' : '✅ Confirm & Import'}
               </button>
@@ -977,36 +978,38 @@ export default function ImportPage() {
         </Header>
 
         {/* Main Content Area */}
-        <div className="page-body flex-1 overflow-y-auto space-y-6">
+        <div className="page-body flex-1 overflow-y-auto px-6 md:px-10 py-8 space-y-6 max-w-7xl mx-auto w-full">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl text-xs font-medium text-left">
+            <div className="bg-red-950/80 border border-red-900 text-red-300 p-4 rounded-2xl text-xs font-bold text-left shadow-md">
               {error}
             </div>
           )}
 
           {/* 1. UPLOAD PHASE */}
           {phase === 'upload' && (
-            <div className="bg-white rounded-lg border border-border-custom p-8 text-left">
-              <div className="max-w-xl mx-auto text-center space-y-5">
-                <div className="text-5xl select-none">📁</div>
+            <div className="stitch-glass-card rounded-3xl border border-emerald-900/60 bg-[#0b1610]/95 p-12 text-left shadow-2xl max-w-2xl mx-auto my-6">
+              <div className="max-w-xl mx-auto text-center space-y-6">
+                <div className="h-20 w-20 rounded-full bg-emerald-950/80 border border-emerald-800/60 flex items-center justify-center text-4xl select-none mx-auto shadow-inner">
+                  📁
+                </div>
                 <div>
-                  <h3 className="text-lg font-bold text-text-primary">Upload Shared Expense CSV</h3>
-                  <p className="text-xs text-text-muted mt-1 max-w-sm mx-auto">
+                  <h3 className="text-xl font-extrabold text-white tracking-tight">Upload Shared Expense CSV</h3>
+                  <p className="text-xs text-slate-400 mt-2 max-w-md mx-auto leading-relaxed font-medium">
                     Upload your flatmate expense logs. We&apos;ll standardise dates, resolve payer names, fix comma issues, round decimals and detect duplicates client-side before save.
                   </p>
                 </div>
 
-                <form onSubmit={handleUpload} className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                <form onSubmit={handleUpload} className="flex flex-col sm:flex-row items-center gap-3 pt-4">
                   <input
                     type="file"
                     accept=".csv"
                     onChange={handleFileChange}
-                    className="flex-1 w-full bg-grey-bg border border-border-custom text-xs text-text-muted p-3 rounded-lg focus:outline-none cursor-pointer file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-green-pri file:text-white file:cursor-pointer"
+                    className="flex-1 w-full bg-slate-900/90 border border-slate-800 text-xs text-slate-300 p-3 rounded-full focus:outline-none cursor-pointer file:mr-3 file:py-1.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-extrabold file:bg-[#10b981] file:text-slate-950 file:cursor-pointer"
                   />
                   <button
                     type="submit"
                     disabled={uploading || !file}
-                    className="w-full sm:w-auto px-6 py-3 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-lg shadow-sm transition-all disabled:opacity-50 cursor-pointer"
+                    className="w-full sm:w-auto px-7 py-3.5 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full shadow-lg shadow-emerald-500/20 transition-all disabled:opacity-50 cursor-pointer border-none transform hover:-translate-y-0.5"
                   >
                     {uploading ? '⏳ Analyzing...' : '🔍 Validate CSV'}
                   </button>
@@ -1017,124 +1020,123 @@ export default function ImportPage() {
 
           {/* 2. PREVIEW PHASE */}
           {phase === 'preview' && parsingData && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {/* Statistics Row */}
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
                 <button
                   onClick={() => setTableFilter('all')}
-                  className={`bg-white border p-4 rounded-lg text-center cursor-pointer transition-all ${tableFilter === 'all' ? 'border-green-pri ring-1 ring-green-pri/30 shadow-sm' : 'border-border-custom hover:border-slate-300'}`}
+                  className={`stitch-glass-card border p-5 rounded-2xl text-center cursor-pointer transition-all bg-[#0b1610]/95 ${tableFilter === 'all' ? 'border-emerald-400 ring-2 ring-emerald-500/20 shadow-lg' : 'border-emerald-900/60 hover:border-slate-700'}`}
                 >
-                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-wider">Total Rows</p>
-                  <p className="text-2xl font-black text-text-primary mt-1">{stats.total}</p>
+                  <p className="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">Total Rows</p>
+                  <p className="text-2xl font-black text-white mt-1">{stats.total}</p>
                 </button>
                 <button
                   onClick={() => setTableFilter('clean')}
-                  className={`bg-white border p-4 rounded-lg text-center cursor-pointer transition-all ${tableFilter === 'clean' ? 'border-emerald-500 ring-1 ring-emerald-500/30 shadow-sm' : 'border-border-custom hover:border-slate-300'}`}
+                  className={`stitch-glass-card border p-5 rounded-2xl text-center cursor-pointer transition-all bg-[#0b1610]/95 ${tableFilter === 'clean' ? 'border-emerald-400 ring-2 ring-emerald-500/20 shadow-lg' : 'border-emerald-900/60 hover:border-slate-700'}`}
                 >
-                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-wider">Clean</p>
-                  <p className="text-2xl font-black text-emerald-600 mt-1">{stats.clean}</p>
+                  <p className="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">Clean</p>
+                  <p className="text-2xl font-black text-emerald-400 mt-1">{stats.clean}</p>
                 </button>
                 <button
                   onClick={() => setTableFilter('anomalies')}
-                  className={`bg-white border p-4 rounded-lg text-center cursor-pointer transition-all ${tableFilter === 'anomalies' ? 'border-emerald-500 ring-1 ring-emerald-500/30 shadow-sm' : 'border-border-custom hover:border-slate-300'}`}
+                  className={`stitch-glass-card border p-5 rounded-2xl text-center cursor-pointer transition-all bg-[#0b1610]/95 ${tableFilter === 'anomalies' ? 'border-emerald-400 ring-2 ring-emerald-500/20 shadow-lg' : 'border-emerald-900/60 hover:border-slate-700'}`}
                 >
-                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-wider">Auto-Fixed</p>
-                  <p className="text-2xl font-black text-emerald-600 mt-1">{stats.fixed}</p>
+                  <p className="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">Auto-Fixed</p>
+                  <p className="text-2xl font-black text-emerald-400 mt-1">{stats.fixed}</p>
                 </button>
                 <button
                   onClick={() => setTableFilter('flagged')}
-                  className={`bg-white border p-4 rounded-lg text-center cursor-pointer transition-all ${tableFilter === 'flagged' ? 'border-amber-500 ring-1 ring-amber-500/30 shadow-sm' : 'border-border-custom hover:border-slate-300'}`}
+                  className={`stitch-glass-card border p-5 rounded-2xl text-center cursor-pointer transition-all bg-[#0b1610]/95 ${tableFilter === 'flagged' ? 'border-amber-400 ring-2 ring-amber-500/20 shadow-lg' : 'border-emerald-900/60 hover:border-slate-700'}`}
                 >
-                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-wider">Need Review</p>
-                  <p className="text-2xl font-black text-amber-600 mt-1">{stats.flagged}</p>
+                  <p className="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">Need Review</p>
+                  <p className="text-2xl font-black text-amber-400 mt-1">{stats.flagged}</p>
                 </button>
-                <div className="bg-white border border-border-custom p-4 rounded-lg text-center">
-                  <p className="text-[9px] uppercase font-bold text-text-muted tracking-wider">Approved</p>
-                  <p className="text-2xl font-black text-green-pri mt-1">{stats.approved}</p>
+                <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-5 rounded-2xl text-center">
+                  <p className="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">Approved</p>
+                  <p className="text-2xl font-black text-emerald-400 mt-1">{stats.approved}</p>
                 </div>
               </div>
 
               {/* Grid Preview Table */}
-              <div className="bg-white rounded-xl border border-border-custom shadow-xs overflow-hidden text-left">
+              <div className="stitch-glass-card rounded-3xl border border-emerald-900/60 bg-[#0b1610]/95 shadow-xl overflow-hidden text-left">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="bg-slate-50 border-b border-border-custom text-text-muted font-bold uppercase tracking-wider text-[10px]">
-                        <th className="py-3.5 px-4 w-14 text-center">Row</th>
-                        <th className="py-3.5 px-4">Description</th>
-                        <th className="py-3.5 px-4 w-44">Anomaly</th>
-                        <th className="py-3.5 px-4 w-28 text-center">Action</th>
-                        <th className="py-3.5 px-4 w-36 text-center">Status</th>
+                      <tr className="bg-slate-900/80 border-b border-slate-800 text-slate-400 font-extrabold uppercase tracking-wider text-[10px]">
+                        <th className="py-4 px-4 w-14 text-center">Row</th>
+                        <th className="py-4 px-4">Description</th>
+                        <th className="py-4 px-4 w-44">Anomaly</th>
+                        <th className="py-4 px-4 w-28 text-center">Action</th>
+                        <th className="py-4 px-4 w-36 text-center">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-border-custom text-text-primary">
+                    <tbody className="divide-y divide-slate-800/60 text-white">
                       {getFilteredReports().map((r) => {
                         const isApproved = selectedRows[r.rowIndex] || false;
                         const hasAnomalies = r.anomalies.length > 0;
                         const isSkip = r.anomalies.some(a => a.action === 'SKIP');
-                        const isAutoFix = r.anomalies.some(a => a.action === 'AUTO_FIX' || a.action === 'IMPORT_AS_REFUND');
                         const isAmbiguousDate = r.anomalies.some(a => a.type === 'Ambiguous Date Resolved');
                         const badge = getActionBadge(r);
 
                         let rowBg = '';
-                        if (isSkip) rowBg = 'bg-red-50/30';
-                        else if (r.status === 'FLAGGED' && !isApproved) rowBg = 'bg-amber-50/40';
+                        if (isSkip) rowBg = 'bg-red-950/30';
+                        else if (r.status === 'FLAGGED' && !isApproved) rowBg = 'bg-amber-950/20';
 
                         return (
-                          <tr key={r.rowIndex} className={`hover:bg-slate-50/60 transition-colors ${rowBg}`}>
-                            <td className="py-3 px-4 font-extrabold text-center text-text-muted text-sm">{r.rowIndex}</td>
-                            <td className="py-3 px-4">
-                              <p className="font-semibold text-[13px] text-text-primary truncate max-w-xs">{r.normalizedRow.description}</p>
-                              <div className="text-[10px] text-text-muted mt-0.5 flex flex-wrap gap-x-2 items-center">
-                                <span>Payer: <strong className="text-slate-700">{r.normalizedRow.paid_by}</strong></span>
+                          <tr key={r.rowIndex} className={`hover:bg-slate-900/50 transition-colors ${rowBg}`}>
+                            <td className="py-3.5 px-4 font-extrabold text-center text-slate-400 text-xs">{r.rowIndex}</td>
+                            <td className="py-3.5 px-4">
+                              <p className="font-extrabold text-sm text-white truncate max-w-xs">{r.normalizedRow.description}</p>
+                              <div className="text-[10px] text-slate-400 mt-1 flex flex-wrap gap-x-2 items-center font-semibold">
+                                <span>Payer: <strong className="text-emerald-400">{r.normalizedRow.paid_by}</strong></span>
                                 <span>•</span>
-                                <span>{r.normalizedRow.currency === 'USD' ? '$' : '₹'}{Math.abs(r.normalizedRow.amount)}</span>
+                                <span>₹{Math.abs(r.normalizedRow.amount)}</span>
                                 <span>•</span>
                                 <span>{r.normalizedRow.date}</span>
                               </div>
                               {hasAnomalies && (
-                                <div className="mt-1 space-y-0.5">
+                                <div className="mt-1.5 space-y-0.5">
                                   {r.anomalies.map((anom, aIdx) => (
-                                    <p key={aIdx} className="text-[10px] flex items-center gap-1 font-medium text-amber-700">
+                                    <p key={aIdx} className="text-[10px] flex items-center gap-1 font-bold text-amber-400">
                                       <span>⚠️</span> {anom.description}
                                     </p>
                                   ))}
                                 </div>
                               )}
                             </td>
-                            <td className="py-3 px-4">
+                            <td className="py-3.5 px-4">
                               {hasAnomalies ? (
                                 <div className="flex flex-wrap gap-1">
                                   {r.anomalies.map((a, aIdx) => (
-                                    <span key={aIdx} className="text-[8px] uppercase px-1.5 py-0.5 rounded border border-amber-200 bg-amber-50 text-amber-700 font-black tracking-wider">
+                                    <span key={aIdx} className="text-[8px] uppercase px-2 py-0.5 rounded border border-amber-800/80 bg-amber-950/60 text-amber-300 font-extrabold tracking-wider">
                                       {a.type}
                                     </span>
                                   ))}
                                 </div>
                               ) : (
-                                <span className="text-slate-400">—</span>
+                                <span className="text-slate-500">—</span>
                               )}
                             </td>
-                            <td className="py-3 px-4 text-center">
-                              <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full border ${badge.colorClass}`}>
+                            <td className="py-3.5 px-4 text-center">
+                              <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold px-3 py-1 rounded-full border ${badge.colorClass}`}>
                                 {badge.label}
                               </span>
                             </td>
-                            <td className="py-3 px-4 text-center">
-                              <div className="flex flex-col items-center gap-1 justify-center">
+                            <td className="py-3.5 px-4 text-center">
+                              <div className="flex flex-col items-center gap-1.5 justify-center">
                                 {isSkip ? (
-                                  <span className="text-[10px] text-red-400 uppercase font-black">Skipped</span>
+                                  <span className="text-[10px] text-red-400 uppercase font-extrabold">Skipped</span>
                                 ) : (
                                   <div className="flex items-center gap-1.5">
                                     <button
                                       onClick={() => handleToggleRow(r.rowIndex, true)}
-                                      className={`px-2.5 py-1 border rounded-md text-[10px] font-bold tracking-tight cursor-pointer transition-all ${isApproved ? 'bg-green-pri text-white border-green-pri shadow-sm' : 'bg-white text-text-muted border-border-custom hover:bg-slate-50'}`}
+                                      className={`px-3 py-1 border rounded-full text-[10px] font-extrabold tracking-tight cursor-pointer transition-all ${isApproved ? 'bg-[#10b981] text-slate-950 border-[#10b981] shadow-sm' : 'bg-slate-900 text-slate-400 border-slate-800 hover:bg-slate-800'}`}
                                     >
                                       ✓ Approve
                                     </button>
                                     <button
                                       onClick={() => handleToggleRow(r.rowIndex, false)}
-                                      className={`px-2.5 py-1 border rounded-md text-[10px] font-bold tracking-tight cursor-pointer transition-all ${!isApproved ? 'bg-red-500 text-white border-red-500 shadow-sm' : 'bg-white text-text-muted border-border-custom hover:bg-slate-50'}`}
+                                      className={`px-3 py-1 border rounded-full text-[10px] font-extrabold tracking-tight cursor-pointer transition-all ${!isApproved ? 'bg-red-950 text-red-300 border-red-800 shadow-sm' : 'bg-slate-900 text-slate-400 border-slate-800 hover:bg-slate-800'}`}
                                     >
                                       ✕ Skip
                                     </button>
@@ -1144,7 +1146,7 @@ export default function ImportPage() {
                                   <select
                                     value={resolvedValues[r.rowIndex].selectedDate}
                                     onChange={(e) => handleDateOptionChange(r.rowIndex, e.target.value)}
-                                    className="mt-1 bg-white border border-border-custom rounded-md px-1.5 py-0.5 text-[9px] font-semibold focus:outline-none focus:border-green-pri text-text-primary"
+                                    className="mt-1 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-[9px] font-bold focus:outline-none focus:border-emerald-500 text-white"
                                   >
                                     {resolvedValues[r.rowIndex].dateOptions.map((opt, i) => (
                                       <option key={i} value={opt}>{opt}</option>
@@ -1162,21 +1164,21 @@ export default function ImportPage() {
               </div>
 
               {/* Bottom Ingest bar */}
-              <div className="bg-white border border-border-custom p-5 rounded-lg flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div className="text-xs text-text-muted">
-                  <span className="font-bold text-text-primary">{stats.approved}</span> rows approved for ingestion,{' '}
-                  <span className="font-bold">{stats.flagged}</span> flagged warnings.
+              <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-5 rounded-3xl flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl">
+                <div className="text-xs text-slate-400 font-medium">
+                  <span className="font-extrabold text-emerald-400">{stats.approved}</span> rows approved for ingestion,{' '}
+                  <span className="font-extrabold text-amber-400">{stats.flagged}</span> flagged warnings.
                 </div>
                 <div className="flex gap-3">
                   {importing ? (
-                    <div className="flex items-center gap-2 text-xs font-bold text-green-pri">
+                    <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
                       <RefreshCw className="h-4 w-4 animate-spin" />
                       <span>{importStatus}</span>
                     </div>
                   ) : (
                     <button
                       onClick={handleImportConfirmed}
-                      className="px-5 py-2.5 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-lg shadow-sm cursor-pointer transition-all"
+                      className="px-7 py-3 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full shadow-lg shadow-emerald-500/20 cursor-pointer transition-all border-none transform hover:-translate-y-0.5"
                     >
                       Confirm & Ingest CSV Ledger
                     </button>
@@ -1188,28 +1190,28 @@ export default function ImportPage() {
 
           {/* 3. COMPLETE PHASE */}
           {phase === 'complete' && importSuccess && (
-            <div className="bg-white border border-border-custom p-10 rounded-lg text-center space-y-5 shadow-xs max-w-lg mx-auto">
+            <div className="stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 p-12 rounded-3xl text-center space-y-6 shadow-2xl max-w-lg mx-auto my-6">
               <span className="text-5xl block select-none">🎉</span>
               <div>
-                <h3 className="text-xl font-bold text-text-primary">Ingestion Complete!</h3>
-                <p className="text-xs text-text-muted mt-2 max-w-sm mx-auto">
+                <h3 className="text-2xl font-extrabold text-white">Ingestion Complete!</h3>
+                <p className="text-xs text-slate-400 mt-2 max-w-sm mx-auto font-medium">
                   Your CSV transactions have been compiled and saved directly to the database.
                 </p>
               </div>
 
-              <div className="bg-slate-50 border border-border-custom rounded-xl p-5 text-left text-xs space-y-2 max-w-xs mx-auto">
-                <p className="font-bold text-sm text-text-primary pb-2 border-b border-border-custom mb-2">Summary Ingestion</p>
-                <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
-                  <span className="text-text-muted">Expenses:</span>
-                  <span className="font-bold text-text-primary">{importSuccess.expensesCount}</span>
-                  <span className="text-text-muted">Settlements:</span>
-                  <span className="font-bold text-text-primary">{importSuccess.settlementsCount}</span>
-                  <span className="text-text-muted">Skipped:</span>
-                  <span className="font-bold text-slate-400">{importSuccess.skippedCount}</span>
+              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 text-left text-xs space-y-2 max-w-xs mx-auto text-slate-300">
+                <p className="font-extrabold text-sm text-white pb-2 border-b border-slate-800 mb-2">Summary Ingestion</p>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                  <span className="text-slate-400 font-semibold">Expenses:</span>
+                  <span className="font-extrabold text-emerald-400">{importSuccess.expensesCount}</span>
+                  <span className="text-slate-400 font-semibold">Settlements:</span>
+                  <span className="font-extrabold text-emerald-400">{importSuccess.settlementsCount}</span>
+                  <span className="text-slate-400 font-semibold">Skipped:</span>
+                  <span className="font-extrabold text-slate-500">{importSuccess.skippedCount}</span>
                 </div>
               </div>
 
-              <div className="pt-3 flex justify-center gap-3">
+              <div className="pt-4 flex justify-center gap-3">
                 <button
                   onClick={() => {
                     setPhase('upload');
@@ -1217,13 +1219,13 @@ export default function ImportPage() {
                     setImportSuccess(null);
                     setFile(null);
                   }}
-                  className="px-5 py-2.5 bg-white border border-border-custom text-text-primary text-xs font-semibold rounded-lg hover:bg-slate-50 cursor-pointer transition-all"
+                  className="px-6 py-3 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-extrabold rounded-full cursor-pointer transition-all"
                 >
                   📁 Import Another CSV
                 </button>
                 <Link
                   href={`/groups/${importSuccess.newGroupId || groupId}`}
-                  className="px-5 py-2.5 bg-green-pri hover:bg-green-light text-white text-xs font-bold rounded-lg shadow-sm inline-flex items-center gap-1 transition-all"
+                  className="px-6 py-3 bg-[#10b981] hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-full shadow-lg shadow-emerald-500/20 inline-flex items-center gap-1 transition-all no-underline"
                 >
                   Go to Imported Group →
                 </Link>

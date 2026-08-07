@@ -236,14 +236,6 @@ function Sidebar() {
           />
 
           <div className="flex-1 min-h-[20px]"></div>
-
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="flex items-center justify-center gap-2.5 px-4 py-2.5 mx-3 mb-2 font-extrabold text-xs rounded-full transition-all cursor-pointer border-none shadow-md bg-[#10b981] hover:bg-[#059669] text-slate-950"
-          >
-            <Plus className="h-4 w-4 stroke-[3]" />
-            <span>Create New Group</span>
-          </button>
         </nav>
       </div>
 

@@ -225,6 +225,31 @@ const deleteGroup = async (req, res) => {
   }
 };
 
+// Update group name
+const updateGroupName = async (req, res) => {
+  const client = getClient(req);
+  try {
+    const { groupId } = req.params;
+    const { name } = req.body;
+    if (!groupId || !name || !name.trim()) {
+      return res.status(400).json({ error: 'Group ID and a valid group name are required' });
+    }
+
+    const { data: group, error } = await client
+      .from('groups')
+      .update({ name: name.trim() })
+      .eq('id', groupId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    res.json(group);
+  } catch (error) {
+    console.error('Error updating group name:', error);
+    res.status(500).json({ error: error.message || 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   createGroup,
   getUserGroups,
@@ -232,5 +257,6 @@ module.exports = {
   getGroupMembers,
   inviteMember,
   removeMember,
-  deleteGroup
+  deleteGroup,
+  updateGroupName
 };

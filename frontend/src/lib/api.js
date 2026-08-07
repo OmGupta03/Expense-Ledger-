@@ -42,6 +42,13 @@ export async function createGroup(name, creatorId) {
   });
 }
 
+export async function updateGroupName(groupId, name) {
+  return request(`/api/groups/${groupId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ name }),
+  });
+}
+
 export async function fetchUserGroups(userId) {
   const { data, error } = await supabase
     .from('group_members')
@@ -158,7 +165,12 @@ export async function fetchUserAllExpenses(userId) {
       currency,
       created_at,
       group_id,
-      paid_by
+      paid_by,
+      expense_splits (
+        id,
+        user_id,
+        amount
+      )
     `)
     .in('group_id', groupIds)
     .order('created_at', { ascending: true });
@@ -396,6 +408,72 @@ export function computeBalancesAndDebts(members, expenses, splits, settlements) 
     netBalances[m.id] = Math.round((inrBal + usdBal * exchangeRateUSDtoINR) * 100) / 100;
   });
 
+  // Direct Pairwise Debts (Exact individual balances between each pair of flatmates)
+  const pairwiseNet = {};
+  members.forEach(m1 => {
+    members.forEach(m2 => {
+      if (m1.id !== m2.id) {
+        pairwiseNet[`${m1.id}_${m2.id}`] = 0;
+      }
+    });
+  });
+
+  (splits || []).forEach((s) => {
+    const exp = expenseMap[s.expense_id];
+    if (exp) {
+      const payerId = exp.paid_by?.id || exp.paid_by;
+      const participantId = s.user_id;
+      if (payerId && participantId && payerId !== participantId) {
+        const amt = parseFloat(s.amount || 0);
+        if (pairwiseNet[`${participantId}_${payerId}`] !== undefined) {
+          pairwiseNet[`${participantId}_${payerId}`] += amt;
+        }
+      }
+    }
+  });
+
+  settlements.forEach((st) => {
+    if (st.status === 'reversed') return;
+    const payerId = st.payer_id;
+    const payeeId = st.payee_id;
+    const amt = parseFloat(st.amount || 0);
+    if (payerId && payeeId && payerId !== payeeId) {
+      if (pairwiseNet[`${payerId}_${payeeId}`] !== undefined) {
+        pairwiseNet[`${payerId}_${payeeId}`] -= amt;
+      }
+    }
+  });
+
+  const pairwiseDebts = [];
+  members.forEach(m1 => {
+    members.forEach(m2 => {
+      if (m1.id < m2.id) {
+        const debt12 = pairwiseNet[`${m1.id}_${m2.id}`] || 0;
+        const debt21 = pairwiseNet[`${m2.id}_${m1.id}`] || 0;
+        const net = debt12 - debt21;
+        if (net > 0.01) {
+          pairwiseDebts.push({
+            from: m1.id,
+            fromUser: memberMap[m1.id],
+            to: m2.id,
+            toUser: memberMap[m2.id],
+            amount: Number(net.toFixed(2)),
+            currency: 'INR'
+          });
+        } else if (net < -0.01) {
+          pairwiseDebts.push({
+            from: m2.id,
+            fromUser: memberMap[m2.id],
+            to: m1.id,
+            toUser: memberMap[m1.id],
+            amount: Number(Math.abs(net).toFixed(2)),
+            currency: 'INR'
+          });
+        }
+      }
+    });
+  });
+
   // Combine simplified debts
   const simplifiedDebts = [
     ...simplifiedDebtsByCurrency.INR,
@@ -406,6 +484,7 @@ export function computeBalancesAndDebts(members, expenses, splits, settlements) 
     members,
     netBalances,
     simplifiedDebts,
+    pairwiseDebts,
     netBalancesByCurrency,
     simplifiedDebtsByCurrency
   };

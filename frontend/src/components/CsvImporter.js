@@ -800,16 +800,18 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
         <div 
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          className="flex flex-col items-center justify-center border-2 border-dashed border-border-custom hover:border-green-pri/50 bg-grey-bg/50 hover:bg-grey-bg/85 rounded-2xl p-10 text-center transition-all cursor-pointer group"
+          className="flex flex-col items-center justify-center border-2 border-dashed border-emerald-900/60 hover:border-emerald-500 bg-[#0b1610]/80 hover:bg-[#0b1610] rounded-3xl p-12 text-center transition-all cursor-pointer group select-none"
           onClick={() => fileInputRef.current?.click()}
         >
-          <UploadCloud className="h-12 w-12 text-text-muted group-hover:text-green-pri transition-colors mb-4" />
-          <p className="text-sm font-bold text-text-primary mb-1">Drag and drop your expenses CSV here</p>
-          <p className="text-xs text-text-muted max-w-sm mb-4">Upload the updated CSV file to parse the transactions ledger, detect data anomalies, and import it into a new group.</p>
+          <div className="h-16 w-16 bg-emerald-950/80 border border-emerald-800/60 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+            <UploadCloud className="h-8 w-8 text-emerald-400" />
+          </div>
+          <p className="text-base font-extrabold text-white mb-1">Drag and drop your expenses CSV here</p>
+          <p className="text-xs text-slate-400 max-w-sm mb-6 font-medium leading-relaxed">Upload the CSV file to parse the transactions ledger, detect data anomalies, and import it into a group.</p>
           
           <button
             type="button"
-            className="px-4 py-2 bg-white hover:bg-grey-bg text-text-primary border border-border-custom rounded-xl text-xs font-semibold transition-all"
+            className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 rounded-full text-xs font-extrabold transition-all cursor-pointer"
           >
             Browse Files
           </button>
@@ -825,32 +827,32 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
         <div className="space-y-6">
           
           {/* File summary and Group configuration */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between p-5 bg-grey-bg/80 border border-border-custom rounded-2xl gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between p-6 stitch-glass-card border border-emerald-900/60 bg-[#0b1610]/95 rounded-3xl gap-4 shadow-xl text-left">
             <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 bg-green-bg border border-green-pri/20 text-green-pri rounded-xl flex items-center justify-center">
+              <div className="h-10 w-10 bg-emerald-950/80 border border-emerald-800/60 text-emerald-400 rounded-2xl flex items-center justify-center">
                 <FileSpreadsheet className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-text-primary">{csvFile?.name}</h3>
-                <p className="text-xs text-text-muted mt-0.5">Parsed {parsingData.rows.length} rows · Found {parsingData.members.length} members</p>
+                <h3 className="text-sm font-extrabold text-white">{csvFile?.name}</h3>
+                <p className="text-xs text-slate-400 mt-0.5 font-medium">Parsed {parsingData.rows.length} rows · Found {parsingData.members.length} members</p>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-xl border border-border-custom">
-                <span className="text-xs text-text-muted">Group:</span>
+              <div className="flex items-center space-x-2 bg-[#0f172a] px-3.5 py-2 rounded-xl border border-slate-800">
+                <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Group:</span>
                 <input
                   type="text"
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
                   placeholder="Group Name"
-                  className="bg-transparent text-text-primary text-xs focus:outline-none border-none max-w-[150px] font-bold"
+                  className="bg-transparent text-white text-xs focus:outline-none border-none max-w-[150px] font-extrabold"
                 />
               </div>
 
               <button
                 onClick={clearFile}
-                className="p-2 text-red-owe hover:text-white hover:bg-red-500 border border-border-custom rounded-xl transition-all bg-white"
+                className="p-2.5 text-red-400 hover:text-white hover:bg-red-950/60 border border-slate-800 rounded-xl transition-all bg-[#0f172a] cursor-pointer"
                 title="Upload different file"
               >
                 <Trash2 className="h-4 w-4" />
@@ -859,7 +861,7 @@ export default function CsvImporter({ onImportSuccess, currentUserId, targetGrou
               <button
                 onClick={handleImport}
                 disabled={isImporting || parsingData.rows.length === 0}
-                className="flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-green-pri hover:bg-green-light text-white font-bold text-xs transition-all disabled:opacity-50 border-none shadow-sm cursor-pointer"
+                className="flex items-center space-x-2 px-6 py-2.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all disabled:opacity-50 border-none shadow-lg shadow-emerald-500/20 cursor-pointer"
               >
                 {isImporting ? (
                   <>

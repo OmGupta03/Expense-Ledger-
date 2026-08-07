@@ -79,6 +79,14 @@ const steps = [
 export default function PublicLandingPage() {
   const { user, profile } = useAuth();
 
+  const handleScrollToFeatures = (e) => {
+    e.preventDefault();
+    const el = document.getElementById('features');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="bg-[#07100b] text-white min-h-screen flex flex-col font-sans relative overflow-x-hidden select-none">
       
@@ -112,41 +120,15 @@ export default function PublicLandingPage() {
             </div>
           </Link>
 
-          {/* Center Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold text-slate-300">
-            <a href="#features" className="hover:text-emerald-400 transition-colors no-underline">Features</a>
-            <a href="#how-it-works" className="hover:text-emerald-400 transition-colors no-underline">How It Works</a>
-            <a href="#ai-advisor" className="hover:text-emerald-400 transition-colors no-underline">AI Advisor</a>
-            <a href="#csv-wizard" className="hover:text-emerald-400 transition-colors no-underline">CSV Import</a>
-          </nav>
-
           {/* Right Authentication CTA */}
           <div className="flex items-center gap-3">
-            {user ? (
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 no-underline cursor-pointer border-none"
-              >
-                <span>Go to Dashboard</span>
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="text-xs font-bold text-slate-300 hover:text-white px-3 py-2 transition-colors no-underline"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/register"
-                  className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 no-underline cursor-pointer border-none"
-                >
-                  <span>Get Started Free</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-              </>
-            )}
+            <Link
+              href="/login"
+              className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all shadow-lg shadow-emerald-500/20 no-underline cursor-pointer border-none"
+            >
+              <span>Sign In</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </header>
 
@@ -174,16 +156,17 @@ export default function PublicLandingPage() {
 
             <div className="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <Link
-                href={user ? "/dashboard" : "/register"}
+                href="/login"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all shadow-xl shadow-emerald-500/20 cursor-pointer border-none no-underline transform hover:-translate-y-0.5"
               >
-                <span>{user ? "Go to Dashboard" : "Join Now Free"}</span>
+                <span>Get Started Free</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
               
               <a
                 href="#features"
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm transition-all no-underline"
+                onClick={handleScrollToFeatures}
+                className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold text-sm transition-all no-underline cursor-pointer"
               >
                 Explore Features
               </a>
@@ -374,12 +357,12 @@ export default function PublicLandingPage() {
               </p>
             </div>
 
-            <div className="pt-2 relative z-10">
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
               <Link
-                href={user ? "/dashboard" : "/register"}
+                href="/login"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all shadow-xl shadow-emerald-500/20 cursor-pointer border-none no-underline transform hover:-translate-y-0.5"
               >
-                <span>{user ? "Go to Dashboard" : "Create Free Account Now"}</span>
+                <span>Get Started Free</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

@@ -7,13 +7,13 @@ function ExpenseRow({ expense, currentUserId, membersCount = 1, onClick }) {
   const payerName = isMePayer ? 'You' : expense.payer?.name || 'Someone';
 
   const amount = parseFloat(expense.amount || 0);
-  const currencySymbol = expense.currency === 'USD' ? '$' : '₹';
+  const currencySymbol = '₹';
 
   // Safe Date Parsing
   const dateObj = new Date(expense.created_at || expense.date);
   const isInvalid = isNaN(dateObj.getTime());
-  const monthStr = isInvalid ? 'JUN' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
-  const dayStr = isInvalid ? '21' : String(dateObj.getDate()).padStart(2, '0');
+  const monthStr = isInvalid ? 'AUG' : dateObj.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+  const dayStr = isInvalid ? '07' : String(dateObj.getDate()).padStart(2, '0');
 
   // Estimate split share for visualization if we don't have splits preloaded
   const estimatedShare = amount / (membersCount || 1);
@@ -22,43 +22,43 @@ function ExpenseRow({ expense, currentUserId, membersCount = 1, onClick }) {
   let balanceClass = '';
 
   if (isMePayer) {
-    balanceText = 'you lent';
+    balanceText = 'YOU LENT';
     balanceAmount = amount - estimatedShare;
-    balanceClass = 'text-green-owed';
+    balanceClass = 'text-emerald-400 font-extrabold';
   } else {
-    balanceText = 'you borrowed';
+    balanceText = 'YOU BORROWED';
     balanceAmount = estimatedShare;
-    balanceClass = 'text-red-owe';
+    balanceClass = 'text-red-400 font-extrabold';
   }
 
   return (
     <div
       onClick={onClick}
-      className="expense-row flex items-center gap-3.5 px-4 py-3 bg-white border-b border-border-custom hover:bg-slate-50 cursor-pointer select-none transition-all"
+      className="stitch-glass-card rounded-2xl border border-emerald-900/60 bg-[#0b1610]/95 hover:bg-slate-900/90 px-5 py-4 flex items-center gap-4 cursor-pointer select-none transition-all shadow-md group text-left"
     >
-      {/* Date */}
-      <div className="exp-date-col w-9 text-center flex-shrink-0">
-        <span className="exp-month block text-[9px] font-bold text-text-muted tracking-wide">{monthStr}</span>
-        <span className="exp-day block text-lg font-bold text-text-primary leading-none mt-0.5">{dayStr}</span>
+      {/* Month/Day Date Box */}
+      <div className="w-10 text-center flex-shrink-0">
+        <span className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">{monthStr}</span>
+        <span className="block text-lg font-black text-white leading-none mt-0.5">{dayStr}</span>
       </div>
 
-      {/* Category Icon */}
-      <div className="exp-icon text-xl bg-grey-bg rounded-lg p-2 flex-shrink-0 select-none">
+      {/* Category Icon Badge */}
+      <div className="h-11 w-11 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-center text-xl flex-shrink-0 shadow-sm group-hover:border-emerald-500/40 transition-colors">
         {getCategoryIcon(expense.description)}
       </div>
 
-      {/* Title & Payer info */}
-      <div className="exp-info flex-1 min-w-0 text-left">
-        <p className="exp-title text-sm font-semibold text-text-primary truncate">{expense.description}</p>
-        <p className="exp-sub text-xs text-text-muted mt-0.5 truncate">
-          {payerName} paid <span className="font-medium">{currencySymbol}{amount.toFixed(2)}</span>
+      {/* Description & Payer Info */}
+      <div className="flex-1 min-w-0 text-left">
+        <p className="text-sm font-extrabold text-white truncate tracking-tight mb-0.5">{expense.description}</p>
+        <p className="text-xs text-slate-400 truncate font-semibold">
+          {payerName} paid <strong className="text-emerald-400">{currencySymbol}{amount.toFixed(2)}</strong>
         </p>
       </div>
 
-      {/* Relative balance info */}
-      <div className="exp-balance-col text-right flex-shrink-0 text-xs">
-        <span className="balance-label block text-[10px] text-text-muted uppercase tracking-wider">{balanceText}</span>
-        <span className={`font-bold ${balanceClass} text-sm mt-0.5 block`}>
+      {/* Amount Lent / Borrowed */}
+      <div className="text-right flex-shrink-0">
+        <span className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">{balanceText}</span>
+        <span className={`text-base font-black tracking-tight mt-0.5 block ${balanceClass}`}>
           {currencySymbol}{balanceAmount.toFixed(2)}
         </span>
       </div>

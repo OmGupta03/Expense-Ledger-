@@ -68,21 +68,24 @@ export default function SettingsPage() {
 
     setSaving(true);
     try {
-      const profileData = {
-        id: user.id,
-        name: fullName.trim(),
-        email: email || user.email || null,
-      };
-
-      const { error } = await supabase
+      // Update name for the logged-in user without including email in update payload
+      // to avoid unique constraint collisions on duplicate email records
+      const { error: updateErr } = await supabase
         .from('users')
-        .upsert([profileData]);
+        .update({ name: fullName.trim() })
+        .eq('id', user.id);
 
-      if (error) throw error;
+      if (updateErr) {
+        // Fallback: if user row doesn't exist by ID yet, upsert by ID with name
+        const { error: upsertErr } = await supabase
+          .from('users')
+          .upsert([{ id: user.id, name: fullName.trim(), email: user.email || null }]);
+        if (upsertErr) throw upsertErr;
+      }
 
       setToast({ message: 'Personal information updated successfully!', type: 'success' });
       if (fetchProfile) {
-        await fetchProfile(user.id, email || user.email, fullName.trim());
+        await fetchProfile(user.id, user.email, fullName.trim());
       }
     } catch (err) {
       console.error('Update settings profile error:', err);

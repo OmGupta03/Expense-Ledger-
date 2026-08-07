@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
         if (emailData) {
           const { data: updatedEmailData } = await supabase
             .from('users')
-            .update({ id: userId, name: userName || emailData.name })
+            .update({ id: userId, name: userName || emailData.name, email: userEmail })
             .eq('email', userEmail)
             .select()
             .maybeSingle();
@@ -45,31 +45,39 @@ export function AuthProvider({ children }) {
         }
       }
       
-      const fallbackName = userName || userEmail?.split('@')[0] || 'User';
+      const realName = userName || (userEmail ? userEmail.split('@')[0] : 'User');
 
       if (!data) {
         const newProfile = {
           id: userId,
           email: userEmail || null,
-          name: fallbackName,
+          name: realName,
         };
         
-        const { data: upsertedData, error: upsertError } = await supabase
+        const { data: upsertedData } = await supabase
           .from('users')
-          .upsert([newProfile], { onConflict: 'email' })
+          .upsert([newProfile])
           .select()
           .maybeSingle();
 
-        if (upsertError) {
-          setProfile({ id: userId, email: userEmail, name: fallbackName });
-        } else if (upsertedData) {
+        if (upsertedData) {
           setProfile(upsertedData);
+        } else {
+          setProfile(newProfile);
         }
       } else {
-        if (userName && userName !== data.name) {
+        const updates = {};
+        if (userEmail && (!data.email || data.email === 'N/A' || data.email !== userEmail)) {
+          updates.email = userEmail;
+        }
+        if (userName && (data.name === 'User' || data.name !== userName)) {
+          updates.name = userName;
+        }
+
+        if (Object.keys(updates).length > 0) {
           const { data: updatedData } = await supabase
             .from('users')
-            .update({ name: userName })
+            .update(updates)
             .eq('id', data.id)
             .select()
             .maybeSingle();
@@ -101,7 +109,10 @@ export function AuthProvider({ children }) {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
-        const oauthName = session.user.user_metadata?.full_name || session.user.user_metadata?.name;
+        const oauthName = session.user.user_metadata?.full_name || 
+                          session.user.user_metadata?.name || 
+                          session.user.user_metadata?.preferred_username ||
+                          session.user.email?.split('@')[0];
         fetchProfile(session.user.id, session.user.email, oauthName).catch(() => {});
         setLoading(false);
       } else if (!hasOAuthParams) {
@@ -116,7 +127,10 @@ export function AuthProvider({ children }) {
       (event, session) => {
         if (session?.user) {
           setUser(session.user);
-          const oauthName = session.user.user_metadata?.full_name || session.user.user_metadata?.name;
+          const oauthName = session.user.user_metadata?.full_name || 
+                            session.user.user_metadata?.name || 
+                            session.user.user_metadata?.preferred_username ||
+                            session.user.email?.split('@')[0];
           fetchProfile(session.user.id, session.user.email, oauthName).catch(() => {});
         } else {
           setUser(null);

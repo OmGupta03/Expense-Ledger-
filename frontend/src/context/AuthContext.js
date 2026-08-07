@@ -219,6 +219,9 @@ export function AuthProvider({ children }) {
     setLoading(true);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('supabase_session');
+      localStorage.removeItem('lastGroupId');
+      localStorage.removeItem('google_client_id');
+      window.dispatchEvent(new Event('storage'));
     }
     try {
       await supabase.auth.signOut();

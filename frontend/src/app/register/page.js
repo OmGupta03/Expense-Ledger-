@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Wallet, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Wallet, ArrowRight, ArrowLeft, LogOut } from 'lucide-react';
 
 export default function RegisterPage() {
-  const { user, signUp, loading } = useAuth();
+  const { user, signUp, signOut, loading } = useAuth();
   const router = useRouter();
 
   const [name, setName] = useState('');
@@ -93,8 +93,12 @@ export default function RegisterPage() {
 
         {/* Title & Subtitle */}
         <div className="text-center space-y-1">
-          <h2 className="text-xl font-extrabold text-white tracking-tight">Create Account</h2>
-          <p className="text-xs text-slate-400 font-medium">Join flatmates and friend groups to manage expenses</p>
+          <h2 className="text-xl font-extrabold text-white tracking-tight">
+            {user ? 'Active Account Detected' : 'Create Account'}
+          </h2>
+          <p className="text-xs text-slate-400 font-medium">
+            {user ? 'Sign out to register a new user account' : 'Join flatmates and friend groups to manage expenses'}
+          </p>
         </div>
 
         {/* Error Alert */}
@@ -105,78 +109,115 @@ export default function RegisterPage() {
           </div>
         )}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your full name"
-              autoComplete="off"
-              required
-              className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
-            />
-          </div>
+        {user ? (
+          <div className="space-y-5 text-center pt-2">
+            <div className="p-4 rounded-2xl bg-slate-900/80 border border-emerald-900/60 text-left space-y-1.5">
+              <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">
+                Currently signed in as
+              </span>
+              <p className="text-sm font-bold text-emerald-400 flex items-center gap-2 break-all">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 shrink-0 animate-pulse" />
+                <span>{user.email}</span>
+              </p>
+            </div>
 
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address"
-              autoComplete="off"
-              required
-              className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
-              Password (min 6 chars)
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Create a password"
-              autoComplete="new-password"
-              required
-              className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-3.5 px-6 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg shadow-emerald-500/20 cursor-pointer border-none flex items-center justify-center gap-2 transform hover:-translate-y-0.5 disabled:opacity-50 mt-2"
-          >
-            {isSubmitting ? (
-              <span className="inline-block animate-spin h-4 w-4 border-2 border-slate-950 border-t-transparent rounded-full" />
-            ) : (
-              <>
-                <span>Get Started Free</span>
+            <div className="space-y-3">
+              <button
+                onClick={() => router.push('/dashboard')}
+                className="w-full py-3.5 px-6 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg shadow-emerald-500/20 cursor-pointer border-none flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+              >
+                <span>Go to Dashboard</span>
                 <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </button>
-        </form>
+              </button>
 
-        {/* Footer Link */}
-        <p className="text-center text-xs text-slate-400 font-medium">
-          Already have an account?{' '}
-          <Link href="/login" className="text-emerald-400 hover:text-emerald-300 font-extrabold ml-1 no-underline">
-            Sign In
-          </Link>
-        </p>
+              <button
+                onClick={async () => {
+                  await signOut();
+                }}
+                className="w-full py-3 px-4 rounded-full bg-red-950/40 hover:bg-red-900/60 border border-red-800/60 font-bold text-xs flex items-center justify-center gap-2 text-red-300 transition-all cursor-pointer"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                <span>Sign Out & Create New Account</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Form */}
+            <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your full name"
+                  autoComplete="off"
+                  required
+                  className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email address"
+                  autoComplete="off"
+                  required
+                  className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-extrabold text-slate-300 uppercase tracking-wider block">
+                  Password (min 6 chars)
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Create a password"
+                  autoComplete="new-password"
+                  required
+                  className="w-full px-4 py-3 rounded-xl bg-[#0f172a] border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-medium text-sm"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3.5 px-6 rounded-full bg-[#10b981] hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg shadow-emerald-500/20 cursor-pointer border-none flex items-center justify-center gap-2 transform hover:-translate-y-0.5 disabled:opacity-50 mt-2"
+              >
+                {isSubmitting ? (
+                  <span className="inline-block animate-spin h-4 w-4 border-2 border-slate-950 border-t-transparent rounded-full" />
+                ) : (
+                  <>
+                    <span>Get Started Free</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Footer Link */}
+            <p className="text-center text-xs text-slate-400 font-medium">
+              Already have an account?{' '}
+              <Link href="/login" className="text-emerald-400 hover:text-emerald-300 font-extrabold ml-1 no-underline">
+                Sign In
+              </Link>
+            </p>
+          </>
+        )}
 
       </div>
     </div>
   );
 }
+

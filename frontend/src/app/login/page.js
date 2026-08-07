@@ -47,11 +47,9 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       await signInWithGoogle();
-      router.push('/dashboard');
     } catch (err) {
       console.error('Google sign in error:', err);
       setError(err.message || 'Google authentication failed');
-    } finally {
       setIsSubmitting(false);
     }
   };

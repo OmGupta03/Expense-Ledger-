@@ -1847,6 +1847,7 @@ export default function GroupDetailPage() {
                               currentUserId={user.id}
                               membersCount={members.length}
                               onClick={() => handleOpenExpenseDetails(exp)}
+                              onDelete={(expenseId) => handleDeleteExpense(expenseId)}
                               isDark={true}
                             />
                           ))}
@@ -1921,6 +1922,29 @@ export default function GroupDetailPage() {
         </div>
         </div>
         </div>
+
+        {/* EXPENSE DETAIL MODAL */}
+        {selectedExpense && (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200 select-none">
+            <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto">
+              <ExpenseDetail
+                expense={selectedExpense}
+                splits={selectedExpense.splits || []}
+                group={group}
+                currentUser={user}
+                onClose={() => setSelectedExpense(null)}
+                onDelete={() => handleDeleteExpense(selectedExpense.id)}
+                chatMessages={chatMessages}
+                newMessage={newMessage}
+                setNewMessage={setNewMessage}
+                onSendMessage={handleSendChatMessage}
+                chatLoading={chatLoading}
+                chatBottomRef={chatBottomRef}
+              />
+            </div>
+          </div>
+        )}
+
         {/* BALANCE DRILLDOWN MODAL */}
         {drilldownMember && (
           <BalanceDrilldownModal

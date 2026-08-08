@@ -1,7 +1,8 @@
 import React from 'react';
 import { getCategoryIcon } from '../utils/categoryIcons';
+import { Trash2 } from 'lucide-react';
 
-function ExpenseRow({ expense, currentUserId, membersCount = 1, onClick }) {
+function ExpenseRow({ expense, currentUserId, membersCount = 1, onClick, onDelete }) {
   const payerId = expense.paid_by?.id || expense.paid_by;
   const isMePayer = String(payerId) === String(currentUserId);
   const payerName = isMePayer ? 'You' : expense.payer?.name || 'Someone';
@@ -62,8 +63,23 @@ function ExpenseRow({ expense, currentUserId, membersCount = 1, onClick }) {
           {currencySymbol}{balanceAmount.toFixed(2)}
         </span>
       </div>
+
+      {/* Delete Action Button */}
+      {onDelete && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(expense.id);
+          }}
+          title="Delete expense"
+          className="p-2 rounded-xl text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all border-none bg-transparent cursor-pointer ml-1 flex-shrink-0"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      )}
     </div>
   );
 }
 
 export default ExpenseRow;
+

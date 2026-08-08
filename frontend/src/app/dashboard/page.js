@@ -104,18 +104,22 @@ function DashboardContent() {
               USD: groupData.netBalancesByCurrency?.USD?.[user.id] || 0,
               member_count: groupData.members?.length || 1,
               members: groupData.members || [],
+              simplifiedDebts: groupData.simplifiedDebts || [],
+              pairwiseDebts: groupData.pairwiseDebts || []
             };
 
-            if (groupData.simplifiedDebts) {
-              groupData.simplifiedDebts.forEach((debt) => {
-                if (debt.from === user.id || debt.to === user.id) {
-                  settlementCount++;
-                }
-              });
-            }
+            const debts = (groupData.pairwiseDebts && groupData.pairwiseDebts.length > 0)
+              ? groupData.pairwiseDebts
+              : (groupData.simplifiedDebts || []);
+
+            debts.forEach((debt) => {
+              if (debt.from === user.id || debt.to === user.id) {
+                settlementCount++;
+              }
+            });
           } catch (err) {
             console.error(`Error calculating balance for group ${g.id}:`, err);
-            balances[g.id] = { consolidated: 0, INR: 0, USD: 0, member_count: 1, members: [] };
+            balances[g.id] = { consolidated: 0, INR: 0, USD: 0, member_count: 1, members: [], simplifiedDebts: [], pairwiseDebts: [] };
             updatedMap[g.id] = 'Recently';
           }
         })
@@ -174,22 +178,37 @@ function DashboardContent() {
     }
   };
 
-  // Calculate overall balances from real group data
+  // Calculate overall balances from pairwise debts across all user groups
   let totalOwedINR = 0;
   let totalOweINR = 0;
   let totalOwedUSD = 0;
   let totalOweUSD = 0;
+  let calculatedPendingCount = 0;
   
   Object.values(groupBalances).forEach((bal) => {
-    const inr = bal.INR || 0;
-    if (inr > 0) totalOwedINR += inr;
-    else if (inr < 0) totalOweINR += Math.abs(inr);
+    const debts = (bal.pairwiseDebts && bal.pairwiseDebts.length > 0)
+      ? bal.pairwiseDebts
+      : (bal.simplifiedDebts || []);
 
-    const usd = bal.USD || 0;
-    if (usd > 0) totalOwedUSD += usd;
-    else if (usd < 0) totalOweUSD += Math.abs(usd);
+    debts.forEach((debt) => {
+      const amt = debt.amount || 0;
+      const curr = debt.currency || 'INR';
+
+      if (debt.from === user.id || debt.to === user.id) {
+        calculatedPendingCount++;
+      }
+
+      if (curr === 'USD') {
+        if (debt.to === user.id) totalOwedUSD += amt;
+        if (debt.from === user.id) totalOweUSD += amt;
+      } else {
+        if (debt.to === user.id) totalOwedINR += amt;
+        if (debt.from === user.id) totalOweINR += amt;
+      }
+    });
   });
 
+  const displayPendingCount = Math.max(pendingSettlementsCount, calculatedPendingCount);
   const overallBalanceINR = totalOwedINR - totalOweINR;
 
   // Helper to extract logged-in user's personal calculated expense share
@@ -335,7 +354,7 @@ function DashboardContent() {
               <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Pending Settlements</p>
               <div className="mt-2">
                 <p className="text-xl font-extrabold text-white tracking-tight">
-                  {pendingSettlementsCount}
+                  {displayPendingCount}
                 </p>
               </div>
             </div>
